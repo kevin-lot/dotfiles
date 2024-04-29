@@ -128,4 +128,3 @@ export NVM_DIR="$HOME/.nvm"
 
 # added by me
 [[ -d "$HOME/.pub-cache/bin" ]] && export PATH="$PATH:$HOME/.pub-cache/bin"
-
