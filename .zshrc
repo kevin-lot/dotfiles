@@ -8,7 +8,8 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+#ZSH_THEME="robbyrussell"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -114,17 +115,29 @@ complete -o nospace -C /usr/bin/terraform terraform
 # added by me
 complete -C "$HOME/bin/aws_completer" aws
 
-# added by Toolbox App
-[[ -d "$HOME/.local/share/JetBrains/Toolbox/scripts" ]] && export PATH="$PATH:$HOME/.local/share/JetBrains/Toolbox/scripts"
-
-# added by nvm installer
-export NVM_SYMLINK_CURRENT=true
-export NVM_DIR="$HOME/.nvm"
-[[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"                    # this loads nvm
-[[ -s "$NVM_DIR/bash_completion" ]] && source "$NVM_DIR/bash_completion"  # this loads nvm bash_completion
-
-# added by "apt install dart"
-[[ -f $HOME/.dart-cli-completion/zsh-config.zsh ]] && source $HOME/.dart-cli-completion/zsh-config.zsh
+# added by me
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$PATH:$VOLTA_HOME/bin"
+"$VOLTA_HOME/bin/volta" completions zsh --force --output "$ZSH_CACHE_DIR/completions/_volta" --quiet # need a restart of terminal
 
 # added by me
-[[ -d "$HOME/.pub-cache/bin" ]] && export PATH="$PATH:$HOME/.pub-cache/bin"
+[[ -d $HOME/.fvm/cache ]] && export FVM_CACHE_PATH="$HOME/.fvm/cache"
+# added by me
+[[ -d $HOME/.fvm/cache/default/bin ]] && export PATH="$PATH:$HOME/.fvm/cache/default/bin"
+[[ -d $HOME/.pub-cache/bin ]] && export PATH="$PATH:$HOME/.pub-cache/bin"
+## [fvm]
+[[ -f $HOME/.dart-cli-completion/fvm.zsh ]] && source $HOME/.dart-cli-completion/fvm.zsh
+## [/fvm]
+
+# added by Toolbox App
+[[ -d $HOME/.local/share/JetBrains/Toolbox/scripts ]] && export PATH="$PATH:$HOME/.local/share/JetBrains/Toolbox/scripts"
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f $HOME/.p10k.zsh ]] || source ~/.p10k.zsh
+
+chpwd-hook() {
+    if [[ -f providers.tf || -f provider.tf ]]; then tfswitch; fi
+    if [[ -f .fvmrc ]]; then fvm use; fi
+}
+add-zsh-hook chpwd chpwd-hook
+
