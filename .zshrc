@@ -108,36 +108,60 @@ alias zshconfig="vi ~/.zshrc"
 alias git='LANG=en_US git'
 alias git_size='git rev-list --objects --all | git cat-file --batch-check='\''%(objecttype) %(objectname) %(objectsize) %(rest)'\'' | sed -n '\''s/^blob //p'\'' | sort --numeric-sort --key=2 | cut -c 1-12,41- | numfmt --field=2 --to=iec-i --suffix=B --padding=7 --round=nearest'
 alias ls='lsd'
+alias vi="nvim"
+
+OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 
 # added by me
-complete -o nospace -C /usr/bin/terraform terraform
+AWS_COMPLETER_PATH="/$HOME/bin/aws_completer"
+TERRAFORM_PATH="$HOME/bin/terraform"
+TERRAGRUNT_PATH="$HOME/bin/terragrunt"
+JETBRAINS_TOOLBOX_SCRIPT_PATH="$HOME/Library/Application Support/JetBrains/Toolbox/scripts"
+if [[ $OS == 'darwin' ]]; then
+    # added by me
+    [ -d "$HOME/bin" ] && export PATH="$HOME/bin:$PATH"
+    rehash # apply paths to directly use them
 
-# added by me
-complete -C "$HOME/bin/aws_completer" aws
+    AWS_COMPLETER_PATH="/opt/homebrew/bin/aws_completer"
+    TERRAFORM_PATH="$HOME/bin/terraform"
+    TERRAGRUNT_PATH="$HOME/bin/terragrunt"
+    JETBRAINS_TOOLBOX_SCRIPT_PATH="$HOME/Library/Application Support/JetBrains/Toolbox/scripts"
 
-# added by me
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+
+    # added by OrbStack: command-line tools and integration
+    [[ -d "$HOME/.orbstack/bin" ]] && export PATH="$PATH:$HOME/.orbstack/bin"
+    [[ -d "/Applications/OrbStack.app/Contents/MacOS/../Resources/completions/zsh" ]] && cp -f "/Applications/OrbStack.app/Contents/MacOS/../Resources/completions/zsh/*" "$ZSH_CACHE_DIR/completions/." # copy completions in omz completion cache, need a restart of terminal
+fi
+
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$PATH:$VOLTA_HOME/bin"
-"$VOLTA_HOME/bin/volta" completions zsh --force --output "$ZSH_CACHE_DIR/completions/_volta" --quiet # need a restart of terminal
+"$VOLTA_HOME/bin/volta" completions zsh --force --output "$ZSH_CACHE_DIR/completions/_volta" --quiet # copy completions in omz completion cache, need a restart of terminal
 
-# added by me
-[[ -d $HOME/.fvm/cache ]] && export FVM_CACHE_PATH="$HOME/.fvm/cache"
-# added by me
-[[ -d $HOME/.fvm/cache/default/bin ]] && export PATH="$PATH:$HOME/.fvm/cache/default/bin"
-[[ -d $HOME/.pub-cache/bin ]] && export PATH="$PATH:$HOME/.pub-cache/bin"
-## [fvm]
-[[ -f $HOME/.dart-cli-completion/fvm.zsh ]] && source $HOME/.dart-cli-completion/fvm.zsh
-## [/fvm]
+[[ -d "$AWS_COMPLETER_PATH" ]] && complete -C "$AWS_COMPLETER_PATH" aws
+[[ -d "$TERRAFORM_PATH" ]] && complete -o nospace -C "$TERRAFORM_PATH" terraform
+[[ -d "$TERRAGRUNT_PATH" ]] && complete -o nospace -C "$TERRAGRUNT_PATH" terragrunt
+
+# fvm, flutter, dart, etc
+[[ -d "$HOME/.fvm/cache" ]] && export FVM_CACHE_PATH="$HOME/.fvm/cache"
+[[ -f "$HOME/.dart-cli-completion/fvm.zsh" ]] && source $HOME/.dart-cli-completion/fvm.zsh
+[[ -d "$HOME/.fvm/cache/default/bin" ]] && export PATH="$PATH:$HOME/.fvm/cache/default/bin"
+[[ -d "$HOME/.pub-cache/bin" ]] && export PATH="$PATH:$HOME/.pub-cache/bin"
 
 # added by Toolbox App
-[[ -d $HOME/.local/share/JetBrains/Toolbox/scripts ]] && export PATH="$PATH:$HOME/.local/share/JetBrains/Toolbox/scripts"
+[[ -d "JETBRAINS_TOOLBOX_SCRIPT_PATH" ]] && export PATH="$PATH:$JETBRAINS_TOOLBOX_SCRIPT_PATH"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f $HOME/.p10k.zsh ]] || source ~/.p10k.zsh
+[[ ! -f "$HOME/.p10k.zsh" ]] || source "$HOME/.p10k.zsh"
+
+if [[ $OS == 'darwin' ]]; then
+    # THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+    export SDKMAN_DIR="$HOME/.sdkman"
+    [ -s "$HOME/.sdkman/bin/sdkman-init.sh" ] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+fi
 
 chpwd-hook() {
     if [[ -f providers.tf || -f provider.tf ]]; then tfswitch; fi
     if [[ -f .fvmrc ]]; then fvm use; fi
 }
 add-zsh-hook chpwd chpwd-hook
-
