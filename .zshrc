@@ -72,7 +72,9 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-  git zsh-autosuggestions zsh-syntax-highlighting
+  git
+  zsh-autosuggestions
+  zsh-syntax-highlighting
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -119,7 +121,8 @@ TERRAGRUNT_PATH="$HOME/bin/terragrunt"
 JETBRAINS_TOOLBOX_SCRIPT_PATH="$HOME/Library/Application Support/JetBrains/Toolbox/scripts"
 if [[ $OS == 'darwin' ]]; then
     # added by me
-    [ -d "$HOME/bin" ] && export PATH="$HOME/bin:$PATH"
+    [[ -d "$HOME/bin" ]] && export PATH="$HOME/bin:$PATH"
+    [[ -d "$HOME/.local/bin" ]] && export PATH="$PATH:$HOME/.local/bin"
     rehash # apply paths to directly use them
 
     AWS_COMPLETER_PATH="/opt/homebrew/bin/aws_completer"
@@ -131,16 +134,16 @@ if [[ $OS == 'darwin' ]]; then
 
     # added by OrbStack: command-line tools and integration
     [[ -d "$HOME/.orbstack/bin" ]] && export PATH="$PATH:$HOME/.orbstack/bin"
-    [[ -d "/Applications/OrbStack.app/Contents/MacOS/../Resources/completions/zsh" ]] && cp -f "/Applications/OrbStack.app/Contents/MacOS/../Resources/completions/zsh/*" "$ZSH_CACHE_DIR/completions/." # copy completions in omz completion cache, need a restart of terminal
+    [[ -d /Applications/OrbStack.app/Contents/MacOS/../Resources/completions/zsh ]] && cp -f /Applications/OrbStack.app/Contents/MacOS/../Resources/completions/zsh/* "$ZSH_CACHE_DIR/completions/." # copy completions in omz completion cache, need a restart of terminal
 fi
 
-export VOLTA_HOME="$HOME/.volta"
-export PATH="$PATH:$VOLTA_HOME/bin"
-"$VOLTA_HOME/bin/volta" completions zsh --force --output "$ZSH_CACHE_DIR/completions/_volta" --quiet # copy completions in omz completion cache, need a restart of terminal
+[[ -d "$HOME/.volta" ]] && export VOLTA_HOME="$HOME/.volta"
+[[ -d "$VOLTA_HOME/bin" ]] && export PATH="$PATH:$VOLTA_HOME/bin"
+[[ -d "$HOME/.fvm/cache" ]] && "$VOLTA_HOME/bin/volta" completions zsh --force --output "$ZSH_CACHE_DIR/completions/_volta" --quiet # copy completions in omz completion cache, need a restart of terminal
 
-[[ -d "$AWS_COMPLETER_PATH" ]] && complete -C "$AWS_COMPLETER_PATH" aws
-[[ -d "$TERRAFORM_PATH" ]] && complete -o nospace -C "$TERRAFORM_PATH" terraform
-[[ -d "$TERRAGRUNT_PATH" ]] && complete -o nospace -C "$TERRAGRUNT_PATH" terragrunt
+[[ -d $AWS_COMPLETER_PATH ]] && complete -C $AWS_COMPLETER_PATH aws
+[[ -d $TERRAFORM_PATH ]] && complete -o nospace -C $TERRAFORM_PATH terraform
+[[ -d $TERRAGRUNT_PATH ]] && complete -o nospace -C $TERRAGRUNT_PATH terragrunt
 
 # fvm, flutter, dart, etc
 [[ -d "$HOME/.fvm/cache" ]] && export FVM_CACHE_PATH="$HOME/.fvm/cache"
@@ -149,7 +152,7 @@ export PATH="$PATH:$VOLTA_HOME/bin"
 [[ -d "$HOME/.pub-cache/bin" ]] && export PATH="$PATH:$HOME/.pub-cache/bin"
 
 # added by Toolbox App
-[[ -d "JETBRAINS_TOOLBOX_SCRIPT_PATH" ]] && export PATH="$PATH:$JETBRAINS_TOOLBOX_SCRIPT_PATH"
+[[ -d $JETBRAINS_TOOLBOX_SCRIPT_PATH ]] && export PATH="$PATH:$JETBRAINS_TOOLBOX_SCRIPT_PATH"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f "$HOME/.p10k.zsh" ]] || source "$HOME/.p10k.zsh"
