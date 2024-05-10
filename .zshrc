@@ -116,16 +116,15 @@ if [[ $OS == 'darwin' ]]; then
     alias vi="nvim"
 fi
 
-# added by me
 AWS_COMPLETER_PATH="$HOME/bin/aws_completer"
 TERRAFORM_PATH="$HOME/bin/terraform"
 TERRAGRUNT_PATH="$HOME/bin/terragrunt"
 JETBRAINS_TOOLBOX_SCRIPT_PATH="$HOME/.local/share/JetBrains/Toolbox/scripts"
 if [[ $OS == 'darwin' ]]; then
-    # added by me
+    # add some paths missing on macOS
     [[ -d "$HOME/bin" ]] && export PATH="$HOME/bin:$PATH"
     [[ -d "$HOME/.local/bin" ]] && export PATH="$PATH:$HOME/.local/bin"
-    rehash # apply paths to directly use them
+    rehash # re-apply paths to directly use them
 
     AWS_COMPLETER_PATH="/opt/homebrew/bin/aws_completer"
     TERRAFORM_PATH="$HOME/bin/terraform"
@@ -146,21 +145,22 @@ fi
 [[ -d "$VOLTA_HOME/bin" ]] && export PATH="$PATH:$VOLTA_HOME/bin"
 [[ -f "$VOLTA_HOME/bin/volta" && -d "$ZSH_CACHE_DIR/completions" ]] && "$VOLTA_HOME/bin/volta" completions zsh --force --output "$ZSH_CACHE_DIR/completions/_volta" --quiet # copy completions in omz completion cache, need a restart of terminal
 
+# fvm
+[[ -d "$HOME/.fvm/cache" ]] && export FVM_CACHE_PATH="$HOME/.fvm/cache"
+[[ -f "$HOME/.dart-cli-completion/fvm.zsh" ]] && source "$HOME/.dart-cli-completion/fvm.zsh"
+[[ -d "$HOME/.fvm/cache/default/bin" ]] && export PATH="$PATH:$HOME/.fvm/cache/default/bin"
+[[ -d "$HOME/.pub-cache/bin" ]] && export PATH="$PATH:$HOME/.pub-cache/bin"
+
+# other completions
 [[ -f $AWS_COMPLETER_PATH ]] && complete -C $AWS_COMPLETER_PATH aws
 [[ -f $TERRAFORM_PATH ]] && complete -o nospace -C $TERRAFORM_PATH terraform
 [[ -f $TERRAGRUNT_PATH ]] && complete -o nospace -C $TERRAGRUNT_PATH terragrunt
 
-# fvm
-[[ -d "$HOME/.fvm/cache" ]] && export FVM_CACHE_PATH="$HOME/.fvm/cache"
-[[ -f "$HOME/.dart-cli-completion/fvm.zsh" ]] && source $HOME/.dart-cli-completion/fvm.zsh
-[[ -d "$HOME/.fvm/cache/default/bin" ]] && export PATH="$PATH:$HOME/.fvm/cache/default/bin"
-[[ -d "$HOME/.pub-cache/bin" ]] && export PATH="$PATH:$HOME/.pub-cache/bin"
-
 # added by Toolbox App
 [[ -d "$JETBRAINS_TOOLBOX_SCRIPT_PATH" ]] && export PATH="$PATH:$JETBRAINS_TOOLBOX_SCRIPT_PATH"
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f "$HOME/.p10k.zsh" ]] || source "$HOME/.p10k.zsh"
+# to customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ -f "$HOME/.p10k.zsh" ]] && source "$HOME/.p10k.zsh"
 
 if [[ $OS == 'darwin' ]]; then
     # THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
