@@ -173,3 +173,5 @@ chpwd-hook() {
     if [[ -f .fvmrc ]]; then fvm use; fi
 }
 add-zsh-hook chpwd chpwd-hook
+
+echo ".zshrc loaded"
