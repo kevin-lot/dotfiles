@@ -146,9 +146,9 @@ fi
 [[ -d "$VOLTA_HOME/bin" ]] && export PATH="$PATH:$VOLTA_HOME/bin"
 [[ -d "$HOME/.fvm/cache" ]] && "$VOLTA_HOME/bin/volta" completions zsh --force --output "$ZSH_CACHE_DIR/completions/_volta" --quiet # copy completions in omz completion cache, need a restart of terminal
 
-[[ -d $AWS_COMPLETER_PATH ]] && complete -C $AWS_COMPLETER_PATH aws
-[[ -d $TERRAFORM_PATH ]] && complete -o nospace -C $TERRAFORM_PATH terraform
-[[ -d $TERRAGRUNT_PATH ]] && complete -o nospace -C $TERRAGRUNT_PATH terragrunt
+[[ -f $AWS_COMPLETER_PATH ]] && complete -C $AWS_COMPLETER_PATH aws
+[[ -f $TERRAFORM_PATH ]] && complete -o nospace -C $TERRAFORM_PATH terraform
+[[ -f $TERRAGRUNT_PATH ]] && complete -o nospace -C $TERRAGRUNT_PATH terragrunt
 
 # fvm
 [[ -d "$HOME/.fvm/cache" ]] && export FVM_CACHE_PATH="$HOME/.fvm/cache"
