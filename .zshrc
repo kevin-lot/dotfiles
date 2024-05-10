@@ -117,10 +117,10 @@ if [[ $OS == 'darwin' ]]; then
 fi
 
 # added by me
-AWS_COMPLETER_PATH="/$HOME/bin/aws_completer"
+AWS_COMPLETER_PATH="$HOME/bin/aws_completer"
 TERRAFORM_PATH="$HOME/bin/terraform"
 TERRAGRUNT_PATH="$HOME/bin/terragrunt"
-JETBRAINS_TOOLBOX_SCRIPT_PATH="$HOME/Library/Application Support/JetBrains/Toolbox/scripts"
+JETBRAINS_TOOLBOX_SCRIPT_PATH="$HOME/.local/share/JetBrains/Toolbox/scripts"
 if [[ $OS == 'darwin' ]]; then
     # added by me
     [[ -d "$HOME/bin" ]] && export PATH="$HOME/bin:$PATH"
@@ -136,11 +136,12 @@ if [[ $OS == 'darwin' ]]; then
 
     # added by OrbStack: command-line tools and integration
     [[ -d "$HOME/.orbstack/bin" ]] && export PATH="$PATH:$HOME/.orbstack/bin"
-    [[ -d /Applications/OrbStack.app/Contents/MacOS/../Resources/completions/zsh ]] && cp -f /Applications/OrbStack.app/Contents/MacOS/../Resources/completions/zsh/* "$ZSH_CACHE_DIR/completions/." # copy completions in omz completion cache, need a restart of terminal
+    [[ -d "/Applications/OrbStack.app/Contents/MacOS/../Resources/completions/zsh" ]] && cp -f "/Applications/OrbStack.app/Contents/MacOS/../Resources/completions/zsh/*" "$ZSH_CACHE_DIR/completions/." # copy completions in omz completion cache, need a restart of terminal
 
     export GPG_TTY=$(tty)
 fi
 
+# volta
 [[ -d "$HOME/.volta" ]] && export VOLTA_HOME="$HOME/.volta"
 [[ -d "$VOLTA_HOME/bin" ]] && export PATH="$PATH:$VOLTA_HOME/bin"
 [[ -d "$HOME/.fvm/cache" ]] && "$VOLTA_HOME/bin/volta" completions zsh --force --output "$ZSH_CACHE_DIR/completions/_volta" --quiet # copy completions in omz completion cache, need a restart of terminal
@@ -149,7 +150,7 @@ fi
 [[ -d $TERRAFORM_PATH ]] && complete -o nospace -C $TERRAFORM_PATH terraform
 [[ -d $TERRAGRUNT_PATH ]] && complete -o nospace -C $TERRAGRUNT_PATH terragrunt
 
-# fvm, flutter, dart, etc
+# fvm
 [[ -d "$HOME/.fvm/cache" ]] && export FVM_CACHE_PATH="$HOME/.fvm/cache"
 [[ -f "$HOME/.dart-cli-completion/fvm.zsh" ]] && source $HOME/.dart-cli-completion/fvm.zsh
 [[ -d "$HOME/.fvm/cache/default/bin" ]] && export PATH="$PATH:$HOME/.fvm/cache/default/bin"
