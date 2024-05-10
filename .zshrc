@@ -106,13 +106,15 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias zshconfig="vi ~/.zshrc"
 
+OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+
 # added by me
 alias git='LANG=en_US git'
 alias git_size='git rev-list --objects --all | git cat-file --batch-check='\''%(objecttype) %(objectname) %(objectsize) %(rest)'\'' | sed -n '\''s/^blob //p'\'' | sort --numeric-sort --key=2 | cut -c 1-12,41- | numfmt --field=2 --to=iec-i --suffix=B --padding=7 --round=nearest'
 alias ls='lsd'
-alias vi="nvim"
-
-OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+if [[ $OS == 'darwin' ]]; then
+    alias vi="nvim"
+fi
 
 # added by me
 AWS_COMPLETER_PATH="/$HOME/bin/aws_completer"
