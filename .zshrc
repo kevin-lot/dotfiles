@@ -135,6 +135,8 @@ if [[ $OS == 'darwin' ]]; then
     # added by OrbStack: command-line tools and integration
     [[ -d "$HOME/.orbstack/bin" ]] && export PATH="$PATH:$HOME/.orbstack/bin"
     [[ -d /Applications/OrbStack.app/Contents/MacOS/../Resources/completions/zsh ]] && cp -f /Applications/OrbStack.app/Contents/MacOS/../Resources/completions/zsh/* "$ZSH_CACHE_DIR/completions/." # copy completions in omz completion cache, need a restart of terminal
+
+    export GPG_TTY=$(tty)
 fi
 
 [[ -d "$HOME/.volta" ]] && export VOLTA_HOME="$HOME/.volta"
