@@ -151,14 +151,14 @@ fi
 
 # fvm
 [[ -d "$HOME/.fvm/cache" ]] && export FVM_CACHE_PATH="$HOME/.fvm/cache"
-[[ -f "$HOME/.dart-cli-completion/fvm.zsh" ]] && source "$HOME/.dart-cli-completion/fvm.zsh"
 [[ -d "$HOME/.fvm/cache/default/bin" ]] && export PATH="$PATH:$HOME/.fvm/cache/default/bin"
 [[ -d "$HOME/.pub-cache/bin" ]] && export PATH="$PATH:$HOME/.pub-cache/bin"
+[[ -f "$HOME/.dart-cli-completion/fvm.zsh" ]] && source "$HOME/.dart-cli-completion/fvm.zsh"
 
 # other completions
-[[ -f $AWS_COMPLETER_PATH ]] && complete -C $AWS_COMPLETER_PATH aws
-[[ -f $TERRAFORM_PATH ]] && complete -o nospace -C $TERRAFORM_PATH terraform
-[[ -f $TERRAGRUNT_PATH ]] && complete -o nospace -C $TERRAGRUNT_PATH terragrunt
+[[ -f "$AWS_COMPLETER_PATH" ]] && complete -C "$AWS_COMPLETER_PATH" aws
+[[ -f "$TERRAFORM_PATH" ]] && complete -o nospace -C "$TERRAFORM_PATH" terraform
+[[ -f "$TERRAGRUNT_PATH" ]] && complete -o nospace -C "$TERRAGRUNT_PATH" terragrunt
 
 # added by Toolbox App
 [[ -d "$JETBRAINS_TOOLBOX_SCRIPT_PATH" ]] && export PATH="$PATH:$JETBRAINS_TOOLBOX_SCRIPT_PATH"
