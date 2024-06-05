@@ -106,6 +106,7 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias zshconfig="vi ~/.zshrc"
 
+LOADED=()
 OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 
 # added by me
@@ -136,10 +137,7 @@ fi
 
 if [[ $OS == 'darwin' ]]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
-
-    # added by OrbStack: command-line tools and integration
-    [[ -d "$HOME/.orbstack/bin" ]] && export PATH="$PATH:$HOME/.orbstack/bin"
-    [[ -d "/Applications/OrbStack.app/Contents/MacOS/../Resources/completions/zsh" ]] && cp -f "/Applications/OrbStack.app/Contents/MacOS/../Resources/completions/zsh/*" "$ZSH_CACHE_DIR/completions/." # copy completions in omz completion cache, need a restart of terminal
+    LOADED+=("brew")
 
     export GPG_TTY=$(tty)
 fi
@@ -148,12 +146,15 @@ fi
 [[ -d "$HOME/.volta" ]] && export VOLTA_HOME="$HOME/.volta"
 [[ -d "$VOLTA_HOME/bin" ]] && export PATH="$PATH:$VOLTA_HOME/bin"
 [[ -f "$VOLTA_HOME/bin/volta" && -d "$ZSH_CACHE_DIR/completions" ]] && "$VOLTA_HOME/bin/volta" completions zsh --force --output "$ZSH_CACHE_DIR/completions/_volta" --quiet # copy completions in omz completion cache, need a restart of terminal
+LOADED+=("volta")
 
 # fvm
 [[ -d "$HOME/.fvm/cache" ]] && export FVM_CACHE_PATH="$HOME/.fvm/cache"
 [[ -d "$HOME/.fvm/cache/default/bin" ]] && export PATH="$PATH:$HOME/.fvm/cache/default/bin"
 [[ -d "$HOME/.pub-cache/bin" ]] && export PATH="$PATH:$HOME/.pub-cache/bin"
 [[ -f "$HOME/.dart-cli-completion/fvm.zsh" ]] && source "$HOME/.dart-cli-completion/fvm.zsh"
+LOADED+=("fvm")
+LOADED+=("pub")
 
 # other completions
 [[ -f "$AWS_COMPLETER_PATH" ]] && complete -C "$AWS_COMPLETER_PATH" aws
@@ -165,11 +166,13 @@ fi
 
 # to customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ -f "$HOME/.p10k.zsh" ]] && source "$HOME/.p10k.zsh"
+LOADED+=("p10k")
 
 if [[ $OS == 'darwin' ]]; then
     # THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
     export SDKMAN_DIR="$HOME/.sdkman"
     [ -s "$HOME/.sdkman/bin/sdkman-init.sh" ] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+    LOADED+=("sdkman")
 fi
 
 chpwd-hook() {
@@ -178,4 +181,4 @@ chpwd-hook() {
 }
 add-zsh-hook chpwd chpwd-hook
 
-echo ".zshrc loaded"
+echo ".zshrc loaded: (${""${LOADED[*]}""// /|})"
