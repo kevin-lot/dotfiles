@@ -121,7 +121,7 @@ fi
 if [[ $OS == 'darwin' ]]; then
     # add some paths missing on macOS
     [[ -d "$HOME/bin" ]] && export PATH="$HOME/bin:$PATH"
-    [[ -d "$HOME/.local/bin" ]] && export PATH="$PATH:$HOME/.local/bin"
+    [[ -d "$HOME/.local/bin" ]] && export PATH="$HOME/.local/bin:$PATH"
     rehash # re-apply paths to directly use them
 fi
 
@@ -134,26 +134,23 @@ if [[ $OS == 'darwin' ]]; then
     TERRAFORM_PATH="$HOME/bin/terraform"
     TERRAGRUNT_PATH="$HOME/bin/terragrunt"
     JETBRAINS_TOOLBOX_SCRIPT_PATH="$HOME/Library/Application Support/JetBrains/Toolbox/scripts"
-fi
-
-if [[ $OS == 'darwin' ]]; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-    LOADED+=("brew")
 
     export GPG_TTY=$(tty)
 fi
 
 # volta
 [[ -d "$HOME/.volta" ]] && export VOLTA_HOME="$HOME/.volta"
-[[ -d "$VOLTA_HOME/bin" ]] && export PATH="$PATH:$VOLTA_HOME/bin"
+[[ -d "$VOLTA_HOME/bin" ]] && export PATH="$VOLTA_HOME/bin:$PATH"
 [[ -f "$VOLTA_HOME/bin/volta" && -d "$ZSH_CACHE_DIR/completions" ]] && "$VOLTA_HOME/bin/volta" completions zsh --force --output "$ZSH_CACHE_DIR/completions/_volta" --quiet # copy completions in omz completion cache, need a restart of terminal
 LOADED+=("volta")
 
 # fvm
 [[ -d "$HOME/.fvm/cache" ]] && export FVM_CACHE_PATH="$HOME/.fvm/cache"
-[[ -d "$HOME/.fvm/cache/default/bin" ]] && export PATH="$PATH:$HOME/.fvm/cache/default/bin"
-[[ -d "$HOME/.pub-cache/bin" ]] && export PATH="$PATH:$HOME/.pub-cache/bin"
+[[ -d "$HOME/.fvm/cache/default/bin" ]] && export PATH="$HOME/.fvm/cache/default/bin:$PATH"
+[[ -d "$HOME/.pub-cache/bin" ]] && export PATH="$HOME/.pub-cache/bin:$PATH"
 [[ -f "$HOME/.dart-cli-completion/fvm.zsh" ]] && source "$HOME/.dart-cli-completion/fvm.zsh"
+alias dart="fvm dart"
+alias flutter="fvm flutter"
 LOADED+=("fvm")
 LOADED+=("pub")
 
@@ -170,9 +167,12 @@ LOADED+=("pub")
 LOADED+=("p10k")
 
 if [[ $OS == 'darwin' ]]; then
+    [[ -f "/opt/homebrew/bin/brew" ]] && eval "$(/opt/homebrew/bin/brew shellenv)"
+    LOADED+=("brew")
+
     # THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
     export SDKMAN_DIR="$HOME/.sdkman"
-    [ -s "$HOME/.sdkman/bin/sdkman-init.sh" ] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+    [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
     LOADED+=("sdkman")
 fi
 
@@ -183,3 +183,5 @@ chpwd-hook() {
 add-zsh-hook chpwd chpwd-hook
 
 echo ".zshrc loaded: (${""${LOADED[*]}""// /|})"
+echo "paths:"
+tr ':' '\n' <<< "$PATH"
