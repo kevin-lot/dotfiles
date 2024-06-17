@@ -114,6 +114,8 @@ alias git='LANG=en_US git'
 alias git_size='git rev-list --objects --all | git cat-file --batch-check='\''%(objecttype) %(objectname) %(objectsize) %(rest)'\'' | sed -n '\''s/^blob //p'\'' | sort --numeric-sort --key=2 | cut -c 1-12,41- | numfmt --field=2 --to=iec-i --suffix=B --padding=7 --round=nearest'
 alias ls='lsd'
 alias gitversion='docker run --rm -v "$(pwd):/repo" gittools/gitversion:latest /repo'
+alias flutter='fvm flutter'
+alias dart='fvm dart'
 if [[ $OS == 'darwin' ]]; then
     alias vi="nvim" # don't need on Linux thanks to alternatives
 fi
