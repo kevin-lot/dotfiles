@@ -125,6 +125,11 @@ if [[ $OS == 'darwin' ]]; then
     rehash # re-apply paths to directly use them
 fi
 
+if [[ $OS == 'darwin' ]]; then
+    [[ -f "/opt/homebrew/bin/brew" ]] && eval "$(/opt/homebrew/bin/brew shellenv)"
+    LOADED+=("brew")
+fi
+
 AWS_COMPLETER_PATH="$HOME/bin/aws_completer"
 TERRAFORM_PATH="$HOME/bin/terraform"
 TERRAGRUNT_PATH="$HOME/bin/terragrunt"
@@ -138,11 +143,10 @@ if [[ $OS == 'darwin' ]]; then
     export GPG_TTY=$(tty)
 fi
 
-# volta
-[[ -d "$HOME/.volta" ]] && export VOLTA_HOME="$HOME/.volta"
-[[ -d "$VOLTA_HOME/bin" ]] && export PATH="$VOLTA_HOME/bin:$PATH"
-[[ -f "$VOLTA_HOME/bin/volta" && -d "$ZSH_CACHE_DIR/completions" ]] && "$VOLTA_HOME/bin/volta" completions zsh --force --output "$ZSH_CACHE_DIR/completions/_volta" --quiet # copy completions in omz completion cache, need a restart of terminal
-LOADED+=("volta")
+fpath+="${HOME}/.oh-my-zsh/custom/plugins/zsh-completions/src"
+eval "$(""${HOME}/bin/mise"" activate zsh)"
+eval "$(""${HOME}/bin/mise"" hook-env -s zsh)"
+rehash
 
 # fvm
 [[ -d "$HOME/.fvm/cache" ]] && export FVM_CACHE_PATH="$HOME/.fvm/cache"
@@ -165,16 +169,6 @@ LOADED+=("pub")
 # to customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ -f "$HOME/.p10k.zsh" ]] && source "$HOME/.p10k.zsh"
 LOADED+=("p10k")
-
-if [[ $OS == 'darwin' ]]; then
-    [[ -f "/opt/homebrew/bin/brew" ]] && eval "$(/opt/homebrew/bin/brew shellenv)"
-    LOADED+=("brew")
-
-    # THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-    export SDKMAN_DIR="$HOME/.sdkman"
-    [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
-    LOADED+=("sdkman")
-fi
 
 chpwd-hook() {
     if [[ -f providers.tf || -f provider.tf ]]; then tfswitch; fi
