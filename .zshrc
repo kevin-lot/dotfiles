@@ -157,6 +157,8 @@ alias dart="fvm dart"
 alias flutter="fvm flutter"
 LOADED+=("fvm")
 LOADED+=("pub")
+# android
+export ANDROID_HOME="$HOME/Softwares/sdk/android"
 
 # other completions
 [[ -f "$AWS_COMPLETER_PATH" ]] && complete -C "$AWS_COMPLETER_PATH" aws
