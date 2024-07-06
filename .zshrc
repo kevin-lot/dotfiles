@@ -143,7 +143,10 @@ if [[ $OS == 'darwin' ]]; then
     export GPG_TTY=$(tty)
 fi
 
+# add zsh completions
 fpath+="${HOME}/.oh-my-zsh/custom/plugins/zsh-completions/src"
+
+# mise
 eval "$(""${HOME}/bin/mise"" activate zsh)"
 eval "$(""${HOME}/bin/mise"" hook-env -s zsh)"
 rehash
