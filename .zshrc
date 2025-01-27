@@ -151,14 +151,10 @@ eval "$(""${HOME}/bin/mise"" activate zsh)"
 eval "$(""${HOME}/bin/mise"" hook-env -s zsh)"
 rehash
 
-# fvm
-[[ -d "$HOME/.fvm/cache" ]] && export FVM_CACHE_PATH="$HOME/.fvm/cache"
-[[ -d "$HOME/.fvm/cache/default/bin" ]] && export PATH="$HOME/.fvm/cache/default/bin:$PATH"
+# flutter
+[[ -d "$HOME/Softwares/flutter_3.27.1/bin" ]] && export PATH="$HOME/Softwares/flutter_3.27.1/bin:$PATH"
 [[ -d "$HOME/.pub-cache/bin" ]] && export PATH="$HOME/.pub-cache/bin:$PATH"
-[[ -f "$HOME/.dart-cli-completion/fvm.zsh" ]] && source "$HOME/.dart-cli-completion/fvm.zsh"
-alias dart="fvm dart"
-alias flutter="fvm flutter"
-LOADED+=("fvm")
+#[[ -f "$HOME/.dart-cli-completion/fvm.zsh" ]] && source "$HOME/.dart-cli-completion/fvm.zsh"
 LOADED+=("pub")
 # android
 export ANDROID_HOME="$HOME/Softwares/sdk/android"
@@ -180,6 +176,9 @@ chpwd-hook() {
     if [[ -f .fvmrc ]]; then fvm use; fi
 }
 add-zsh-hook chpwd chpwd-hook
+
+export AWS_PROFILE=poker-dev
+export AWS_REGION=eu-west-1
 
 echo ".zshrc loaded: (${""${LOADED[*]}""// /|})"
 echo "paths:"
