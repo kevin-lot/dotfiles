@@ -152,7 +152,7 @@ eval "$(""${HOME}/bin/mise"" hook-env -s zsh)"
 rehash
 
 # flutter
-[[ -d "$HOME/Softwares/flutter_3.27.1/bin" ]] && export PATH="$HOME/Softwares/flutter_3.27.1/bin:$PATH"
+[[ -d "$HOME/Softwares/sdk/flutter/bin" ]] && export PATH="$HOME/Softwares/sdk/flutter/bin:$PATH"
 [[ -d "$HOME/.pub-cache/bin" ]] && export PATH="$HOME/.pub-cache/bin:$PATH"
 #[[ -f "$HOME/.dart-cli-completion/fvm.zsh" ]] && source "$HOME/.dart-cli-completion/fvm.zsh"
 LOADED+=("pub")
