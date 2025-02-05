@@ -75,6 +75,8 @@ plugins=(
   git
   zsh-autosuggestions
   zsh-syntax-highlighting
+  fancy-ctrl-z
+  flutter
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -123,9 +125,7 @@ if [[ $OS == 'darwin' ]]; then
     [[ -d "$HOME/bin" ]] && export PATH="$HOME/bin:$PATH"
     [[ -d "$HOME/.local/bin" ]] && export PATH="$HOME/.local/bin:$PATH"
     rehash # re-apply paths to directly use them
-fi
 
-if [[ $OS == 'darwin' ]]; then
     [[ -f "/opt/homebrew/bin/brew" ]] && eval "$(/opt/homebrew/bin/brew shellenv)"
     LOADED+=("brew")
 fi
@@ -140,32 +140,46 @@ if [[ $OS == 'darwin' ]]; then
     TERRAGRUNT_PATH="$HOME/bin/terragrunt"
     JETBRAINS_TOOLBOX_SCRIPT_PATH="$HOME/Library/Application Support/JetBrains/Toolbox/scripts"
 
-    export GPG_TTY=$(tty)
+    # GPG
+    #export GPG_TTY=$(tty)
 fi
 
 # add zsh completions
 fpath+="${HOME}/.oh-my-zsh/custom/plugins/zsh-completions/src"
-
-# mise
-eval "$(""${HOME}/bin/mise"" activate zsh)"
-eval "$(""${HOME}/bin/mise"" hook-env -s zsh)"
-rehash
-
-# flutter
-[[ -d "$HOME/Softwares/sdk/flutter/bin" ]] && export PATH="$HOME/Softwares/sdk/flutter/bin:$PATH"
-[[ -d "$HOME/.pub-cache/bin" ]] && export PATH="$HOME/.pub-cache/bin:$PATH"
-#[[ -f "$HOME/.dart-cli-completion/fvm.zsh" ]] && source "$HOME/.dart-cli-completion/fvm.zsh"
-LOADED+=("pub")
-# android
-export ANDROID_HOME="$HOME/Softwares/sdk/android"
-
 # other completions
 [[ -f "$AWS_COMPLETER_PATH" ]] && complete -C "$AWS_COMPLETER_PATH" aws
 [[ -f "$TERRAFORM_PATH" ]] && complete -o nospace -C "$TERRAFORM_PATH" terraform
 [[ -f "$TERRAGRUNT_PATH" ]] && complete -o nospace -C "$TERRAGRUNT_PATH" terragrunt
 
 # added by Toolbox App
-[[ -d "$JETBRAINS_TOOLBOX_SCRIPT_PATH" ]] && export PATH="$PATH:$JETBRAINS_TOOLBOX_SCRIPT_PATH"
+if [[ -d "$JETBRAINS_TOOLBOX_SCRIPT_PATH" ]]; then
+    export PATH="$PATH:$JETBRAINS_TOOLBOX_SCRIPT_PATH"
+    rehash
+fi
+
+# fzf
+if [[ -f "$HOME/bin/fzf" ]]; then
+    source <(fzf --zsh)
+    rehash
+fi
+
+# mise
+if [[ -f "$HOME/bin/mise" ]]; then
+    eval "$(""${HOME}/bin/mise"" activate zsh)"
+    eval "$(""${HOME}/bin/mise"" hook-env -s zsh)"
+    rehash
+fi
+
+# flutter
+[[ -d "$HOME/Softwares/sdk/flutter/bin" ]] && export PATH="$HOME/Softwares/sdk/flutter/bin:$PATH"
+[[ -d "$HOME/.pub-cache/bin" ]] && export PATH="$HOME/.pub-cache/bin:$PATH"
+LOADED+=("flutter")
+LOADED+=("pub")
+# android
+if [[ -d "$HOME/Softwares/sdk/android" ]]; then
+    export ANDROID_HOME="$HOME/Softwares/sdk/android"
+    rehash
+fi
 
 # to customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ -f "$HOME/.p10k.zsh" ]] && source "$HOME/.p10k.zsh"
