@@ -137,7 +137,7 @@ JETBRAINS_TOOLBOX_SCRIPT_PATH="$HOME/.local/share/JetBrains/Toolbox/scripts"
 if [[ $OS == 'darwin' ]]; then
     AWS_COMPLETER_PATH="/opt/homebrew/bin/aws_completer"
     TERRAFORM_PATH="$HOME/bin/terraform"
-    TERRAGRUNT_PATH="$HOME/bin/terragrunt"
+    TERRAGRUNT_PATH="/opt/homebrew/bin/terragrunt"
     JETBRAINS_TOOLBOX_SCRIPT_PATH="$HOME/Library/Application Support/JetBrains/Toolbox/scripts"
 
     # GPG
