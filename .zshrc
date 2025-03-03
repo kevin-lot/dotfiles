@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
+export ZSH="${HOME}/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -116,83 +116,74 @@ alias git='LANG=en_US git'
 alias git_size='git rev-list --objects --all | git cat-file --batch-check='\''%(objecttype) %(objectname) %(objectsize) %(rest)'\'' | sed -n '\''s/^blob //p'\'' | sort --numeric-sort --key=2 | cut -c 1-12,41- | numfmt --field=2 --to=iec-i --suffix=B --padding=7 --round=nearest'
 alias ls='lsd'
 alias gitversion='docker run --rm -v "$(pwd):/repo" gittools/gitversion:latest /repo'
-if [[ $OS == 'darwin' ]]; then
+if [[ ${OS} == 'darwin' ]]; then
     alias vi="nvim" # don't need on Linux thanks to alternatives
 fi
 
-if [[ $OS == 'darwin' ]]; then
+if [[ ${OS} == 'darwin' ]]; then
     # add some paths missing on macOS
-    [[ -d "$HOME/bin" ]] && export PATH="$HOME/bin:$PATH"
-    [[ -d "$HOME/.local/bin" ]] && export PATH="$HOME/.local/bin:$PATH"
+    [[ -d "${HOME}/bin" ]] && export PATH="${HOME}/bin:$PATH"
+    [[ -d "${HOME}/.local/bin" ]] && export PATH="${HOME}/.local/bin:$PATH"
     rehash # re-apply paths to directly use them
 
     [[ -f "/opt/homebrew/bin/brew" ]] && eval "$(/opt/homebrew/bin/brew shellenv)"
     LOADED+=("brew")
 fi
 
-AWS_COMPLETER_PATH="$HOME/bin/aws_completer"
-TERRAFORM_PATH="$HOME/bin/terraform"
-TERRAGRUNT_PATH="$HOME/bin/terragrunt"
-JETBRAINS_TOOLBOX_SCRIPT_PATH="$HOME/.local/share/JetBrains/Toolbox/scripts"
+AWS_COMPLETER_PATH="${HOME}/bin/aws_completer"
+FZF_PATH="${HOME}/bin/fzf"
+JETBRAINS_TOOLBOX_SCRIPT_PATH="${HOME}/.local/share/JetBrains/Toolbox/scripts"
+TERRAFORM_PATH="${HOME}/bin/terraform"
+TERRAGRUNT_PATH="${HOME}/bin/terragrunt"
+ZOXIDE_PATH="${HOME}/bin/zoxide"
 if [[ $OS == 'darwin' ]]; then
     AWS_COMPLETER_PATH="/opt/homebrew/bin/aws_completer"
-    TERRAFORM_PATH="$HOME/bin/terraform"
+    FZF_PATH="/opt/homebrew/bin/fzf"
+    JETBRAINS_TOOLBOX_SCRIPT_PATH="${HOME}/Library/Application Support/JetBrains/Toolbox/scripts"
+    TERRAFORM_PATH="${HOME}/bin/terraform"
     TERRAGRUNT_PATH="/opt/homebrew/bin/terragrunt"
-    JETBRAINS_TOOLBOX_SCRIPT_PATH="$HOME/Library/Application Support/JetBrains/Toolbox/scripts"
-
-    # GPG
-    #export GPG_TTY=$(tty)
+    ZOXIDE_PATH="/opt/homebrew/bin/zoxide"
 fi
 
 # add zsh completions
 fpath+="${HOME}/.oh-my-zsh/custom/plugins/zsh-completions/src"
 # other completions
-[[ -f "$AWS_COMPLETER_PATH" ]] && complete -C "$AWS_COMPLETER_PATH" aws
-[[ -f "$TERRAFORM_PATH" ]] && complete -o nospace -C "$TERRAFORM_PATH" terraform
-[[ -f "$TERRAGRUNT_PATH" ]] && complete -o nospace -C "$TERRAGRUNT_PATH" terragrunt
+[[ -f "${AWS_COMPLETER_PATH}" ]] && complete -C "$AWS_COMPLETER_PATH" aws
+[[ -f "${TERRAFORM_PATH}" ]] && complete -o nospace -C "$TERRAFORM_PATH" terraform
+[[ -f "${TERRAGRUNT_PATH}" ]] && complete -o nospace -C "$TERRAGRUNT_PATH" terragrunt
 
 # added by Toolbox App
-if [[ -d "$JETBRAINS_TOOLBOX_SCRIPT_PATH" ]]; then
-    export PATH="$PATH:$JETBRAINS_TOOLBOX_SCRIPT_PATH"
-    rehash
-fi
+[[ -d "${JETBRAINS_TOOLBOX_SCRIPT_PATH}" ]] && export PATH="$PATH:$JETBRAINS_TOOLBOX_SCRIPT_PATH" && rehash
 
 # fzf
-if [[ -f "$HOME/bin/fzf" ]]; then
-    source <(fzf --zsh)
-    rehash
-fi
+[[ -f "${FZF_PATH}" ]] && source <(fzf --zsh) && rehash
+[[ -f "${ZOXIDE_PATH}" ]] && eval "$(zoxide init zsh)"
 
 # mise
-if [[ -f "$HOME/bin/mise" ]]; then
+if [[ -f "${HOME}/bin/mise" ]]; then
     eval "$(""${HOME}/bin/mise"" activate zsh)"
     eval "$(""${HOME}/bin/mise"" hook-env -s zsh)"
     rehash
 fi
 
-# flutter
-[[ -d "$HOME/Softwares/sdk/flutter/bin" ]] && export PATH="$HOME/Softwares/sdk/flutter/bin:$PATH"
-[[ -d "$HOME/.pub-cache/bin" ]] && export PATH="$HOME/.pub-cache/bin:$PATH"
+# flutter && android
+[[ -d "${HOME}/.pub-cache/bin" ]] && export PATH="${HOME}/.pub-cache/bin:$PATH" && rehash
+[[ -d "${HOME}/Softwares/sdk/android" ]] && export ANDROID_HOME="${HOME}/Softwares/sdk/android" && rehash
+[[ -d "${HOME}/Softwares/sdk/flutter/bin" ]] && export PATH="${HOME}/Softwares/sdk/flutter/bin:$PATH" && rehash
 LOADED+=("flutter")
 LOADED+=("pub")
-# android
-if [[ -d "$HOME/Softwares/sdk/android" ]]; then
-    export ANDROID_HOME="$HOME/Softwares/sdk/android"
-    rehash
-fi
 
 # to customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ -f "$HOME/.p10k.zsh" ]] && source "$HOME/.p10k.zsh"
+[[ -f "${HOME}/.p10k.zsh" ]] && source "${HOME}/.p10k.zsh"
 LOADED+=("p10k")
-
-chpwd-hook() {
-    if [[ -f providers.tf || -f provider.tf ]]; then tfswitch; fi
-    if [[ -f .fvmrc ]]; then fvm use; fi
-}
-add-zsh-hook chpwd chpwd-hook
 
 export AWS_PROFILE=poker-dev
 export AWS_REGION=eu-west-1
+
+chpwd_hook() {
+    if [[ -f providers.tf || -f provider.tf ]]; then tfswitch; fi
+}
+add-zsh-hook chpwd chpwd_hook
 
 echo ".zshrc loaded: (${""${LOADED[*]}""// /|})"
 echo "paths:"
