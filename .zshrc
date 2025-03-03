@@ -112,15 +112,15 @@ LOADED=()
 OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 
 # added by me
-alias git='LANG=en_US git'
-alias git_size='git rev-list --objects --all | git cat-file --batch-check='\''%(objecttype) %(objectname) %(objectsize) %(rest)'\'' | sed -n '\''s/^blob //p'\'' | sort --numeric-sort --key=2 | cut -c 1-12,41- | numfmt --field=2 --to=iec-i --suffix=B --padding=7 --round=nearest'
-alias ls='lsd'
-alias gitversion='docker run --rm -v "$(pwd):/repo" gittools/gitversion:latest /repo'
-if [[ ${OS} == 'darwin' ]]; then
+alias git="LANG=en_US git"
+alias git_size="git rev-list --objects --all | git cat-file --batch-check=\"%(objecttype) %(objectname) %(objectsize) %(rest)\" | sed -n \"s/^blob //p\" | sort --numeric-sort --key=2 | cut -c 1-12,41- | numfmt --field=2 --to=iec-i --suffix=B --padding=7 --round=nearest"
+alias ls="lsd"
+alias gitversion="docker run --rm -v $(pwd):/repo gittools/gitversion:latest /repo"
+if [[ ${OS} == "darwin" ]]; then
     alias vi="nvim" # don't need on Linux thanks to alternatives
 fi
 
-if [[ ${OS} == 'darwin' ]]; then
+if [[ ${OS} == "darwin" ]]; then
     # add some paths missing on macOS
     [[ -d "${HOME}/bin" ]] && export PATH="${HOME}/bin:$PATH"
     [[ -d "${HOME}/.local/bin" ]] && export PATH="${HOME}/.local/bin:$PATH"
@@ -136,7 +136,7 @@ JETBRAINS_TOOLBOX_SCRIPT_PATH="${HOME}/.local/share/JetBrains/Toolbox/scripts"
 TERRAFORM_PATH="${HOME}/bin/terraform"
 TERRAGRUNT_PATH="${HOME}/bin/terragrunt"
 ZOXIDE_PATH="${HOME}/bin/zoxide"
-if [[ $OS == 'darwin' ]]; then
+if [[ ${OS} == "darwin" ]]; then
     AWS_COMPLETER_PATH="/opt/homebrew/bin/aws_completer"
     FZF_PATH="/opt/homebrew/bin/fzf"
     JETBRAINS_TOOLBOX_SCRIPT_PATH="${HOME}/Library/Application Support/JetBrains/Toolbox/scripts"
