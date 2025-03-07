@@ -34,10 +34,6 @@ autoload -Uz compinit && compinit
 [[ -f "${BIN_PATH}/bin/terragrunt" ]] && complete -o nospace -C "${BIN_PATH}/bin/terragrunt" terragrunt
 [[ -f "${BIN_PATH}/bin/terraform" ]] && complete -o nospace -C "${BIN_PATH}/bin/terraform" terraform
 
-# fzf
-command -v fzf &>/dev/null && source <(fzf --zsh) && rehash
-command -v zoxide &>/dev/null && eval "$(zoxide init zsh)"
-
 # to customize prompt, run `p10k configure` or edit ~/.p10k.zsh
 SOURCES=(
   "${HOME}/.zsh/powerlevel10k/powerlevel10k.zsh-theme" \
@@ -51,15 +47,13 @@ SOURCES=(
 for SOURCE in "${SOURCES[@]}"; do [[ -f "${SOURCE}" ]] && source "${SOURCE}" && LOADED+=("${SOURCE}"); done
 
 # zsh-history-substring-search
-bindkey "$terminfo[kcuu1]" history-substring-search-up
-bindkey "$terminfo[kcud1]" history-substring-search-down
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
 
+# fzf
+command -v fzf &>/dev/null && source <(fzf --zsh) && rehash
 # mise
-if [[ -f "${HOME}/bin/mise" ]]; then
-    eval "$(""${HOME}/bin/mise"" activate zsh)"
-    eval "$(""${HOME}/bin/mise"" hook-env -s zsh)"
-    rehash
-fi
+[[ -f "${HOME}/bin/mise" ]] && eval "$(""${HOME}/bin/mise"" activate zsh)" && eval "$(""${HOME}/bin/mise"" hook-env -s zsh)" && rehash
 
 echo "loads:"
 echo "${""${LOADED[*]}""// /\n}"
