@@ -3,7 +3,7 @@ EXPORT_PATHS_LAST=()
 LOADED=()
 OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 
-if [[ ${OS} == "darwin" ]]; then
+if [[ "${OS}" == "darwin" ]]; then
     # add some paths missing on macOS
     EXPORT_PATHS+=("${HOME}/.local/bin")
     EXPORT_PATHS+=("${HOME}/bin")
@@ -13,7 +13,7 @@ fi
 
 BIN_PATH="${HOME}"
 JETBRAINS_TOOLBOX_SCRIPT_PATH="${HOME}/.local/share/JetBrains/Toolbox/scripts"
-if [[ ${OS} == "darwin" ]]; then
+if [[ "${OS}" == "darwin" ]]; then
   BIN_PATH="/opt/homebrew"
   JETBRAINS_TOOLBOX_SCRIPT_PATH="${HOME}/Library/Application Support/JetBrains/Toolbox/scripts"
 fi
@@ -47,8 +47,14 @@ SOURCES=(
 for SOURCE in "${SOURCES[@]}"; do [[ -f "${SOURCE}" ]] && source "${SOURCE}" && LOADED+=("${SOURCE}"); done
 
 # zsh-history-substring-search
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
+if [[ "${OS}" == "darwin" ]]; then
+  bindkey '^[[A' history-substring-search-up
+  bindkey '^[[B' history-substring-search-down
+fi
+if [[ "${OS}" == "linux" ]]; then
+  bindkey "$terminfo[kcuu1]" history-substring-search-up
+  bindkey "$terminfo[kcud1]" history-substring-search-down
+fi
 
 # fzf
 command -v fzf &>/dev/null && source <(fzf --zsh) && rehash
