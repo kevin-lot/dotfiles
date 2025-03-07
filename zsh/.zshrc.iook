@@ -1,0 +1,68 @@
+EXPORT_PATHS=()
+EXPORT_PATHS_LAST=()
+LOADED=()
+OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+
+if [[ ${OS} == "darwin" ]]; then
+    # add some paths missing on macOS
+    EXPORT_PATHS+=("${HOME}/.local/bin")
+    EXPORT_PATHS+=("${HOME}/bin")
+
+    [[ -f "/opt/homebrew/bin/brew" ]] && eval "$(/opt/homebrew/bin/brew shellenv)" && LOADED+=("brew")
+fi
+
+BIN_PATH="${HOME}"
+JETBRAINS_TOOLBOX_SCRIPT_PATH="${HOME}/.local/share/JetBrains/Toolbox/scripts"
+if [[ ${OS} == "darwin" ]]; then
+  BIN_PATH="/opt/homebrew"
+  JETBRAINS_TOOLBOX_SCRIPT_PATH="${HOME}/Library/Application Support/JetBrains/Toolbox/scripts"
+fi
+
+# paths
+EXPORT_PATHS+=("${HOME}/.pub-cache/bin")
+EXPORT_PATHS+=("${HOME}/Softwares/sdk/flutter/bin")
+EXPORT_PATHS_LAST+=("${JETBRAINS_TOOLBOX_SCRIPT_PATH}") # added by Toolbox App
+for EXPORT_PATH in "${EXPORT_PATHS[@]}"; do [[ -d "${EXPORT_PATH}" ]] && export PATH="${EXPORT_PATH}:${PATH}"; done
+for EXPORT_PATH_LAST in "${EXPORT_PATHS_LAST[@]}"; do [[ -d "${EXPORT_PATH_LAST}" ]] && export PATH="${PATH}:${EXPORT_PATH_LAST}"; done
+[[ -d "${HOME}/Softwares/sdk/android" ]] && export ANDROID_HOME="${HOME}/Softwares/sdk/android" # android
+rehash # re-apply paths to directly use them
+
+# completions
+autoload bashcompinit && bashcompinit
+autoload -Uz compinit && compinit
+[[ -f "${BIN_PATH}/bin/aws_completer}" ]] && complete -C "${BIN_PATH}/bin/aws_completer" aws
+[[ -f "${BIN_PATH}/bin/terragrunt" ]] && complete -o nospace -C "${BIN_PATH}/bin/terragrunt" terragrunt
+[[ -f "${BIN_PATH}/bin/terraform" ]] && complete -o nospace -C "${BIN_PATH}/bin/terraform" terraform
+
+# fzf
+command -v fzf &>/dev/null && source <(fzf --zsh) && rehash
+command -v zoxide &>/dev/null && eval "$(zoxide init zsh)"
+
+# to customize prompt, run `p10k configure` or edit ~/.p10k.zsh
+SOURCES=(
+  "${HOME}/.zsh/powerlevel10k/powerlevel10k.zsh-theme" \
+  "${HOME}/.dotfiles/zsh/.zshrc.alias.iook" \
+  "${HOME}/.dotfiles/zsh/.zshrc.hook.iook" \
+  "${HOME}/.dotfiles/zsh/.p10k.zsh" \
+  "${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" \
+  "${HOME}/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" \
+  "${HOME}/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh"
+)
+for SOURCE in "${SOURCES[@]}"; do [[ -f "${SOURCE}" ]] && source "${SOURCE}" && LOADED+=("${SOURCE}"); done
+
+# zsh-history-substring-search
+bindkey "$terminfo[kcuu1]" history-substring-search-up
+bindkey "$terminfo[kcud1]" history-substring-search-down
+
+# mise
+if [[ -f "${HOME}/bin/mise" ]]; then
+    eval "$(""${HOME}/bin/mise"" activate zsh)"
+    eval "$(""${HOME}/bin/mise"" hook-env -s zsh)"
+    rehash
+fi
+
+echo "loads:"
+echo "${""${LOADED[*]}""// /\n}"
+echo
+echo "paths:"
+tr ':' '\n' <<< "$PATH"

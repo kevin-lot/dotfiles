@@ -1,0 +1,4 @@
+chpwd_hook() {
+    if [[ -f providers.tf || -f provider.tf ]]; then tfswitch; fi
+}
+add-zsh-hook chpwd chpwd_hook
