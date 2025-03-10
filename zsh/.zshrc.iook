@@ -61,6 +61,8 @@ fi
 
 # starship
 command -v starship &>/dev/null && {
+  autoload -Uz promptinit
+  promptinit
   prompt off
   export STARSHIP_CONFIG="${HOME}/.config/starship.toml"
   eval "$(starship init zsh)"
