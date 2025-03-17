@@ -39,6 +39,7 @@ autoload -Uz compinit && compinit
 [[ -f "${BIN_PATH}/bin/aws_completer}" ]] && complete -C "${BIN_PATH}/bin/aws_completer" aws
 [[ -f "${BIN_PATH}/bin/terragrunt" ]] && complete -o nospace -C "${BIN_PATH}/bin/terragrunt" terragrunt
 [[ -f "${BIN_PATH}/bin/terraform" ]] && complete -o nospace -C "${BIN_PATH}/bin/terraform" terraform
+[[ -f "${BIN_PATH}/bin/dagger" ]] && eval "$(dagger completion zsh)"
 
 SOURCES=(
   "${HOME}/.dotfiles/zsh/.zshrc.alias.iook" \

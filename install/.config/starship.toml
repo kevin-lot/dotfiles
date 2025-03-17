@@ -1,8 +1,12 @@
 "$schema" = "https://starship.rs/config-schema.json"
 
 add_newline = true
-format = """$username$hostname: $directory$character"""
+format = """$username$hostname:$directory$character$fill"""
 right_format = """$git_branch $git_status $cmd_duration"""
+
+[fill]
+symbol = '-'
+style = 'bold white'
 
 [username]
 format = '[$user@]($style)'
