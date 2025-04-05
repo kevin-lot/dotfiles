@@ -6,28 +6,29 @@ OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 BIN_PATH="${HOME}"
 JETBRAINS_TOOLBOX_SCRIPT_PATH="${HOME}/.local/share/JetBrains/Toolbox/scripts"
 if [[ "${OS}" == "darwin" ]]; then
-  BIN_PATH="/opt/homebrew"
-  JETBRAINS_TOOLBOX_SCRIPT_PATH="${HOME}/Library/Application Support/JetBrains/Toolbox/scripts"
+    BIN_PATH="/opt/homebrew"
+    JETBRAINS_TOOLBOX_SCRIPT_PATH="${HOME}/Library/Application Support/JetBrains/Toolbox/scripts"
 fi
 
 # paths
 if [[ "${OS}" == "darwin" ]]; then
-  # add some paths missing on macOS
-  EXPORT_PATHS+=(
-    "${HOME}/.local/bin" \
-    "${HOME}/bin"
-  )
+    # add some paths missing on macOS
+    EXPORT_PATHS+=(
+        "${HOME}/.local/bin" \
+        "${HOME}/bin"
+    )
 fi
 EXPORT_PATHS+=(
-  "${HOME}/.pub-cache/bin" \
-  "${HOME}/Softwares/sdk/flutter/bin"
+    "${HOME}/.pub-cache/bin" \
+    "${HOME}/Softwares/sdk/flutter/bin"
 )
 for EXPORT_PATH in "${EXPORT_PATHS[@]}"; do [[ -d "${EXPORT_PATH}" ]] && export PATH="${EXPORT_PATH}:${PATH}"; done
 
 EXPORT_PATHS_LAST+=("${JETBRAINS_TOOLBOX_SCRIPT_PATH}") # added by Toolbox App
 for EXPORT_PATH_LAST in "${EXPORT_PATHS_LAST[@]}"; do [[ -d "${EXPORT_PATH_LAST}" ]] && export PATH="${PATH}:${EXPORT_PATH_LAST}"; done
 
-[[ -d "${HOME}/Softwares/sdk/android" ]] && export ANDROID_HOME="${HOME}/Softwares/sdk/android" # android
+# android
+[[ -d "${HOME}/Softwares/sdk/android" ]] && export ANDROID_HOME="${HOME}/Softwares/sdk/android"
 rehash # re-apply paths to directly use them
 
 # brew
@@ -37,55 +38,59 @@ rehash # re-apply paths to directly use them
 autoload bashcompinit && bashcompinit
 autoload -Uz compinit && compinit
 [[ -f "${BIN_PATH}/bin/aws_completer}" ]] && complete -C "${BIN_PATH}/bin/aws_completer" aws
-[[ -f "${BIN_PATH}/bin/terragrunt" ]] && complete -o nospace -C "${BIN_PATH}/bin/terragrunt" terragrunt
-[[ -f "${BIN_PATH}/bin/terraform" ]] && complete -o nospace -C "${BIN_PATH}/bin/terraform" terraform
 [[ -f "${BIN_PATH}/bin/dagger" ]] && eval "$(dagger completion zsh)"
+[[ -f "${BIN_PATH}/bin/terraform" ]] && complete -o nospace -C "${BIN_PATH}/bin/terraform" terraform
+[[ -f "${BIN_PATH}/bin/terraform-docs" ]] && eval "$(terraform-docs completion zsh)"
+[[ -f "${BIN_PATH}/bin/terragrunt" ]] && complete -o nospace -C "${BIN_PATH}/bin/terragrunt" terragrunt
 
 SOURCES=(
-  "${HOME}/.dotfiles/zsh/.zshrc.alias.iook" \
-  "${HOME}/.dotfiles/zsh/.zshrc.hook.iook" \
-  "${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" \
-  "${HOME}/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" \
-  "${HOME}/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh"
+    "${HOME}/.dotfiles/zsh/.zshrc.alias.iook" \
+    "${HOME}/.dotfiles/zsh/.zshrc.hook.iook" \
+    "${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" \
+    "${HOME}/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" \
+    "${HOME}/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh"
 )
+# shellcheck disable=SC1090
 for SOURCE in "${SOURCES[@]}"; do [[ -f "${SOURCE}" ]] && source "${SOURCE}" && LOADED+=("${SOURCE}"); done
 
 # zsh-history-substring-search
 if [[ "${OS}" == "darwin" ]]; then
-  bindkey '^[[A' history-substring-search-up
-  bindkey '^[[B' history-substring-search-down
+    bindkey '^[[A' history-substring-search-up
+    bindkey '^[[B' history-substring-search-down
 fi
 if [[ "${OS}" == "linux" ]]; then
-  bindkey "$terminfo[kcuu1]" history-substring-search-up
-  bindkey "$terminfo[kcud1]" history-substring-search-down
+    # shellcheck disable=SC2154
+    bindkey "${terminfo[kcuu1]}" history-substring-search-up
+    bindkey "${terminfo[kcud1]}" history-substring-search-down
 fi
 
 # starship
 command -v starship &>/dev/null && {
-  autoload -Uz promptinit
-  promptinit
-  prompt off
-  export STARSHIP_CONFIG="${HOME}/.config/starship.toml"
-  eval "$(starship init zsh)"
-  rehash
-  LOADED+=("starship")
+    autoload -Uz promptinit
+    promptinit
+    prompt off
+    export STARSHIP_CONFIG="${HOME}/.config/starship.toml"
+    eval "$(starship init zsh)"
+    rehash
+    LOADED+=("starship")
 }
 # fzf
 command -v fzf &>/dev/null && {
+  # shellcheck disable=SC1090
   source <(fzf --zsh)
   rehash
   LOADED+=("fzf")
 }
 # mise
 command -v mise &>/dev/null && {
-  eval "$(mise activate zsh)"
-  eval "$(mise hook-env -s zsh)"
-  rehash
-  LOADED+=("mise")
+    eval "$(mise activate zsh)"
+    eval "$(mise hook-env -s zsh)"
+    rehash
+    LOADED+=("mise")
 }
 
 echo "loads:"
-echo "${""${LOADED[*]}""// /\n}"
+printf "%s\n" "${LOADED[@]}"
 echo
 echo "paths:"
 tr ':' '\n' <<< "$PATH"
