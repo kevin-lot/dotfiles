@@ -1,8 +1,7 @@
 "$schema" = "https://starship.rs/config-schema.json"
 
 add_newline = true
-format = """$username$hostname:$directory$character$fill"""
-right_format = """$git_branch $git_status $cmd_duration"""
+format = """$username$hostname:$directory$character$fill$git_branch$git_status$cmd_duration"""
 
 [fill]
 symbol = '-'
@@ -31,9 +30,9 @@ success_symbol = '[\$](green)'
 format = '[\[$branch]($style)'
 style = 'fg:green bold'
 [git_status]
-format = '[$all_status$ahead_behind\]]($style)'
+format = '[|$all_status$ahead_behind\]]($style)'
 style = 'fg:green bold'
 [cmd_duration]
-format = '[\[⏱  $duration\]]($style)'
+format = '[\[⏱ $duration\]]($style)'
 min_time = 0
 style = 'fg:gray'
