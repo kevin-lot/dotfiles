@@ -23,6 +23,11 @@ rehash # re-apply paths to directly use them
 [[ -f "/opt/homebrew/bin/brew" ]] && eval "$(/opt/homebrew/bin/brew shellenv)" && rehash && LOADED+=("brew")
 
 # completions
+ZSH_FPATH="${HOME}/.zsh_fpath"
+[[ -d "${ZSH_FPATH}" ]] || install -d -m 700 "${ZSH_FPATH}"
+[[ -d "${ZSH_FPATH}" ]] && fpath+="${ZSH_FPATH}"
+type -p poetry >/dev/null && poetry completions zsh > "${ZSH_FPATH}/_poetry"
+
 autoload bashcompinit && bashcompinit
 autoload -Uz compinit && compinit
 [[ "${OS}" == "darwin" ]] && BIN_PATH="/opt/homebrew" || BIN_PATH="${HOME}"
@@ -83,3 +88,5 @@ printf "%s\n" "${LOADED[@]}"
 echo
 echo "paths:"
 tr ':' '\n' <<< "$PATH"
+echo "fpaths:"
+tr ':' '\n' <<< "$fpath"
