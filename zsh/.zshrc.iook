@@ -31,11 +31,11 @@ type -p poetry >/dev/null && poetry completions zsh > "${ZSH_FPATH}/_poetry"
 autoload bashcompinit && bashcompinit
 autoload -Uz compinit && compinit
 [[ "${OS}" == "darwin" ]] && BIN_PATH="/opt/homebrew" || BIN_PATH="${HOME}"
-[[ -f "${BIN_PATH}/bin/aws_completer}" ]] && complete -C "${BIN_PATH}/bin/aws_completer" aws
-[[ -f "${BIN_PATH}/bin/dagger" ]] && eval "$(dagger completion zsh)"
-[[ -f "${BIN_PATH}/bin/terraform" ]] && complete -o nospace -C "${BIN_PATH}/bin/terraform" terraform
-[[ -f "${BIN_PATH}/bin/terraform-docs" ]] && eval "$(terraform-docs completion zsh)"
-[[ -f "${BIN_PATH}/bin/terragrunt" ]] && complete -o nospace -C "${BIN_PATH}/bin/terragrunt" terragrunt
+type -p aws_completer >/dev/null && complete -C aws_completer aws
+type -p dagger >/dev/null && eval "$(dagger completion zsh)"
+type -p terraform >/dev/null && complete -o nospace -C terraform terraform
+type -p terraform-docs >/dev/null && eval "$(terraform-docs completion zsh)"
+type -p terragrunt >/dev/null && complete -o nospace -C terragrunt terragrunt
 
 SOURCES=(
     "${HOME}/.dotfiles/zsh/.zshrc.alias.iook" \
@@ -88,5 +88,6 @@ printf "%s\n" "${LOADED[@]}"
 echo
 echo "paths:"
 tr ':' '\n' <<< "$PATH"
+echo
 echo "fpaths:"
 tr ':' '\n' <<< "$fpath"

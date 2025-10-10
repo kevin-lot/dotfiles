@@ -1,5 +1,10 @@
 autoload -U add-zsh-hook
 chpwd_hook() {
-    if [[ -f providers.tf || -f provider.tf ]]; then tfswitch; fi
+    if [[ -f providers.tf || -f provider.tf ]]; then echo "TODO: adapt for idiomatic files with mise"; fi
+    if [[ -f .nvmrc ]]; then
+        node_version=$(cat .nvmrc | tr -d 'v[:space:]')
+        echo "idiomatic_version_file_enable_tools for node is enabled"
+        echo "node v$node_version is used"
+    fi
 }
 add-zsh-hook chpwd chpwd_hook
