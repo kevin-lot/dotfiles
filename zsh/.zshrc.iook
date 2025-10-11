@@ -83,11 +83,18 @@ command -v mise &>/dev/null && {
     LOADED+=("mise")
 }
 
-echo "loads:"
-printf "%s\n" "${LOADED[@]}"
+YELLOW='\033[1;33m'
+NC='\033[0m'
+echo -e "${YELLOW}loads:${NC}"
+# shellcheck disable=SC2086
+# shellcheck disable=SC2128
+print -C3 ${LOADED}
 echo
-echo "paths:"
-tr ':' '\n' <<< "$PATH"
+echo -e "${YELLOW}paths:${NC}"
+# shellcheck disable=SC2296
+# shellcheck disable=SC2086
+print -C3 ${(s/:/)PATH}
 echo
-echo "fpaths:"
-tr ':' '\n' <<< "$fpath"
+echo -e "${YELLOW}fpaths:${NC}"
+# shellcheck disable=SC2086
+print -C3 ${fpath}
