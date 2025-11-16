@@ -22,21 +22,6 @@ rehash # re-apply paths to directly use them
 # brew
 [[ -f "/opt/homebrew/bin/brew" ]] && eval "$(/opt/homebrew/bin/brew shellenv)" && rehash && LOADED+=("brew")
 
-# completions
-ZSH_FPATH="${HOME}/.zsh_fpath"
-[[ -d "${ZSH_FPATH}" ]] || install -d -m 700 "${ZSH_FPATH}"
-[[ -d "${ZSH_FPATH}" ]] && fpath+="${ZSH_FPATH}"
-type -p poetry >/dev/null && poetry completions zsh > "${ZSH_FPATH}/_poetry"
-
-autoload bashcompinit && bashcompinit
-autoload -Uz compinit && compinit
-[[ "${OS}" == "darwin" ]] && BIN_PATH="/opt/homebrew" || BIN_PATH="${HOME}"
-type -p aws_completer >/dev/null && complete -C aws_completer aws
-type -p dagger >/dev/null && eval "$(dagger completion zsh)"
-type -p terraform >/dev/null && complete -o nospace -C terraform terraform
-type -p terraform-docs >/dev/null && eval "$(terraform-docs completion zsh)"
-type -p terragrunt >/dev/null && complete -o nospace -C terragrunt terragrunt
-
 SOURCES=(
     "${HOME}/.dotfiles/zsh/.zshrc.alias.iook" \
     "${HOME}/.dotfiles/zsh/.zshrc.hook.iook" \
@@ -59,7 +44,7 @@ if [[ "${OS}" == "linux" ]]; then
 fi
 
 # starship
-command -v starship &>/dev/null && {
+type -p starship &>/dev/null && {
     autoload -Uz promptinit
     promptinit
     prompt off
@@ -69,19 +54,33 @@ command -v starship &>/dev/null && {
     LOADED+=("starship")
 }
 # fzf
-command -v fzf &>/dev/null && {
+type -p fzf &>/dev/null && {
   # shellcheck disable=SC1090
   source <(fzf --zsh)
   rehash
   LOADED+=("fzf")
 }
 # mise
-command -v mise &>/dev/null && {
+type -p mise &>/dev/null && {
     eval "$(mise activate zsh)"
     eval "$(mise hook-env -s zsh)"
     rehash
     LOADED+=("mise")
 }
+
+# completions
+ZSH_FPATH="${HOME}/.zsh_fpath"
+[[ -d "${ZSH_FPATH}" ]] || install -d -m 700 "${ZSH_FPATH}"
+[[ -d "${ZSH_FPATH}" ]] && fpath+="${ZSH_FPATH}"
+type -p poetry &>/dev/null && poetry completions zsh > "${ZSH_FPATH}/_poetry" || echo "poetry is missing"
+
+autoload bashcompinit && bashcompinit
+autoload -Uz compinit && compinit
+type -p aws_completer &>/dev/null && complete -C aws_completer aws || echo "aws_completer is missing"
+type -p dagger &>/dev/null && eval "$(dagger completion zsh)" || echo "dagger is missing"
+type -p terraform &>/dev/null && complete -o nospace -C terraform terraform || echo "terraform is missing"
+type -p terraform-docs &>/dev/null && eval "$(terraform-docs completion zsh)" || echo "terraform-docs is missing"
+type -p terragrunt &>/dev/null && complete -o nospace -C terragrunt terragrunt || echo "terragrunt is missing"
 
 YELLOW='\033[1;33m'
 NC='\033[0m'
