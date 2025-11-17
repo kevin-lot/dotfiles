@@ -4,7 +4,3 @@ alias git_size="git rev-list --objects --all | git cat-file --batch-check=\"%(ob
 alias gitversion="docker run --rm -v $(pwd):/repo gittools/gitversion:latest /repo"
 alias ll="lsd -la"
 alias ls="lsd"
-
-if [[ ${OS} == "darwin" ]]; then
-    alias vi="nvim" # don't need on Linux thanks to alternatives
-fi
