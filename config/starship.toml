@@ -1,43 +1,46 @@
 "$schema" = "https://starship.rs/config-schema.json"
 
 add_newline = true
-format = """$username$hostname:$directory$character$fill$git_branch$git_status$cmd_duration"""
+continuation_prompt = "[▸▹ ](dimmed white)"
 
-[fill]
-symbol = '-'
-style = 'bold white'
+format = """$username$hostname $directory $character"""
+right_format = "$git_branch$git_status$cmd_duration"
 
 [username]
-format = '[$user@]($style)'
+format = '[\[](fg:#2883ff)[$user]($style)[@](fg:#2883ff)'
 show_always = true
+style_user = 'fg:#2883ff'
+style_root = 'fg:#2883ff bold'
 [hostname]
 disabled = false
-format = '[$hostname]($style)'
+format = '[$hostname]($style)[\]](fg:#2883ff)'
 ssh_only = false
-style = 'bold yellow'
+style = 'fg:#2883ff'
+
 [directory]
 format = '[$path]($style)'
 style = 'bold fg:blue'
 truncate_to_repo = false
 truncation_length = 3
 truncation_symbol = '…/'
+
 [character]
-error_symbol = '[\$](red)'
-vimcmd_symbol = '[\$](blue)'
-success_symbol = '[\$](green)'
+error_symbol = '[\$](bold red)'
+vimcmd_symbol = '[\$](bold blue)'
+success_symbol = '[\$](bold green)'
 
 [git_branch]
 format = '[\[$branch]($style)'
-style = 'fg:green bold'
+style = 'bold fg:blue'
 [git_status]
 format = '[|$all_status$ahead_behind\]]($style)'
-style = 'fg:green bold'
+style = 'bold fg:blue'
 
 ahead = '⇡${count}'
 behind = '⇣${count}'
 diverged = '⇕⇡${ahead_count}⇣${behind_count}'
 
 [cmd_duration]
-format = '[\[⏱ $duration\]]($style)'
+format = ' [$duration]($style)'
 min_time = 0
 style = 'fg:gray'
