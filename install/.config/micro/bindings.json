@@ -1,0 +1,9 @@
+{
+    "Alt-/": "lua:comment.comment",
+    "Ctrl-Left": "SelectWordLeft",
+    "Ctrl-Right": "SelectWordRight",
+    "Ctrl-d": "DeleteLine",
+    "Ctrl-y": "Redo",
+    "Ctrl-z": "Undo",
+    "CtrlUnderscore": "lua:comment.comment"
+}

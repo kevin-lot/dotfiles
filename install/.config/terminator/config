@@ -1,0 +1,36 @@
+[global_config]
+  focus = mouse
+  geometry_hinting = True
+  enabled_plugins = Logger, TerminalShot, LaunchpadBugURLHandler, LaunchpadCodeURLHandler, APTURLHandler
+  suppress_multiple_term_dialog = True
+[keybindings]
+  copy = <Primary>c
+  paste = <Primary>v
+[profiles]
+  [[default]]
+    visible_bell = True
+    background_darkness = 0.19
+    cursor_color = "#aaaaaa"
+    scrollback_lines = 5000
+    palette = "#073642:#dc322f:#859900:#b58900:#268bd2:#d33682:#2aa198:#eee8d5:#002b36:#cb4b16:#586e75:#657b83:#839496:#6c71c4:#93a1a1:#fdf6e3"
+    copy_on_selection = True
+[layouts]
+  [[default]]
+    [[[child0]]]
+      type = Window
+      parent = ""
+      order = 0
+      position = 0:40
+      maximised = True
+      fullscreen = False
+      size = 1920, 1008
+      title = kevin@kevin-Inspiron-7306-2n1:~
+      last_active_term = 6ea96238-18fb-477b-b4cb-d9f15f8dd338
+      last_active_window = True
+    [[[terminal1]]]
+      type = Terminal
+      parent = child0
+      order = 0
+      profile = default
+      uuid = 6ea96238-18fb-477b-b4cb-d9f15f8dd338
+[plugins]
