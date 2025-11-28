@@ -25,12 +25,13 @@ rehash # re-apply paths to directly use them
 SOURCES=(
     "${HOME}/.config/zsh/zshrc.alias" \
     "${HOME}/.config/zsh/zshrc.hook" \
-    "${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" \
-    "${HOME}/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" \
-    "${HOME}/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh"
+    "${HOME}/.zsh_plugins/zsh-autosuggestions/zsh-autosuggestions.zsh" \
+    "${HOME}/.zsh_plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" \
+    "${HOME}/.zsh_plugins/zsh-history-substring-search/zsh-history-substring-search.zsh"
 )
 # shellcheck disable=SC1090
 for SOURCE in "${SOURCES[@]}"; do [[ -f "${SOURCE}" ]] && source "${SOURCE}" && LOADED+=("${SOURCE}"); done
+export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
 
 # zsh-history-substring-search
 if [[ "${OS}" == "darwin" ]]; then
@@ -38,9 +39,11 @@ if [[ "${OS}" == "darwin" ]]; then
     bindkey '^[[B' history-substring-search-down
 fi
 if [[ "${OS}" == "linux" ]]; then
+    bindkey '^[[A' history-substring-search-up
+    bindkey '^[[B' history-substring-search-down
     # shellcheck disable=SC2154
-    bindkey "${terminfo[kcuu1]}" history-substring-search-up
-    bindkey "${terminfo[kcud1]}" history-substring-search-down
+    [[ -n "${terminfo[kcuu1]}" ]] && bindkey "${terminfo[kcuu1]}" history-substring-search-up
+    [[ -n "${terminfo[kcud1]}" ]] && bindkey "${terminfo[kcud1]}" history-substring-search-down
 fi
 
 # starship

@@ -1,6 +1,6 @@
 "$schema" = "https://starship.rs/config-schema.json"
 
-add_newline = true
+#add_newline = true
 continuation_prompt = "[▸▹ ](dimmed white)"
 
 format = """$username$hostname $directory $character"""
