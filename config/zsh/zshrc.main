@@ -1,28 +1,67 @@
 LOADED=()
 OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 
-BEGIN_PATHS=()
+autoload -Uz promptinit
+promptinit
+prompt adam1
+
+###########################
+## history configuration ##
+###########################
+
+HISTSIZE=1000
+SAVEHIST=1000
+HISTFILE=~/.config/zsh/histfile
+setopt histignorealldups 
+setopt sharehistory # share across all zsh sessions
+
+##############################
+## completion configuration ##
+##############################
+
+autoload -Uz compinit
+compinit
+autoload bashcompinit
+bashcompinit
+
+setopt menu_complete
+setopt auto_cd
+
+zstyle ':completion:*' completer _list _expand _complete _correct _approximate
+
+# disable "show all X possibilities?" message and show menu directly
+# disable "Hit TAB for more, or the character to insert" message and show menu directly
+zstyle ':completion:*' list-prompt ''
+zstyle ':completion:*' select-prompt ''
+# and show menu
+zstyle ':completion:*' menu yes
+zstyle ':completion:*' menu select=2
+zstyle ':completion:*' auto-select true
+# with colors
+eval "$(dircolors -b)"
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' use-compctl false
+zstyle ':completion:*' verbose true
+zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
+
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
+zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
+zstyle ':zle:*' word-style subword
+
+
+#########################
+## paths configuration ##
+#########################
+
 if [[ "${OS}" == "darwin" ]]; then
-    BEGIN_PATHS+=("${HOME}/.local/bin" "${HOME}/bin") # add some paths missing on macOS
+    # brew
+    [[ -f "/opt/homebrew/bin/brew" ]] && eval "$(/opt/homebrew/bin/brew shellenv)" && rehash && LOADED+=("brew")
 fi
-#BEGIN_PATHS+=("${HOME}/.pub-cache/bin" "${HOME}/Softwares/sdk/flutter/bin")
-
-END_PATHS=()
-if [[ "${OS}" == "darwin" ]]; then
-    END_PATHS+=("${HOME}/Library/Application Support/JetBrains/Toolbox/scripts") # added by Toolbox App
-else
-    END_PATHS+=("${HOME}/.local/share/JetBrains/Toolbox/scripts") # added by Toolbox App
-fi
-for EL in "${BEGIN_PATHS[@]}"; do [[ -d "${EL}" ]] && export PATH="${EL}:${PATH}"; done
-for EL in "${END_PATHS[@]}"; do [[ -d "${EL}" ]] && export PATH="${PATH}:${EL}"; done
-
-[[ -d "${HOME}/Softwares/sdk/android" ]] && export ANDROID_HOME="${HOME}/Softwares/sdk/android"
-rehash # re-apply paths to directly use them
-
-# brew
-[[ -f "/opt/homebrew/bin/brew" ]] && eval "$(/opt/homebrew/bin/brew shellenv)" && rehash && LOADED+=("brew")
 
 SOURCES=(
+    "${HOME}/.config/zsh/zshrc.paths" \
     "${HOME}/.config/zsh/zshrc.alias" \
     "${HOME}/.config/zsh/zshrc.hook" \
     "${HOME}/.zsh_plugins/zsh-autosuggestions/zsh-autosuggestions.zsh" \
@@ -33,18 +72,28 @@ SOURCES=(
 for SOURCE in "${SOURCES[@]}"; do [[ -f "${SOURCE}" ]] && source "${SOURCE}" && LOADED+=("${SOURCE}"); done
 export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
 
-# zsh-history-substring-search
 if [[ "${OS}" == "darwin" ]]; then
+    # zsh-history-substring-search
     bindkey '^[[A' history-substring-search-up
     bindkey '^[[B' history-substring-search-down
 fi
 if [[ "${OS}" == "linux" ]]; then
+    # zsh-history-substring-search
     bindkey '^[[A' history-substring-search-up
     bindkey '^[[B' history-substring-search-down
     # shellcheck disable=SC2154
     [[ -n "${terminfo[kcuu1]}" ]] && bindkey "${terminfo[kcuu1]}" history-substring-search-up
     [[ -n "${terminfo[kcud1]}" ]] && bindkey "${terminfo[kcud1]}" history-substring-search-down
+
+    # ctrl to move cursor
+    bindkey "^[[1;5C" forward-word      
+    bindkey "^[[1;5D" backward-word
+    bindkey "^H" backward-kill-word
 fi
+
+############################
+## activation of programs ##
+############################
 
 # starship
 type -p starship &>/dev/null && {
@@ -56,13 +105,6 @@ type -p starship &>/dev/null && {
     rehash
     LOADED+=("starship")
 }
-# fzf
-type -p fzf &>/dev/null && {
-  # shellcheck disable=SC1090
-  source <(fzf --zsh)
-  rehash
-  LOADED+=("fzf")
-}
 # mise
 type -p mise &>/dev/null && {
     eval "$(mise activate zsh)"
@@ -71,19 +113,24 @@ type -p mise &>/dev/null && {
     LOADED+=("mise")
 }
 
-# completions
+######################################
+## program completion configuration ##
+######################################
+
 ZSH_FPATH="${HOME}/.zsh_fpath"
 [[ -d "${ZSH_FPATH}" ]] || install -d -m 700 "${ZSH_FPATH}"
 [[ -d "${ZSH_FPATH}" ]] && fpath+="${ZSH_FPATH}"
 type -p poetry &>/dev/null && poetry completions zsh > "${ZSH_FPATH}/_poetry" || echo "poetry is missing"
 
-autoload bashcompinit && bashcompinit
-autoload -Uz compinit && compinit
 type -p aws_completer &>/dev/null && complete -C aws_completer aws || echo "aws_completer is missing"
 type -p dagger &>/dev/null && eval "$(dagger completion zsh)" || echo "dagger is missing"
 type -p terraform &>/dev/null && complete -o nospace -C terraform terraform || echo "terraform is missing"
 type -p terraform-docs &>/dev/null && eval "$(terraform-docs completion zsh)" || echo "terraform-docs is missing"
 type -p terragrunt &>/dev/null && complete -o nospace -C terragrunt terragrunt || echo "terragrunt is missing"
+
+##################
+## returns info ##
+##################
 
 YELLOW='\033[1;33m'
 NC='\033[0m'
