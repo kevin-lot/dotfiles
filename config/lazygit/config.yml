@@ -1,0 +1,6 @@
+keybinding:
+  universal:
+    nextTab: )
+    prevTab: (
+    increaseRenameSimilarityThreshold: ']'
+    decreaseRenameSimilarityThreshold: '['
