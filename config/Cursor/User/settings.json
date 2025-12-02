@@ -1,44 +1,71 @@
 {
-    "window.commandCenter": true,
-    "workbench.colorTheme": "GitHub Dark",
-    "files.autoSave": "onFocusChange",
-    "files.associations": {
-        "zshrc.main": "shellscript",
-        "zshrc.hook": "shellscript",
-        "zshrc.paths": "shellscript",
-        "zshrc.alias": "shellscript"
-    },
-    "workbench.tree.indent": 16,
-    "workbench.tree.renderIndentGuides": "always",
-
-    // By default, VS Code will only switch to the Debug Console when you start
-    // debugging the first time in a session. This setting tells VS Code to always
-    // switch to the Debug Console when starting a session, so you can see the
-    // programs output.
-    "debug.internalConsoleOptions": "openOnSessionStart",
     "[dart]": {
         "editor.formatOnSave": true,
         "editor.formatOnType": true,
         "editor.rulers": [120],
-
         // Disables built-in highlighting of words that match your selection. Without
         // this, all instances of the selected text will be highlighted, interfering
         // with Dart's ability to highlight only exact references to the selected variable.
         "editor.selectionHighlight": false,
-
         // Allows pressing <TAB> to complete snippets such as `for` even when the
         // completion list is not visible.
         "editor.tabCompletion": "onlySnippets",
-
         // By default, VS Code will populate code completion with words found in the
         // matching documents when a language service does not provide its own completions.
         // This results in code completion suggesting words when editing comments and
         // strings. This setting will prevent that.
         "editor.wordBasedSuggestions": "off"
     },
+    // [dart]
+    // By default, VS Code will only switch to the Debug Console when you start
+    // debugging the first time in a session. This setting tells VS Code to always
+    // switch to the Debug Console when starting a session, so you can see the
+    // programs output.
+    "debug.internalConsoleOptions": "openOnSessionStart",
+    // Sets the font size for text in the editor window to 12 pixels.
+    "editor.fontSize": 12,
+    // Sets the primary font for the editor
+    // to JetBrains Mono, prioritizing this font over others.
+    "editor.fontFamily": "'JetBrains Mono', 'Droid Sans Mono', 'monospace', monospace",
+    // Enables font ligatures (e.g., turning -> into $\rightarrow$) 
+    // for the selected font (JetBrains Mono), improving code readability and aesthetics.
+    "editor.fontLigatures": true,
+    // Disables the highlighting of other instances of the word where the cursor currently rests.
+    // This prevents visual distraction.
     "editor.occurrencesHighlight": "off",
+    // Prevents scrolling past the last line of code in the editor, 
+    // keeping thelast line visible at the very bottom of the view.
+    "editor.scrollBeyondLastLine": false,
+    // Tells VS Code to treat files with extensions.
+    // This enables correct syntax highlighting for those specific configuration files.
+    "files.associations": {
+        "zshrc.main": "shellscript",
+        "zshrc.hook": "shellscript",
+        "zshrc.paths": "shellscript",
+        "zshrc.alias": "shellscript"
+    },
+    // Automatically saves files whenever the editor loses focus 
+    // (e.g., when switching to another tab, application, or clicking outside the window).
+    "files.autoSave": "onFocusChange",
+    // Disables automatic checks for new versions of the mise.dev extension/tool.
     "mise.checkForNewMiseVersion": false,
+    // Disables Preview Mode. When you single-click a file, 
+    // it opens in a permanent tab instead of a temporary "preview" tab
+    //  that gets replaced when you open a new file.
     "workbench.editor.enablePreview": false,
-    "editor.minimap.enabled": true,
-    "editor.scrollBeyondLastLine": false
+    // Sets the visual color scheme for the entire VS Code interface (UI and code syntax highlighting) 
+    // to match the WebStorm dark theme.
+    "workbench.colorTheme": "WebStorm New Dark",
+    // Sets the indentation size (in pixels) for the folders and files displayed 
+    // in the File Explorer tree view.
+    "workbench.tree.indent": 16,
+    // Displays vertical lines (indent guides) in the File Explorer tree view
+    //  to visually align files and folders according to their nested depth.
+    "workbench.tree.renderIndentGuides": "always",
+    "editor.cursorSurroundingLines": 3,
+    "editor.fontWeight": "500",
+    "window.autoDetectHighContrast": false,
+    "window.commandCenter": true,
+    "window.controlsStyle": "hidden",
+    "editor.renderWhitespace": "all"
 }
