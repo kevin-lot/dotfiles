@@ -218,7 +218,7 @@
         "when": "focusedView == 'workbench.view.testing'"
     },
     {
-        "key": "alt+space",
+        "key": "shift+alt+enter",
         "command": "editor.action.quickFix",
         "when": "editorHasCodeActionsProvider && textInputFocus && !editorReadonly"
     },
@@ -248,7 +248,7 @@
         "when": "problemFocus"
     },
     {
-        "key": "ctrl+shift+r",
+        "key": "ctrl+r ctrl+t",
         "command": "editor.action.refactor",
         "when": "editorHasCodeActionsProvider && textInputFocus && !editorReadonly"
     },
@@ -336,7 +336,7 @@
         "when": "editorFocus"
     },
     {
-        "key": "ctrl+r",
+        "key": "ctrl+r ctrl+r",
         "command": "editor.action.rename",
         "when": "editorHasRenameProvider && editorTextFocus && !editorReadonly"
     },
