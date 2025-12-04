@@ -53,9 +53,6 @@
     // it opens in a permanent tab instead of a temporary "preview" tab
     //  that gets replaced when you open a new file.
     "workbench.editor.enablePreview": false,
-    // Sets the visual color scheme for the entire VS Code interface (UI and code syntax highlighting) 
-    // to match the WebStorm dark theme.
-    "workbench.colorTheme": "WebStorm New Dark",
     // Sets the indentation size (in pixels) for the folders and files displayed 
     // in the File Explorer tree view.
     "workbench.tree.indent": 16,
@@ -67,5 +64,8 @@
     "window.autoDetectHighContrast": false,
     "window.commandCenter": true,
     "window.controlsStyle": "hidden",
-    "editor.renderWhitespace": "all"
+    "editor.renderWhitespace": "all",
+    "python.defaultInterpreterPath": "/bin/python",
+    "workbench.colorTheme": "WebStorm Dark",
+    "redhat.telemetry.enabled": false
 }

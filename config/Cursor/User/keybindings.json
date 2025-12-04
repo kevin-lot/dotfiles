@@ -1,5 +1,16 @@
 // Place your key bindings in this file to override the defaults
-[
+[   
+    {
+        "key": "ctrl+/",
+        "command": "runCommands",
+        "args": {
+            "commands": [
+              "editor.action.commentLine",
+              "cursorDown"
+            ]
+          },
+          "when": "editorTextFocus"
+    },
     {
         "key": "ctrl+i",
         "command": "composerMode.agent"
@@ -218,7 +229,7 @@
         "when": "focusedView == 'workbench.view.testing'"
     },
     {
-        "key": "alt+space",
+        "key": "ctrl+enter",
         "command": "editor.action.quickFix",
         "when": "editorHasCodeActionsProvider && textInputFocus && !editorReadonly"
     },
@@ -228,7 +239,7 @@
         "when": "editorHasCodeActionsProvider && textInputFocus && !editorReadonly"
     },
     {
-        "key": "alt+enter",
+        "key": "ctrl+enter",
         "command": "workbench.action.terminal.showQuickFixes",
         "when": "terminalFocus"
     },
@@ -238,7 +249,7 @@
         "when": "terminalFocus"
     },
     {
-        "key": "alt+enter",
+        "key": "ctrl+enter",
         "command": "problems.action.showQuickFixes",
         "when": "problemFocus"
     },
@@ -248,7 +259,7 @@
         "when": "problemFocus"
     },
     {
-        "key": "ctrl+shift+r",
+        "key": "ctrl+r ctrl+t",
         "command": "editor.action.refactor",
         "when": "editorHasCodeActionsProvider && textInputFocus && !editorReadonly"
     },
@@ -336,7 +347,7 @@
         "when": "editorFocus"
     },
     {
-        "key": "ctrl+r",
+        "key": "ctrl+r ctrl+r",
         "command": "editor.action.rename",
         "when": "editorHasRenameProvider && editorTextFocus && !editorReadonly"
     },
@@ -346,7 +357,7 @@
         "when": "editorHasRenameProvider && editorTextFocus && !editorReadonly"
     },
     {
-        "key": "alt+enter",
+        "key": "ctrl+shift+enter",
         "command": "editor.action.sourceAction"
     },
     {
@@ -363,5 +374,96 @@
         "key": "ctrl+shift+r",
         "command": "-workbench.action.reloadWindow",
         "when": "isDevelopment"
+    },
+    {
+        "key": "ctrl+shift+s",
+        "command": "editor.action.sortLinesAscending"
+    },
+    {
+        "key": "ctrl+shift+s",
+        "command": "-workbench.action.files.saveAs"
+    },
+    {
+        "key": "ctrl+shift+s",
+        "command": "-workbench.action.files.saveLocalFile",
+        "when": "remoteFileDialogVisible"
+    },
+    {
+        "key": "ctrl+shift+enter",
+        "command": "-editor.action.insertLineBefore",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "ctrl+shift+enter",
+        "command": "-notebook.cell.insertCodeCellAbove",
+        "when": "notebookCellListFocused && !inputFocus"
+    },
+    {
+        "key": "ctrl+shift+enter",
+        "command": "-composer.triggerCreateWorktreeButton",
+        "when": "composerFocused"
+    },
+    {
+        "key": "ctrl+shift+enter",
+        "command": "-list.toggleSelection",
+        "when": "listFocus && !inputFocus && !treestickyScrollFocused"
+    },
+    {
+        "key": "ctrl+shift+enter",
+        "command": "-search.action.replaceAllInFile",
+        "when": "fileMatchFocus && isEditableItem && replaceActive && searchViewletVisible"
+    },
+    {
+        "key": "ctrl+shift+enter",
+        "command": "-search.action.replaceAllInFolder",
+        "when": "folderMatchFocus && isEditableItem && replaceActive && searchViewletVisible"
+    },
+    {
+        "key": "ctrl+shift+k",
+        "command": "aichat.newchataction"
+    },
+    {
+        "key": "ctrl+l",
+        "command": "-aichat.newchataction"
+    },
+    {
+        "key": "ctrl+shift+k",
+        "command": "composer.sendToAgent",
+        "when": "editorHasPromptBar && editorPromptBarFocused"
+    },
+    {
+        "key": "ctrl+l",
+        "command": "-composer.sendToAgent",
+        "when": "editorHasPromptBar && editorPromptBarFocused"
+    },
+    {
+        "key": "ctrl+l",
+        "command": "workbench.action.gotoLine"
+    },
+    {
+        "key": "ctrl+g",
+        "command": "-workbench.action.gotoLine"
+    },
+    {
+        "key": "ctrl+backspace",
+        "command": "deleteWordPartLeft"
+    },
+    {
+        "key": "ctrl+backspace",
+        "command": "-deleteWordLeft",
+        "when": "textInputFocus && !editorReadonly"
+    },
+    {
+        "key": "ctrl+delete",
+        "command": "deleteWordPartRight"
+    },
+    {
+        "key": "ctrl+delete",
+        "command": "-deleteWordRight",
+        "when": "textInputFocus && !editorReadonly"
+    },
+    {
+        "key": "ctrl+m s",
+        "command": "-workbench.action.files.saveWithoutFormatting"
     }
 ]

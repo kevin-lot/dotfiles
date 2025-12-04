@@ -3,7 +3,9 @@ OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 
 autoload -Uz promptinit
 promptinit
-prompt adam1
+prompt adam2
+
+bindkey -e
 
 ###########################
 ## history configuration ##
@@ -97,14 +99,12 @@ fi
 
 # starship
 type -p starship &>/dev/null && {
-    autoload -Uz promptinit
-    promptinit
-    prompt off
-    export STARSHIP_CONFIG="${HOME}/.config/starship.toml"
+	prompt off
+	export STARSHIP_CONFIG="${HOME}/.config/starship.toml"
     eval "$(starship init zsh)"
-    rehash
     LOADED+=("starship")
 }
+
 # mise
 type -p mise &>/dev/null && {
     eval "$(mise activate zsh)"

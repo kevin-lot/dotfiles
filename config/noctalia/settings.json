@@ -6,11 +6,12 @@
         "enableClipboardHistory": true,
         "pinnedExecs": [
         ],
-        "position": "top_center",
+        "position": "top_left",
+        "showCategories": false,
         "sortByMostUsed": true,
         "terminalCommand": "xterm -e",
         "useApp2Unit": false,
-        "viewMode": "grid"
+        "viewMode": "list"
     },
     "audio": {
         "cavaFrameRate": 30,
@@ -26,7 +27,7 @@
     "bar": {
         "backgroundOpacity": 1,
         "capsuleOpacity": 1,
-        "density": "comfortable",
+        "density": "compact",
         "exclusive": true,
         "floating": false,
         "marginHorizontal": 0.25,
@@ -39,34 +40,10 @@
         "widgets": {
             "center": [
                 {
-                    "icon": "apps",
-                    "id": "CustomButton",
-                    "leftClickExec": "qs -c noctalia-shell ipc call launcher toggle",
-                    "leftClickUpdateText": true,
-                    "maxTextLength": {
-                        "horizontal": 0,
-                        "vertical": 10
-                    },
-                    "middleClickExec": "",
-                    "middleClickUpdateText": false,
-                    "parseJson": false,
-                    "rightClickExec": "",
-                    "rightClickUpdateText": false,
-                    "textCollapse": "",
-                    "textCommand": "echo \"Apps\"",
-                    "textIntervalMs": 3000,
-                    "textStream": false,
-                    "wheelDownExec": "",
-                    "wheelDownUpdateText": false,
-                    "wheelExec": "",
-                    "wheelMode": "unified",
-                    "wheelUpExec": "",
-                    "wheelUpUpdateText": false,
-                    "wheelUpdateText": false
-                },
-                {
                     "colorizeDistroLogo": false,
+                    "colorizeSystemIcon": "none",
                     "customIconPath": "",
+                    "enableColorization": false,
                     "icon": "noctalia",
                     "id": "ControlCenter",
                     "useDistroLogo": false
@@ -86,6 +63,34 @@
                 }
             ],
             "left": [
+                {
+                    "hideMode": "alwaysExpanded",
+                    "icon": "apps",
+                    "id": "CustomButton",
+                    "leftClickExec": "qs -c noctalia-shell ipc call launcher toggle",
+                    "leftClickUpdateText": false,
+                    "maxTextLength": {
+                        "horizontal": 10,
+                        "vertical": 10
+                    },
+                    "middleClickExec": "",
+                    "middleClickUpdateText": false,
+                    "parseJson": false,
+                    "rightClickExec": "",
+                    "rightClickUpdateText": false,
+                    "showIcon": true,
+                    "textCollapse": "",
+                    "textCommand": "echo \"Apps\"",
+                    "textIntervalMs": 3000,
+                    "textStream": false,
+                    "wheelDownExec": "",
+                    "wheelDownUpdateText": false,
+                    "wheelExec": "",
+                    "wheelMode": "unified",
+                    "wheelUpExec": "",
+                    "wheelUpUpdateText": false,
+                    "wheelUpdateText": false
+                },
                 {
                     "colorizeIcons": false,
                     "hideUnoccupied": false,
@@ -126,7 +131,7 @@
                     "id": "VPN"
                 },
                 {
-                    "displayMode": "onhover",
+                    "displayMode": "alwaysShow",
                     "id": "Volume"
                 },
                 {
@@ -134,8 +139,11 @@
                     "id": "Brightness"
                 },
                 {
+                    "deviceNativePath": "",
                     "displayMode": "alwaysShow",
                     "id": "Battery",
+                    "showNoctaliaPerformance": false,
+                    "showPowerProfiles": false,
                     "warningThreshold": 30
                 }
             ]
@@ -150,11 +158,11 @@
         "cards": [
             {
                 "enabled": true,
-                "id": "banner-card"
+                "id": "calendar-header-card"
             },
             {
                 "enabled": true,
-                "id": "calendar-card"
+                "id": "calendar-month-card"
             },
             {
                 "enabled": true,
@@ -166,15 +174,12 @@
             }
         ]
     },
-    "changelog": {
-        "lastSeenVersion": ""
-    },
     "colorSchemes": {
         "darkMode": true,
         "generateTemplatesForPredefined": true,
         "manualSunrise": "06:30",
         "manualSunset": "18:30",
-        "matugenSchemeType": "scheme-fruit-salad",
+        "matugenSchemeType": "scheme-rainbow",
         "predefinedScheme": "Tokyo Night",
         "schedulingMode": "off",
         "useWallpaperColors": true
@@ -237,15 +242,17 @@
     "dock": {
         "backgroundOpacity": 1,
         "colorizeIcons": true,
+        "deadOpacity": 0.6,
         "displayMode": "exclusive",
         "enabled": true,
         "floatingRatio": 0,
+        "inactiveIndicators": false,
         "monitors": [
         ],
         "onlySameOutput": false,
         "pinnedApps": [
         ],
-        "radiusRatio": 1,
+        "pinnedStatic": false,
         "size": 0.62
     },
     "general": {
@@ -253,20 +260,23 @@
         "animationDisabled": false,
         "animationSpeed": 1,
         "avatarImage": "/home/kevin/.face",
+        "boxRadiusRatio": 1,
         "compactLockScreen": true,
         "dimmerOpacity": 0.25,
         "enableShadows": true,
         "forceBlackScreenCorners": false,
+        "iRadiusRatio": 1,
         "language": "",
         "lockOnSuspend": true,
         "radiusRatio": 1,
         "scaleRatio": 1,
-        "screenRadiusRatio": 0.37,
+        "screenRadiusRatio": 0,
         "shadowDirection": "bottom_right",
         "shadowOffsetX": 2,
         "shadowOffsetY": 3,
         "showHibernateOnLockScreen": false,
-        "showScreenCorners": false
+        "showScreenCorners": false,
+        "showSessionButtonsOnLockScreen": true
     },
     "hooks": {
         "darkModeChange": "",
@@ -308,15 +318,28 @@
         ],
         "normalUrgencyDuration": 8,
         "overlayLayer": true,
-        "respectExpireTimeout": false
+        "respectExpireTimeout": false,
+        "sounds": {
+            "criticalSoundFile": "/usr/share/sounds/piano-3.wav",
+            "enabled": true,
+            "excludedApps": "discord,firefox,chrome,chromium,edge",
+            "lowSoundFile": "/usr/share/sounds/piano-3.wav",
+            "normalSoundFile": "/usr/share/sounds/piano-3.wav",
+            "separateSounds": false,
+            "volume": 0.5
+        }
     },
     "osd": {
         "autoHideMs": 2000,
         "backgroundOpacity": 1,
         "enabled": true,
         "enabledTypes": [
+            3,
+            0,
+            1,
+            2
         ],
-        "location": "top_right",
+        "location": "top_left",
         "monitors": [
         ],
         "overlayLayer": true
@@ -349,7 +372,7 @@
             },
             {
                 "action": "hibernate",
-                "countdownEnabled": true,
+                "countdownEnabled": false,
                 "enabled": true
             },
             {
@@ -370,16 +393,21 @@
         ],
         "showHeader": true
     },
-    "settingsVersion": 25,
+    "settingsVersion": 26,
     "systemMonitor": {
         "cpuCriticalThreshold": 90,
+        "cpuPollingInterval": 3000,
         "cpuWarningThreshold": 80,
         "criticalColor": "",
         "diskCriticalThreshold": 90,
+        "diskPollingInterval": 3000,
         "diskWarningThreshold": 80,
         "memCriticalThreshold": 90,
+        "memPollingInterval": 3000,
         "memWarningThreshold": 80,
+        "networkPollingInterval": 3000,
         "tempCriticalThreshold": 90,
+        "tempPollingInterval": 3000,
         "tempWarningThreshold": 80,
         "useCustomColors": false,
         "warningColor": ""
@@ -389,6 +417,7 @@
         "cava": false,
         "code": false,
         "discord": false,
+        "emacs": false,
         "enableUserTemplates": false,
         "foot": false,
         "fuzzel": false,
@@ -396,6 +425,7 @@
         "gtk": false,
         "kcolorscheme": false,
         "kitty": false,
+        "niri": false,
         "pywalfox": false,
         "qt": false,
         "spicetify": false,
@@ -407,7 +437,7 @@
     "ui": {
         "fontDefault": "Roboto",
         "fontDefaultScale": 1,
-        "fontFixed": "DejaVu Sans Mono",
+        "fontFixed": "FiraCode Nerd Font",
         "fontFixedScale": 1,
         "panelBackgroundOpacity": 1,
         "panelsAttachedToBar": true,
@@ -415,14 +445,13 @@
         "tooltipsEnabled": true
     },
     "wallpaper": {
-        "defaultWallpaper": "/usr/share/quickshell/noctalia-shell/Assets/Wallpaper/noctalia.png",
         "directory": "/home/kevin/Pictures/Wallpapers",
         "enableMultiMonitorDirectories": false,
         "enabled": true,
         "fillColor": "#000000",
         "fillMode": "crop",
         "hideWallpaperFilenames": false,
-        "monitors": [
+        "monitorDirectories": [
         ],
         "overviewEnabled": false,
         "panelPosition": "follow_bar",
