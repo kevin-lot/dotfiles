@@ -65,7 +65,7 @@
     "window.commandCenter": true,
     "window.controlsStyle": "hidden",
     "editor.renderWhitespace": "all",
-    "update.mode": "none",
     "python.defaultInterpreterPath": "/bin/python",
-    "workbench.colorTheme": "WebStorm Dark"
+    "workbench.colorTheme": "WebStorm Dark",
+    "redhat.telemetry.enabled": false
 }

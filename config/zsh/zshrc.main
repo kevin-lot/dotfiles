@@ -4,7 +4,9 @@ OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 autoload -Uz promptinit
 promptinit
 prompt adam2
-    
+
+bindkey -e
+
 ###########################
 ## history configuration ##
 ###########################
