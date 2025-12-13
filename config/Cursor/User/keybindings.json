@@ -5,27 +5,42 @@
         "command": "runCommands",
         "args": {
             "commands": [
-              "editor.action.commentLine",
-              "cursorDown"
+                "editor.action.commentLine",
+                "cursorDown"
             ]
-          },
-          "when": "editorTextFocus"
+        },
+        "when": "editorTextFocus && !editorReadonly",
+        "linux": true
+    },
+    {
+        "key": "cmd+/",
+        "command": "runCommands",
+        "args": {
+            "commands": [
+                "editor.action.commentLine",
+                "cursorDown"
+            ]
+        },
+        "when": "editorTextFocus && !editorReadonly",
+        "macos": true
     },
     {
         "key": "ctrl+i",
-        "command": "composerMode.agent"
+        "command": "composerMode.agent",
+        "linux": true
     },
     {
         "key": "ctrl+p",
-        "command": "workbench.action.quickOpenWithModes"
+        "command": "workbench.action.quickOpenWithModes",
+        "linux": true
     },
     {
         "key": "ctrl+e",
-        "command": "-workbench.action.quickOpen"
+        "command": "-workbench.action.quickOpen",
     },
     {
         "key": "ctrl+shift+p",
-        "command": "-workbench.action.showCommands"
+        "command": "-workbench.action.showCommands",
     },
     {
         "key": "f1",
@@ -48,19 +63,23 @@
     },
     {
         "key": "ctrl+right",
-        "command": "cursorWordPartRight"
+        "command": "cursorWordPartRight",
+        "linux": true
     },
     {
         "key": "ctrl+shift+right",
-        "command": "cursorWordPartRightSelect"
+        "command": "cursorWordPartRightSelect",
+        "linux": true
     },
     {
         "key": "ctrl+left",
-        "command": "cursorWordPartLeft"
+        "command": "cursorWordPartLeft",
+        "linux": true
     },
     {
         "key": "ctrl+shift+left",
-        "command": "cursorWordPartLeftSelect"
+        "command": "cursorWordPartLeftSelect",
+        "linux": true
     },
     {
         "key": "ctrl+shift+left",
@@ -95,7 +114,8 @@
     {
         "key": "ctrl+d",
         "command": "editor.action.deleteLines",
-        "when": "textInputFocus && !editorReadonly"
+        "when": "textInputFocus && !editorReadonly",
+        "linux": true
     },
     {
         "key": "ctrl+shift+k",
@@ -105,7 +125,8 @@
     {
         "key": "ctrl+[Quote]",
         "command": "editor.action.jumpToBracket",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus",
+        "linux": true
     },
     {
         "key": "ctrl+6",
@@ -114,7 +135,8 @@
     },
     {
         "key": "ctrl+shift+[Quote]",
-        "command": "editor.action.selectToBracket"
+        "command": "editor.action.selectToBracket",
+        "linux": true
     },
     {
         "key": "ctrl+shift+z",
@@ -127,7 +149,8 @@
     {
         "key": "ctrl+z",
         "command": "cursorUndo",
-        "when": "textInputFocus"
+        "when": "textInputFocus",
+        "linux": true
     },
     {
         "key": "ctrl+u",
@@ -136,12 +159,14 @@
     },
     {
         "key": "ctrl+z",
-        "command": "default:undo"
+        "command": "default:undo",
+        "linux": true
     },
     {
         "key": "ctrl+u",
         "command": "togglePreserveCase",
-        "when": "editorFocus"
+        "when": "editorFocus",
+        "linux": true
     },
     {
         "key": "alt+p",
@@ -151,7 +176,8 @@
     {
         "key": "ctrl+alt+l",
         "command": "editor.action.formatSelection",
-        "when": "editorHasDocumentSelectionFormattingProvider && editorTextFocus && !editorReadonly"
+        "when": "editorHasDocumentSelectionFormattingProvider && editorTextFocus && !editorReadonly",
+        "linux": true
     },
     {
         "key": "ctrl+m ctrl+f",
@@ -161,17 +187,19 @@
     {
         "key": "shift+alt+enter",
         "command": "workbench.action.terminal.chat.insertCommand",
-        "when": "chatIsEnabled && terminalChatResponseContainsCodeBlock && terminalHasBeenCreated && !terminalChatActiveRequest && !terminalChatResponseContainsMultipleCodeBlocks || chatIsEnabled && terminalChatResponseContainsCodeBlock && terminalProcessSupported && !terminalChatActiveRequest && !terminalChatResponseContainsMultipleCodeBlocks"
+        "when": "chatIsEnabled && terminalChatResponseContainsCodeBlock && terminalHasBeenCreated && !terminalChatActiveRequest && !terminalChatResponseContainsMultipleCodeBlocks || chatIsEnabled && terminalChatResponseContainsCodeBlock && terminalProcessSupported && !terminalChatActiveRequest && !terminalChatResponseContainsMultipleCodeBlocks",
+        "linux": true
     },
     {
         "key": "alt+enter",
         "command": "-workbench.action.terminal.chat.insertCommand",
-        "when": "chatIsEnabled && terminalChatResponseContainsCodeBlock && terminalHasBeenCreated && !terminalChatActiveRequest && !terminalChatResponseContainsMultipleCodeBlocks || chatIsEnabled && terminalChatResponseContainsCodeBlock && terminalProcessSupported && !terminalChatActiveRequest && !terminalChatResponseContainsMultipleCodeBlocks"
+        "when": "chatIsEnabled && terminalChatResponseContainsCodeBlock && terminalHasBeenCreated && !terminalChatActiveRequest && !terminalChatResponseContainsMultipleCodeBlocks || chatIsEnabled && terminalChatResponseContainsCodeBlock && terminalProcessSupported && !terminalChatActiveRequest && !terminalChatResponseContainsMultipleCodeBlocks",
     },
     {
         "key": "shift+alt+enter",
         "command": "workbench.action.terminal.chat.insertFirstCommand",
-        "when": "chatIsEnabled && terminalChatResponseContainsMultipleCodeBlocks && terminalHasBeenCreated && !terminalChatActiveRequest || chatIsEnabled && terminalChatResponseContainsMultipleCodeBlocks && terminalProcessSupported && !terminalChatActiveRequest"
+        "when": "chatIsEnabled && terminalChatResponseContainsMultipleCodeBlocks && terminalHasBeenCreated && !terminalChatActiveRequest || chatIsEnabled && terminalChatResponseContainsMultipleCodeBlocks && terminalProcessSupported && !terminalChatActiveRequest",
+        "linux": true
     },
     {
         "key": "alt+enter",
@@ -181,7 +209,8 @@
     {
         "key": "shift+alt+enter",
         "command": "notebook.cell.executeAndInsertBelow",
-        "when": "notebookCellListFocused && notebookCellType == 'markup' || notebookCellListFocused && notebookMissingKernelExtension && !notebookCellExecuting && notebookCellType == 'code' || notebookCellListFocused && !notebookCellExecuting && notebookCellType == 'code' && notebookKernelCount > 0 || notebookCellListFocused && !notebookCellExecuting && notebookCellType == 'code' && notebookKernelSourceCount > 0"
+        "when": "notebookCellListFocused && notebookCellType == 'markup' || notebookCellListFocused && notebookMissingKernelExtension && !notebookCellExecuting && notebookCellType == 'code' || notebookCellListFocused && !notebookCellExecuting && notebookCellType == 'code' && notebookKernelCount > 0 || notebookCellListFocused && !notebookCellExecuting && notebookCellType == 'code' && notebookKernelSourceCount > 0",
+        "linux": true
     },
     {
         "key": "alt+enter",
@@ -191,7 +220,8 @@
     {
         "key": "shift+alt+enter",
         "command": "search.action.openInEditor",
-        "when": "hasSearchResult && searchViewletFocus"
+        "when": "hasSearchResult && searchViewletFocus",
+        "linux": true
     },
     {
         "key": "alt+enter",
@@ -201,7 +231,8 @@
     {
         "key": "shift+alt+enter",
         "command": "debug.openBreakpointToSide",
-        "when": "breakpointsFocused"
+        "when": "breakpointsFocused",
+        "linux": true
     },
     {
         "key": "alt+enter",
@@ -211,7 +242,8 @@
     {
         "key": "shift+alt+enter",
         "command": "editor.action.selectAllMatches",
-        "when": "editorFocus && findWidgetVisible"
+        "when": "editorFocus && findWidgetVisible",
+        "linux": true
     },
     {
         "key": "alt+enter",
@@ -221,7 +253,8 @@
     {
         "key": "shift+alt+enter",
         "command": "testing.editFocusedTest",
-        "when": "focusedView == 'workbench.view.testing'"
+        "when": "focusedView == 'workbench.view.testing'",
+        "linux": true
     },
     {
         "key": "alt+enter",
@@ -231,7 +264,8 @@
     {
         "key": "ctrl+enter",
         "command": "editor.action.quickFix",
-        "when": "editorHasCodeActionsProvider && textInputFocus && !editorReadonly"
+        "when": "editorHasCodeActionsProvider && textInputFocus && !editorReadonly",
+        "linux": true
     },
     {
         "key": "ctrl+shift+[Comma]",
@@ -241,7 +275,8 @@
     {
         "key": "ctrl+enter",
         "command": "workbench.action.terminal.showQuickFixes",
-        "when": "terminalFocus"
+        "when": "terminalFocus",
+        "linux": true
     },
     {
         "key": "ctrl+shift+[Comma]",
@@ -251,7 +286,8 @@
     {
         "key": "ctrl+enter",
         "command": "problems.action.showQuickFixes",
-        "when": "problemFocus"
+        "when": "problemFocus",
+        "linux": true
     },
     {
         "key": "ctrl+shift+[Comma]",
@@ -261,7 +297,8 @@
     {
         "key": "ctrl+r ctrl+t",
         "command": "editor.action.refactor",
-        "when": "editorHasCodeActionsProvider && textInputFocus && !editorReadonly"
+        "when": "editorHasCodeActionsProvider && textInputFocus && !editorReadonly",
+        "linux": true
     },
     {
         "key": "ctrl+shift+r",
@@ -270,7 +307,8 @@
     },
     {
         "key": "ctrl+shift+f",
-        "command": "workbench.action.replaceInFiles"
+        "command": "workbench.action.replaceInFiles",
+        "linux": true
     },
     {
         "key": "ctrl+shift+h",
@@ -279,7 +317,8 @@
     {
         "key": "ctrl+f",
         "command": "editor.action.startFindReplaceAction",
-        "when": "editorFocus || editorIsOpen"
+        "when": "editorFocus || editorIsOpen",
+        "linux": true
     },
     {
         "key": "ctrl+h",
@@ -289,7 +328,8 @@
     {
         "key": "ctrl+g",
         "command": "editor.action.nextMatchFindAction",
-        "when": "activeEditorIsReviewChanges || editorFocus"
+        "when": "activeEditorIsReviewChanges || editorFocus",
+        "linux": true
     },
     {
         "key": "f3",
@@ -299,7 +339,8 @@
     {
         "key": "ctrl+g",
         "command": "editor.action.nextMatchFindAction",
-        "when": "editorFocus && findInputFocussed"
+        "when": "editorFocus && findInputFocussed",
+        "linux": true
     },
     {
         "key": "enter",
@@ -309,7 +350,8 @@
     {
         "key": "ctrl+g",
         "command": "editor.action.nextSelectionMatchFindAction",
-        "when": "editorFocus"
+        "when": "editorFocus",
+        "linux": true
     },
     {
         "key": "ctrl+f3",
@@ -319,7 +361,8 @@
     {
         "key": "ctrl+shift+g",
         "command": "editor.action.previousMatchFindAction",
-        "when": "activeEditorIsReviewChanges || editorFocus"
+        "when": "activeEditorIsReviewChanges || editorFocus",
+        "linux": true
     },
     {
         "key": "shift+f3",
@@ -329,7 +372,8 @@
     {
         "key": "ctrl+shift+g",
         "command": "editor.action.previousMatchFindAction",
-        "when": "editorFocus && findInputFocussed"
+        "when": "editorFocus && findInputFocussed",
+        "linux": true
     },
     {
         "key": "shift+enter",
@@ -339,7 +383,8 @@
     {
         "key": "ctrl+shift+g",
         "command": "editor.action.previousSelectionMatchFindAction",
-        "when": "editorFocus"
+        "when": "editorFocus",
+        "linux": true
     },
     {
         "key": "ctrl+shift+f3",
@@ -349,7 +394,8 @@
     {
         "key": "ctrl+r ctrl+r",
         "command": "editor.action.rename",
-        "when": "editorHasRenameProvider && editorTextFocus && !editorReadonly"
+        "when": "editorHasRenameProvider && editorTextFocus && !editorReadonly",
+        "linux": true
     },
     {
         "key": "f2",
@@ -358,7 +404,8 @@
     },
     {
         "key": "ctrl+shift+enter",
-        "command": "editor.action.sourceAction"
+        "command": "editor.action.sourceAction",
+        "linux": true
     },
     {
         "key": "ctrl+shift+r",
@@ -377,7 +424,8 @@
     },
     {
         "key": "ctrl+shift+s",
-        "command": "editor.action.sortLinesAscending"
+        "command": "editor.action.sortLinesAscending",
+        "linux": true
     },
     {
         "key": "ctrl+shift+s",
@@ -420,7 +468,8 @@
     },
     {
         "key": "ctrl+shift+k",
-        "command": "aichat.newchataction"
+        "command": "aichat.newchataction",
+        "linux": true
     },
     {
         "key": "ctrl+l",
@@ -429,7 +478,8 @@
     {
         "key": "ctrl+shift+k",
         "command": "composer.sendToAgent",
-        "when": "editorHasPromptBar && editorPromptBarFocused"
+        "when": "editorHasPromptBar && editorPromptBarFocused",
+        "linux": true
     },
     {
         "key": "ctrl+l",
@@ -438,7 +488,8 @@
     },
     {
         "key": "ctrl+l",
-        "command": "workbench.action.gotoLine"
+        "command": "workbench.action.gotoLine",
+        "linux": true
     },
     {
         "key": "ctrl+g",
@@ -446,7 +497,8 @@
     },
     {
         "key": "ctrl+backspace",
-        "command": "deleteWordPartLeft"
+        "command": "deleteWordPartLeft",
+        "linux": true
     },
     {
         "key": "ctrl+backspace",
@@ -455,7 +507,8 @@
     },
     {
         "key": "ctrl+delete",
-        "command": "deleteWordPartRight"
+        "command": "deleteWordPartRight",
+        "linux": true
     },
     {
         "key": "ctrl+delete",
@@ -465,5 +518,40 @@
     {
         "key": "ctrl+m s",
         "command": "-workbench.action.files.saveWithoutFormatting"
+    },
+    {
+        "key": "ctrl+m ctrl+c",
+        "command": "-editor.action.addCommentLine",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "ctrl+[BracketLeft]",
+        "command": "-editor.action.commentLine",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "ctrl+shift+[BracketLeft]",
+        "command": "editor.action.blockComment",
+        "when": "editorTextFocus && !editorReadonly",
+        "linux": true
+    },
+    {
+        "key": "ctrl+shift+a",
+        "command": "-editor.action.blockComment",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "ctrl+shift+[BracketLeft]",
+        "command": "-workbench.action.splitEditor"
+    },
+    {
+        "key": "ctrl+r ctrl+shift+r",
+        "command": "editor.action.changeAll",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "ctrl+f2",
+        "command": "-editor.action.changeAll",
+        "when": "editorTextFocus && !editorReadonly"
     }
 ]
