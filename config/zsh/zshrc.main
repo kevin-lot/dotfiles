@@ -132,7 +132,7 @@ type -p terragrunt &>/dev/null && complete -o nospace -C terragrunt terragrunt |
 ## returns info ##
 ##################
 
-YELLOW='\033[1;33m'
+YELLOW='\033[0;34m'
 NC='\033[0m'
 echo -e "${YELLOW}loads:${NC}"
 # shellcheck disable=SC2086 disable=SC2128
