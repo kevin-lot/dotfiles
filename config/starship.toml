@@ -1,19 +1,41 @@
 "$schema" = "https://starship.rs/config-schema.json"
 
-#add_newline = true
-continuation_prompt = "[▸▹ ](dimmed white)"
+# format = """$username$hostname $directory $character"""
+# right_format = "$git_branch$git_status$cmd_duration"
 
-format = """$username$hostname $directory $character"""
-right_format = "$git_branch$git_status$cmd_duration"
+# Customizing the prompt (and placing desired modules at desired position and sequence):
+# ╭╴ # \u256D\u2574
+# ╰╴ # \u2570\u2574
+
+add_newline = true
+format = """
+[\u256D\u2574](fg:greydimmed)\
+$sudo\
+$directory\
+[ ](fg:greydimmed)\
+$fill\
+$username\
+$hostname\
+[ ](fg:greydimmed)\
+$fill\
+$git_branch$git_status \
+$status\
+$cmd_duration\
+$line_break\
+\
+[\u2570\u2574](fg:greydimmed)\
+$character"""
+
 
 [username]
-format = '[\[](fg:#2883ff)[$user]($style)[@](fg:#2883ff)'
+format = '[\[](fg:greydimmed)[$user]($style)[@](fg:greydimmed)'
 show_always = true
 style_user = 'fg:#2883ff'
-style_root = 'fg:#2883ff bold'
+style_root = 'fg:red'
+
 [hostname]
 disabled = false
-format = '[$hostname]($style)[\]](fg:#2883ff)'
+format = '[$hostname]($style)[\]](fg:greydimmed)'
 ssh_only = false
 style = 'fg:#2883ff'
 
@@ -30,10 +52,10 @@ vimcmd_symbol = '[\$](bold blue)'
 success_symbol = '[\$](bold green)'
 
 [git_branch]
-format = '[\[$branch]($style)'
+format = '[\[](fg:greydimmed)[$branch]($style)'
 style = 'bold fg:blue'
 [git_status]
-format = '[|$all_status$ahead_behind\]]($style)'
+format = '[|](fg:greydimmed)[$all_status$ahead_behind]($style)[\]](fg:greydimmed)'
 style = 'bold fg:blue'
 
 ahead = '⇡${count}'
@@ -43,4 +65,4 @@ diverged = '⇕⇡${ahead_count}⇣${behind_count}'
 [cmd_duration]
 format = ' [$duration]($style)'
 min_time = 0
-style = 'fg:gray'
+style = 'fg:greydimmed'
