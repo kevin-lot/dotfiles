@@ -67,5 +67,6 @@
     "editor.renderWhitespace": "all",
     "python.defaultInterpreterPath": "/bin/python",
     "workbench.colorTheme": "WebStorm Dark",
-    "redhat.telemetry.enabled": false
+    "redhat.telemetry.enabled": false,
+    "update.mode": "none"
 }
