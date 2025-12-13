@@ -375,7 +375,7 @@ binds {
     // You can also move the mouse into the top-left hot corner,
     // or do a four-finger swipe up on a touchpad.
     Mod+Tab repeat=false { toggle-overview; }
-    Mod+Q   repeat=false { close-window; }
+    Mod+W   repeat=false { close-window; }
 
     Mod+Left        { focus-column-left; }
     Mod+Shift+Left  { consume-or-expel-window-left; }
