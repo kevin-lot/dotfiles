@@ -3,6 +3,10 @@
 // Check the wiki for a full description of the configuration:
 // https://yalter.github.io/niri/Configuration:-Introduction
 
+environment {
+  QT_QPA_PLATFORMTHEME "qt6ct"
+}
+
 // Input device configuration.
 // Find the full list of options on the wiki:
 // https://yalter.github.io/niri/Configuration:-Input
@@ -104,10 +108,22 @@ output "eDP-1" {
     position x=0 y=0
 }
 
+// https://docs.noctalia.dev/getting-started/compositor-settings/#option-2-stationary-wallpaper
+// Enable stationnay wallpaper
+//
+// need `background-color "transparent` in `layout` entry
+// need to disable "Enable overview wallpaper” to be turned OFF in Noctalia's settings
+layer-rule {
+  match namespace="^noctalia-wallpaper*"
+  place-within-backdrop true
+}
+
 // Settings that influence how windows are positioned and sized.
 // Find more information on the wiki:
 // https://yalter.github.io/niri/Configuration:-Layout
 layout {
+    background-color "transparent"
+
     // Set gaps around windows in logical pixels.
     gaps 9
 
@@ -171,7 +187,10 @@ layout {
         // To do that, set relative-to="workspace-view".
         active-gradient   from="#80c8ff" to="#c7ff7f" angle=45
         inactive-gradient from="#505050" to="#808080" angle=45 relative-to="workspace-view"
+        
+        urgent-color   "#ffb4ab"
     }
+    
 
     border {
         //off
@@ -375,7 +394,7 @@ binds {
     // You can also move the mouse into the top-left hot corner,
     // or do a four-finger swipe up on a touchpad.
     Mod+Tab repeat=false { toggle-overview; }
-    Mod+W   repeat=false { close-window; }
+    Mod+Q   repeat=false { close-window; }
 
     Mod+Left        { focus-column-left; }
     Mod+Shift+Left  { consume-or-expel-window-left; }

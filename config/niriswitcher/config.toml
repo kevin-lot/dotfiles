@@ -37,7 +37,7 @@ modifier = "Alt_L"
 
 [keys.switch]
 next = "Tab"
-prev = "Shift+Tab"
+prev = "at"
 
 [keys.window]
 close = "q"

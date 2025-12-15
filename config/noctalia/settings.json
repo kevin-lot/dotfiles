@@ -20,14 +20,14 @@
         ],
         "preferredPlayer": "",
         "visualizerQuality": "high",
-        "visualizerType": "linear",
+        "visualizerType": "mirrored",
         "volumeOverdrive": false,
         "volumeStep": 5
     },
     "bar": {
         "backgroundOpacity": 1,
         "capsuleOpacity": 1,
-        "density": "compact",
+        "density": "comfortable",
         "exclusive": true,
         "floating": false,
         "marginHorizontal": 0.25,
@@ -49,12 +49,10 @@
                     "useDistroLogo": false
                 },
                 {
-                    "customFont": "",
-                    "formatHorizontal": "HH:mm ddd, MMM dd",
-                    "formatVertical": "HH mm - dd MM",
-                    "id": "Clock",
-                    "useCustomFont": false,
-                    "usePrimaryColor": true
+                    "colorName": "primary",
+                    "hideWhenIdle": false,
+                    "id": "AudioVisualizer",
+                    "width": 200
                 },
                 {
                     "hideWhenZero": true,
@@ -92,32 +90,19 @@
                     "wheelUpdateText": false
                 },
                 {
-                    "colorizeIcons": false,
+                    "colorizeIcons": true,
                     "hideUnoccupied": false,
                     "id": "TaskbarGrouped",
-                    "labelMode": "index",
+                    "labelMode": "index+name",
                     "showLabelsOnlyWhenOccupied": true
-                },
-                {
-                    "hideMode": "hidden",
-                    "hideWhenIdle": false,
-                    "id": "MediaMini",
-                    "maxWidth": 145,
-                    "scrollingMode": "hover",
-                    "showAlbumArt": false,
-                    "showArtistFirst": true,
-                    "showProgressRing": true,
-                    "showVisualizer": true,
-                    "useFixedWidth": false,
-                    "visualizerType": "linear"
                 }
             ],
             "right": [
                 {
                     "blacklist": [
                     ],
-                    "colorizeIcons": false,
-                    "drawerEnabled": false,
+                    "colorizeIcons": true,
+                    "drawerEnabled": true,
                     "id": "Tray",
                     "pinned": [
                         "nm-applet",
@@ -131,20 +116,40 @@
                     "id": "VPN"
                 },
                 {
-                    "displayMode": "alwaysShow",
+                    "id": "Spacer",
+                    "width": 20
+                },
+                {
+                    "displayMode": "onhover",
+                    "id": "Microphone"
+                },
+                {
+                    "displayMode": "onhover",
                     "id": "Volume"
                 },
                 {
-                    "displayMode": "alwaysShow",
+                    "displayMode": "onhover",
                     "id": "Brightness"
                 },
                 {
                     "deviceNativePath": "",
-                    "displayMode": "alwaysShow",
+                    "displayMode": "onhover",
                     "id": "Battery",
-                    "showNoctaliaPerformance": false,
-                    "showPowerProfiles": false,
+                    "showNoctaliaPerformance": true,
+                    "showPowerProfiles": true,
                     "warningThreshold": 30
+                },
+                {
+                    "id": "Spacer",
+                    "width": 20
+                },
+                {
+                    "customFont": "",
+                    "formatHorizontal": "HH:mm ddd, MMM dd",
+                    "formatVertical": "HH mm - dd MM",
+                    "id": "Clock",
+                    "useCustomFont": false,
+                    "usePrimaryColor": true
                 }
             ]
         }
@@ -211,12 +216,6 @@
         "shortcuts": {
             "left": [
                 {
-                    "id": "WiFi"
-                },
-                {
-                    "id": "Bluetooth"
-                },
-                {
                     "id": "ScreenRecorder"
                 },
                 {
@@ -225,16 +224,7 @@
             ],
             "right": [
                 {
-                    "id": "Notifications"
-                },
-                {
-                    "id": "PowerProfile"
-                },
-                {
-                    "id": "KeepAwake"
-                },
-                {
-                    "id": "NightLight"
+                    "id": "WiFi"
                 }
             ]
         }
@@ -242,9 +232,9 @@
     "dock": {
         "backgroundOpacity": 1,
         "colorizeIcons": true,
-        "deadOpacity": 0.6,
+        "deadOpacity": 0.5,
         "displayMode": "exclusive",
-        "enabled": true,
+        "enabled": false,
         "floatingRatio": 0,
         "inactiveIndicators": false,
         "monitors": [
@@ -253,7 +243,7 @@
         "pinnedApps": [
         ],
         "pinnedStatic": false,
-        "size": 0.62
+        "size": 0.5
     },
     "general": {
         "allowPanelsOnScreenWithoutBar": true,
@@ -422,12 +412,12 @@
         "foot": false,
         "fuzzel": false,
         "ghostty": false,
-        "gtk": false,
+        "gtk": true,
         "kcolorscheme": false,
         "kitty": false,
         "niri": false,
         "pywalfox": false,
-        "qt": false,
+        "qt": true,
         "spicetify": false,
         "telegram": false,
         "vicinae": false,

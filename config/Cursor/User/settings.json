@@ -1,8 +1,23 @@
 {
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "editor.rulers": [
+        120
+    ],
+    "editor.inlayHints.enabled": "offUnlessPressed",
+    "workbench.colorCustomizations": {
+        "editorInlayHint.foreground": "#ff2323",
+        "editorInlayHint.typeForeground": "#ff2323"
+    },
     "[dart]": {
         "editor.formatOnSave": true,
         "editor.formatOnType": true,
-        "editor.rulers": [120],
+        "editor.rulers": [
+            120
+        ],
+        "editor.inlayHints.enabled": "offUnlessPressed",
+        "editor.inlayHints.fontSize": 10,
+        "editor.inlayHints.fontFamily": "'Fira Code', 'JetBrains Mono ', 'Droid Sans Mono', 'monospace', monospace",
         // Disables built-in highlighting of words that match your selection. Without
         // this, all instances of the selected text will be highlighted, interfering
         // with Dart's ability to highlight only exact references to the selected variable.
@@ -26,13 +41,10 @@
     "editor.fontSize": 12,
     // Sets the primary font for the editor
     // to JetBrains Mono, prioritizing this font over others.
-    "editor.fontFamily": "'JetBrains Mono', 'Droid Sans Mono', 'monospace', monospace",
+    "editor.fontFamily": "'Fira Code', 'JetBrains Mono', 'Droid Sans Mono', 'monospace', monospace",
     // Enables font ligatures (e.g., turning -> into $\rightarrow$) 
     // for the selected font (JetBrains Mono), improving code readability and aesthetics.
     "editor.fontLigatures": true,
-    // Disables the highlighting of other instances of the word where the cursor currently rests.
-    // This prevents visual distraction.
-    "editor.occurrencesHighlight": "off",
     // Prevents scrolling past the last line of code in the editor, 
     // keeping thelast line visible at the very bottom of the view.
     "editor.scrollBeyondLastLine": false,
@@ -63,10 +75,10 @@
     "editor.fontWeight": "500",
     "window.autoDetectHighContrast": false,
     "window.commandCenter": true,
-    "window.controlsStyle": "hidden",
+    "window.controlsStyle": "custom",
     "editor.renderWhitespace": "all",
     "python.defaultInterpreterPath": "/bin/python",
-    "workbench.colorTheme": "WebStorm Dark",
     "redhat.telemetry.enabled": false,
-    "update.mode": "none"
+    "window.confirmBeforeClose": "keyboardOnly",
+    "workbench.colorTheme": "WebStorm Darcula",
 }
