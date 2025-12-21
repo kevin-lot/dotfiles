@@ -245,16 +245,33 @@
     "desktopWidgets": {
         "editMode": false,
         "enabled": true,
-        "gridSnap": false,
+        "gridSnap": true,
         "monitorWidgets": [
             {
                 "name": "eDP-1",
                 "widgets": [
                     {
                         "id": "Weather",
+                        "scale": 0.984656194139325,
+                        "showBackground": false,
+                        "x": 1660,
+                        "y": 60
+                    },
+                    {
+                        "defaultSettings": {
+                            "barWidth": 0.6,
+                            "bloomIntensity": 0.5,
+                            "ringOpacity": 0.8,
+                            "rotationSpeed": 0.5,
+                            "sensitivity": 1.5,
+                            "showBars": true,
+                            "showRings": true
+                        },
+                        "id": "plugin:fancy-audiovisualizer",
+                        "scale": 3,
                         "showBackground": true,
-                        "x": 837.87109375,
-                        "y": 66.79296875
+                        "x": 520,
+                        "y": 120
                     }
                 ]
             }
@@ -483,7 +500,7 @@
         "fontFixedScale": 1,
         "panelBackgroundOpacity": 1,
         "panelsAttachedToBar": true,
-        "settingsPanelMode": "window",
+        "settingsPanelMode": "attached",
         "tooltipsEnabled": true
     },
     "wallpaper": {

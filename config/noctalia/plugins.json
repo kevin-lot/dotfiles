@@ -9,6 +9,9 @@
     "states": {
         "catwalk": {
             "enabled": true
+        },
+        "fancy-audiovisualizer": {
+            "enabled": true
         }
     },
     "version": 1
