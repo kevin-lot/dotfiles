@@ -80,5 +80,5 @@
     "python.defaultInterpreterPath": "/bin/python",
     "redhat.telemetry.enabled": false,
     "window.confirmBeforeClose": "keyboardOnly",
-    "workbench.colorTheme": "WebStorm Darcula",
+    "workbench.colorTheme": "WebStorm New Dark",
 }
