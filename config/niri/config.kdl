@@ -245,6 +245,32 @@ layout {
     }
 }
 
+recent-windows {
+    // off
+
+    debounce-ms 750
+    open-delay-ms 150
+
+    binds {
+        Alt+Tab         { next-window; }
+        Alt+Shift+Tab   { previous-window; }
+        Alt+grave       { next-window     filter="app-id"; }
+        Alt+Shift+grave { previous-window filter="app-id"; }
+    }
+
+    highlight {
+        active-color "#999999ff"
+        urgent-color "#ff9999ff"
+        padding 30
+        corner-radius 0
+    }
+
+    previews {
+        max-height 480
+        max-scale 0.5
+    }
+}
+
 // Add lines like this to spawn processes at startup.
 // Note that running niri as a session supports xdg-desktop-autostart,
 // which may be more convenient to use.
@@ -254,7 +280,6 @@ layout {
 // spawn-at-startup "waybar"
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
-spawn-at-startup "niriswitcher"
 spawn-at-startup "qs" "-c" "noctalia-shell"
 
 hotkey-overlay {
@@ -323,26 +348,21 @@ window-rule {
 window-rule {
     clip-to-geometry       true
     geometry-corner-radius 12
-    ////////////////////////// INCLUDE: dms/ladyout.kdl ////////////////////
-    tiled-state true
-    draw-border-with-background false
-    ////////////////////////// INCLUDE: dms/layout.kdl ////////////////////
 }
 
 binds {
-    Mod+P         hotkey-overlay-title="Application Launcher" { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "wallpaper" "random"; }
-    Alt+Tab       repeat=false                                { spawn "gdbus" "call" "--session" "--dest" "io.github.isaksamsten.Niriswitcher" "--object-path" "/io/github/isaksamsten/Niriswitcher" "--method" "io.github.isaksamsten.Niriswitcher.application" ; }
-    Alt+Shift+Tab repeat=false                                { spawn "gdbus" "call" "--session" "--dest" "io.github.isaksamsten.Niriswitcher" "--object-path" "/io/github/isaksamsten/Niriswitcher" "--method" "io.github.isaksamsten.Niriswitcher.application" ; }
-
     ////////////////////////// INCLUDE: dms/binds.kdl ////////////////////
     //Mod+Comma hotkey-overlay-title="Settings"           { spawn "dms" "ipc" "call" "settings" "toggle"; }
     //Mod+Y hotkey-overlay-title="Browse Wallpapers"      { spawn "dms" "ipc" "call" "dankdash" "wallpaper"; }
     //Mod+Shift+N hotkey-overlay-title="Notepad"          { spawn "dms" "ipc" "call" "notepad" "toggle"; }
     //Ctrl+Alt+Delete hotkey-overlay-title="Task Manager" { spawn "dms" "ipc" "call" "processlist" "toggle"; }
-    Mod+E hotkey-overlay-title="Application Launcher"   { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "launcher" "toggle"; }
-    Mod+L hotkey-overlay-title="Lock Screen"            { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "lockScreen" "lock"; }
-    Mod+N hotkey-overlay-title="Notification Center"    { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "notifications" "toggleHistory"; }
-    Mod+V hotkey-overlay-title="Clipboard Manager"      { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "launcher" "clipboard"; }
+    ////////////////////////// INCLUDE: dms/binds.kdl ////////////////////
+
+    Mod+E hotkey-overlay-title="Application Launcher" { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "launcher"      "toggle"; }
+    Mod+L hotkey-overlay-title="Lock Screen"          { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "lockScreen"    "lock"; }
+    Mod+N hotkey-overlay-title="Notification Center"  { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "notifications" "toggleHistory"; }
+    Mod+P hotkey-overlay-title="Application Launcher" { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "wallpaper"     "random"; }
+    Mod+V hotkey-overlay-title="Clipboard Manager"    { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "launcher"      "clipboard"; }
 
     // Audio dms
     XF86AudioRaiseVolume allow-when-locked=true { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "volume" "increase"; }
@@ -353,7 +373,6 @@ binds {
     // Backlight
     XF86MonBrightnessUp   allow-when-locked=true { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "brightness" "increase"; }
     XF86MonBrightnessDown allow-when-locked=true { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "brightness" "decrease"; }
-    ////////////////////////// INCLUDE: dms/binds.kdl ////////////////////
 
     // Keys consist of modifiers separated by + signs, followed by an XKB key name
     // in the end. To find an XKB name for a particular key, you may use a program
@@ -575,4 +594,5 @@ binds {
     // moving the mouse or pressing any other key.
     Mod+Shift+P { power-off-monitors; }
 }
-//include "./noctalia.kdl"
+include "./noctalia.kdl"
+include "./perso.kdl"
