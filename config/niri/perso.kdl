@@ -1,0 +1,51 @@
+layout {
+    border {
+        active-color   "#7fc8ff"
+        inactive-color "#7fc8ff50"
+        urgent-color   "#9b0000"
+        width          1
+
+        active-gradient   from="#80c8ff"   to="#c7ff7f"   angle=45
+        inactive-gradient from="#7fc8ff50" to="#50505050" angle=45 relative-to="workspace-view"
+    }
+
+    focus-ring {
+        active-color   "#7fc8ff"
+        inactive-color "#505050"
+        urgent-color   "#ffb4ab"
+        width 3
+
+        active-gradient   from="#80c8ff" to="#c7ff7f" angle=45
+        inactive-gradient from="#505050" to="#808080" angle=45 relative-to="workspace-view"
+    }
+}
+
+
+recent-windows {
+    highlight {
+        active-color "#999999ff"
+        corner-radius 20
+        padding 10
+        urgent-color "#ff9999ff"
+    }
+
+    previews {
+        max-height 180
+        max-scale 0.2
+    }
+
+    binds {
+        Alt+Tab         { next-window; }
+        Alt+Shift+Tab   { previous-window; }
+        Alt+grave       { next-window     filter="app-id"; }
+        Alt+Shift+grave { previous-window filter="app-id"; }
+    }
+}
+
+window-rule {
+    draw-border-with-background false
+    open-fullscreen             false // dont keep something
+    open-maximized              false // keep gutter
+    open-maximized-to-edges     false // dont keep gutter
+    tiled-state                 true
+}

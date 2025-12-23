@@ -1,5 +1,5 @@
 // Place your key bindings in this file to override the defaults
-[   
+[
     {
         "key": "ctrl+/",
         "command": "runCommands",
@@ -467,16 +467,17 @@
         "when": "folderMatchFocus && isEditableItem && replaceActive && searchViewletVisible"
     },
     {
-        "key": "ctrl+shift+k",
+        "key": "ctrl+shift+i",
         "command": "aichat.newchataction",
-        "linux": true
+        "linux": true,
+        "when": "editorTextFocus && !composerBarIsVisible"
     },
     {
         "key": "ctrl+l",
         "command": "-aichat.newchataction"
     },
     {
-        "key": "ctrl+shift+k",
+        "key": "ctrl+shift+i",
         "command": "composer.sendToAgent",
         "when": "editorHasPromptBar && editorPromptBarFocused",
         "linux": true
@@ -553,5 +554,54 @@
         "key": "ctrl+f2",
         "command": "-editor.action.changeAll",
         "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "ctrl+i",
+        "command": "composerMode.agent"
+    },
+    {
+        "key": "ctrl+r ctrl+r",
+        "command": "renameFile",
+        "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
+    },
+    {
+        "key": "f2",
+        "command": "-renameFile",
+        "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
+    },
+    {
+        "key": "ctrl+shift+a",
+        "command": "git.stage",
+        "when": "resourceScheme == 'file'"
+    },
+    {
+        "key": "ctrl+shift+j",
+        "command": "-aiSettings.action.open",
+        "when": "!isSettingsPaneOpen"
+    },
+    {
+        "key": "ctrl+i",
+        "command": "aipopup.action.modal.generate",
+        "when": "editorFocus && !composerBarIsVisible"
+    },
+    {
+        "key": "ctrl+shift+k",
+        "command": "-aipopup.action.modal.generate",
+        "when": "editorFocus && !composerBarIsVisible"
+    },
+    {
+        "key": "ctrl+k",
+        "command": "-aipopup.action.modal.generate",
+        "when": "editorFocus && !composerBarIsVisible"
+    },
+    {
+        "key": "ctrl+i",
+        "command": "cursorai.action.generateInTerminal",
+        "when": "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported || terminalHasBeenCreated && terminalPromptBarVisible || terminalProcessSupported && terminalPromptBarVisible"
+    },
+    {
+        "key": "ctrl+k",
+        "command": "-cursorai.action.generateInTerminal",
+        "when": "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported || terminalHasBeenCreated && terminalPromptBarVisible || terminalProcessSupported && terminalPromptBarVisible"
     }
 ]
