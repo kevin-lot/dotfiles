@@ -108,16 +108,6 @@ output "eDP-1" {
     position x=0 y=0
 }
 
-// https://docs.noctalia.dev/getting-started/compositor-settings/#option-2-stationary-wallpaper
-// Enable stationnay wallpaper
-//
-// need `background-color "transparent` in `layout` entry
-// need to disable "Enable overview wallpaper” to be turned OFF in Noctalia's settings
-layer-rule {
-  match namespace="^noctalia-wallpaper*"
-  place-within-backdrop true
-}
-
 // Settings that influence how windows are positioned and sized.
 // Find more information on the wiki:
 // https://yalter.github.io/niri/Configuration:-Layout
@@ -594,5 +584,6 @@ binds {
     // moving the mouse or pressing any other key.
     Mod+Shift+P { power-off-monitors; }
 }
+
 include "./noctalia.kdl"
 include "./perso.kdl"
