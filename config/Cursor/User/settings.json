@@ -81,4 +81,5 @@
     "redhat.telemetry.enabled": false,
     "window.confirmBeforeClose": "keyboardOnly",
     "workbench.colorTheme": "WebStorm New Dark",
+    "update.mode": "none",
 }
