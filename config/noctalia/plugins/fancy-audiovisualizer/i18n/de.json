@@ -3,11 +3,20 @@
     "barWidth": "Balkenbreite",
     "bloomIntensity": "Blütenintensität",
     "description": "Audiovisualisierungsdarstellung konfigurieren",
+    "mode": {
+      "all": "Alle",
+      "bars": "Bars",
+      "barsRings": "Barren + Ringe",
+      "rings": "Ringe",
+      "wave": "Welle",
+      "waveRings": "Welle + Ringe"
+    },
     "ringOpacity": "Ring-Opazität",
     "rotationSpeed": "Drehzahl",
     "sensitivity": "Empfindlichkeit",
-    "showBars": "Balken anzeigen",
-    "showRings": "Vorführringe",
-    "title": "Visualisierungseinstellungen"
+    "title": "Visualisierungseinstellungen",
+    "visualizationMode": "Visualisierungsmodus",
+    "visualizationMode-description": "Visualisierungsstil wählen",
+    "waveThickness": "Wellendicke"
   }
 }

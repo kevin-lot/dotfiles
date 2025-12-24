@@ -3,11 +3,20 @@
     "barWidth": "バーの幅",
     "bloomIntensity": "開花強度",
     "description": "オーディオビジュアライザーの外観を設定します。",
+    "mode": {
+      "all": "すべて",
+      "bars": "バー",
+      "barsRings": "鉄棒と輪",
+      "rings": "リング",
+      "wave": "波",
+      "waveRings": "波紋 + リング"
+    },
     "ringOpacity": "リングの不透明度",
     "rotationSpeed": "回転速度",
     "sensitivity": "感度",
-    "showBars": "バーを表示",
-    "showRings": "指輪を見せる",
-    "title": "ビジュアライザー設定"
+    "title": "ビジュアライザー設定",
+    "visualizationMode": "可視化モード",
+    "visualizationMode-description": "視覚化のスタイルを選択",
+    "waveThickness": "波厚"
   }
 }

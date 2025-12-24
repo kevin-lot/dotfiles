@@ -3,11 +3,20 @@
     "barWidth": "Ширина полосы",
     "bloomIntensity": "Интенсивность свечения",
     "description": "Настроить внешний вид визуализатора звука",
+    "mode": {
+      "all": "Всё",
+      "bars": "Бары",
+      "barsRings": "Турники + Кольца",
+      "rings": "Кольца",
+      "wave": "Волна",
+      "waveRings": "Волна + Кольца"
+    },
     "ringOpacity": "Прозрачность кольца",
     "rotationSpeed": "Скорость вращения",
     "sensitivity": "Чувствительность",
-    "showBars": "Показать бары",
-    "showRings": "Показывать кольца",
-    "title": "Настройки визуализатора"
+    "title": "Настройки визуализатора",
+    "visualizationMode": "Режим визуализации",
+    "visualizationMode-description": "Выберите стиль визуализации",
+    "waveThickness": "Толщина волны"
   }
 }

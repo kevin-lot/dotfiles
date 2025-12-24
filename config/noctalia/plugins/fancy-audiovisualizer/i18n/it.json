@@ -3,11 +3,20 @@
     "barWidth": "Breite der Leiste",
     "bloomIntensity": "Intensità Bloom",
     "description": "Konfigurieren Sie das Aussehen des Audio-Visualisierers.",
+    "mode": {
+      "all": "Kaikki",
+      "bars": "Pritličja",
+      "barsRings": "Stangen + Ringe",
+      "rings": "Hringar",
+      "wave": "Val",
+      "waveRings": "Welle + Ringe"
+    },
     "ringOpacity": "Neprůhlednost prstence",
     "rotationSpeed": "Schnelllaufdrehzahl",
     "sensitivity": "Ndjeshmëri",
-    "showBars": "Zeige Balken",
-    "showRings": "Halka ng Pagpapakita",
-    "title": "Mga Setting ng Visualizer"
+    "title": "Mga Setting ng Visualizer",
+    "visualizationMode": "Módszer megjelenítése",
+    "visualizationMode-description": "Zgjidhni stilin e vizualizimit",
+    "waveThickness": "Onda-lodiera"
   }
 }

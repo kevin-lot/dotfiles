@@ -3,11 +3,20 @@
     "barWidth": "Ширина бруска",
     "bloomIntensity": "Інтенсивність світіння",
     "description": "Налаштуйте вигляд аудіовізуалізатора",
+    "mode": {
+      "all": "Все",
+      "bars": "Бари",
+      "barsRings": "Бруси + Кільця",
+      "rings": "Кільця",
+      "wave": "Хвиля",
+      "waveRings": "Хвиля + Кільця"
+    },
     "ringOpacity": "Прозорість кільця",
     "rotationSpeed": "Швидкість обертання",
     "sensitivity": "Чутливість",
-    "showBars": "Показати бари",
-    "showRings": "Показові ринги",
-    "title": "Налаштування візуалізатора"
+    "title": "Налаштування візуалізатора",
+    "visualizationMode": "Режим візуалізації",
+    "visualizationMode-description": "Виберіть стиль візуалізації",
+    "waveThickness": "Товщина хвилі"
   }
 }

@@ -3,11 +3,20 @@
     "barWidth": "Balkbreedte",
     "bloomIntensity": "Bloei Intensiteit",
     "description": "Configureer de weergave van de audio visualisatie.",
+    "mode": {
+      "all": "Alles",
+      "bars": "Bars",
+      "barsRings": "Rekstok + Ringen",
+      "rings": "Ringen",
+      "wave": "Golf",
+      "waveRings": "Golf + Ringen"
+    },
     "ringOpacity": "Ringondoorzichtigheid",
     "rotationSpeed": "Rotatiesnelheid",
     "sensitivity": "Gevoeligheid",
-    "showBars": "Toon balken",
-    "showRings": "Showringen",
-    "title": "Visualisatie-instellingen"
+    "title": "Visualisatie-instellingen",
+    "visualizationMode": "Visualisatiemodus",
+    "visualizationMode-description": "Kies visualisatiestijl",
+    "waveThickness": "Golflaagdikte"
   }
 }

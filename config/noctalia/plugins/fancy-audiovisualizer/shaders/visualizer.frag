@@ -13,13 +13,18 @@ layout(std140, binding = 0) uniform buf {
     vec4 accentColor;
     float sensitivity;
     float rotationSpeed;
-    float showRings;
-    float showBars;
     float barWidth;
     float ringOpacity;
     float cornerRadius;
     float bloomIntensity;
+    float visualizationMode; // 0=bars, 1=wave, 2=rings, 3=bars+rings, 4=wave+rings, 5=all
+    float waveThickness;
 } ubuf;
+
+// Mode helper functions
+bool hasRings() { return ubuf.visualizationMode >= 2.0; }
+bool hasBars() { return ubuf.visualizationMode == 0.0 || ubuf.visualizationMode == 3.0 || ubuf.visualizationMode >= 5.0; }
+bool hasWave() { return ubuf.visualizationMode == 1.0 || ubuf.visualizationMode == 4.0 || ubuf.visualizationMode >= 5.0; }
 
 layout(binding = 1) uniform sampler2D source;
 
@@ -53,6 +58,166 @@ float roundedBoxSDF(vec2 center, vec2 size, float radius) {
     return min(max(q.x, q.y), 0.0) + length(max(q, 0.0)) - radius;
 }
 
+// Compute polar wave visualization
+vec4 computePolarWave(vec2 uv, float iTime, float bass, float mid, float highMid, float treble) {
+    float aspect = ubuf.itemWidth / ubuf.itemHeight;
+    vec2 centered = (uv - 0.5) * 2.0;
+    centered.x *= aspect;
+
+    float theta = atan(centered.y, centered.x);
+    float d = length(centered);
+    float baseRadius = 0.35;
+
+    vec4 color = vec4(0.0);
+
+    // RING SYSTEM
+    if (hasRings()) {
+        // Center Waves
+        if (d < baseRadius * 0.6) {
+            float wave = mid * 0.8;
+            float ripple = sin(d * 25.0 + wave * 15.0 - iTime * 2.0);
+            if (ripple > 0.7) {
+                float intensity = clamp(mid * 0.6, 0.0, 0.4);
+                vec4 waveColor = ubuf.accentColor * intensity * ubuf.ringOpacity;
+                color = max(color, waveColor);
+            }
+        }
+
+        // Energy Ring
+        float energyRad = baseRadius * 0.65;
+        float energyThickness = 0.015 + clamp(highMid * 0.02, 0.0, 0.03);
+        if (d > energyRad - energyThickness && d < energyRad + energyThickness) {
+            float segmentAngle = theta * 8.0 + highMid * 3.0 + iTime;
+            if (mod(segmentAngle, 1.0) < 0.6) {
+                float alpha = clamp(highMid * 2.0, 0.3, 1.0) * ubuf.ringOpacity;
+                vec4 energyColor = mix(ubuf.primaryColor, ubuf.accentColor, 0.5) * alpha;
+                color = max(color, energyColor);
+            }
+        }
+
+        // Particle Ring
+        float particleRad = baseRadius * 0.75;
+        if (d > particleRad - 0.02 && d < particleRad + 0.02) {
+            float particleAngle = theta + treble * 2.0 + iTime * 0.5;
+            float particleSpacing = TWOPI / 16.0;
+            if (mod(particleAngle, particleSpacing) < 0.15) {
+                float brightness = 0.5 + clamp(treble * 1.5, 0.0, 0.5);
+                vec4 particleColor = ubuf.accentColor * brightness * ubuf.ringOpacity;
+                color = max(color, particleColor);
+            }
+        }
+
+        // Tech Grid Ring
+        float gridRad = baseRadius * 0.85;
+        if (d > gridRad - 0.012 && d < gridRad + 0.012) {
+            float gridAngle = theta + iTime * ubuf.rotationSpeed;
+            float gridDensity = 0.08 + clamp(mid * 0.05, 0.0, 0.1);
+            if (mod(gridAngle, 0.2) < gridDensity) {
+                vec4 gridColor = ubuf.primaryColor * 0.7 * ubuf.ringOpacity;
+                gridColor.rgb += vec3(0.1, 0.15, 0.2) * clamp(mid, 0.0, 0.8);
+                color = max(color, gridColor);
+            }
+        }
+
+        // Accent Ring
+        float accentRad = baseRadius * 0.92;
+        float pulse = clamp(bass * 0.08, 0.0, 0.05);
+        if (d > accentRad - pulse - 0.008 && d < accentRad + pulse + 0.015) {
+            float colorShift = clamp(bass * 0.5, 0.0, 1.0);
+            vec4 ringColor = mix(ubuf.accentColor * 0.7, ubuf.primaryColor, colorShift);
+            ringColor.a = ubuf.ringOpacity;
+            ringColor.rgb *= 1.0 + bass * 0.3;
+            color = max(color, ringColor);
+        }
+
+        // Outer Ring
+        float outerRad = baseRadius + bass * 0.05;
+        if (d > outerRad - 0.008 && d < outerRad + 0.008) {
+            vec4 outerColor = ubuf.primaryColor * ubuf.ringOpacity;
+            outerColor.rgb += vec3(0.2, 0.3, 0.4) * clamp(treble * 0.5, 0.0, 0.3);
+            outerColor.rgb *= 1.0 + bass * 0.4;
+            color = max(color, outerColor);
+        }
+    }
+
+    // POLAR WAVE - filled shape with mirrored bands (64 visual bands from 32 samples)
+    if (hasWave()) {
+        float adjustedTheta = theta + PI + iTime * ubuf.rotationSpeed * 0.2;
+
+        // Map angle to 0-1 range around the full circle
+        float normalizedAngle = mod(adjustedTheta, TWOPI) / TWOPI;
+
+        // Mirror: first half (0-0.5) maps to bands 0->31, second half (0.5-1) maps back 31->0
+        float mirroredPos = normalizedAngle < 0.5 ? normalizedAngle * 2.0 : (1.0 - normalizedAngle) * 2.0;
+
+        // Catmull-Rom spline interpolation for smooth curve through mirrored bands
+        float bandPos = mirroredPos * float(NBARS - 1);
+        int band1 = int(floor(bandPos));
+        int band0 = max(band1 - 1, 0);
+        int band2 = min(band1 + 1, NBARS - 1);
+        int band3 = min(band1 + 2, NBARS - 1);
+
+        float t = fract(bandPos);
+
+        // Sample the 4 control points
+        float p0 = getAudio(float(band0) / float(NBARS - 1)) * ubuf.sensitivity;
+        float p1 = getAudio(float(band1) / float(NBARS - 1)) * ubuf.sensitivity;
+        float p2 = getAudio(float(band2) / float(NBARS - 1)) * ubuf.sensitivity;
+        float p3 = getAudio(float(band3) / float(NBARS - 1)) * ubuf.sensitivity;
+
+        // Catmull-Rom spline interpolation
+        float t2 = t * t;
+        float t3 = t2 * t;
+        float smoothedAudio = 0.5 * (
+            (2.0 * p1) +
+            (-p0 + p2) * t +
+            (2.0 * p0 - 5.0 * p1 + 4.0 * p2 - p3) * t2 +
+            (-p0 + 3.0 * p1 - 3.0 * p2 + p3) * t3
+        );
+        smoothedAudio = max(smoothedAudio, 0.0);
+
+        // Calculate wave radius at this angle
+        float waveDisplacement = smoothedAudio * 0.5;
+        float waveRadius = baseRadius + waveDisplacement;
+
+        // Fill the entire area from base to wave edge
+        if (d >= baseRadius && d <= waveRadius) {
+            float fillFactor = (d - baseRadius) / max(waveRadius - baseRadius, 0.001);
+
+            // Gradient from primary at base to accent at edge
+            vec3 fillColor = mix(ubuf.primaryColor.rgb * 0.8, ubuf.accentColor.rgb, fillFactor);
+
+            // Boost brightness with bass
+            fillColor *= 1.0 + bass * 0.3;
+
+            // Alpha: stronger near the edge, fades toward center
+            float fillAlpha = mix(0.4, 1.0, fillFactor) * ubuf.waveThickness;
+            fillAlpha = clamp(fillAlpha, 0.0, 1.0);
+
+            vec4 fill = vec4(fillColor, fillAlpha);
+            color = max(color, fill);
+        }
+
+        // Bright edge line at the wave boundary
+        float edgeThickness = ubuf.waveThickness * 0.025;
+        float distToEdge = abs(d - waveRadius);
+        if (distToEdge < edgeThickness) {
+            float edgeFactor = 1.0 - smoothstep(0.0, edgeThickness, distToEdge);
+            vec3 edgeColor = ubuf.accentColor.rgb * (1.2 + smoothedAudio * 0.5);
+
+            // Add highlight at peaks
+            if (smoothedAudio > 0.5) {
+                edgeColor += vec3(0.3, 0.4, 0.5) * (smoothedAudio - 0.5);
+            }
+
+            vec4 edge = vec4(edgeColor, edgeFactor);
+            color = max(color, edge);
+        }
+    }
+
+    return color;
+}
+
 // Compute visualization color at given UV coordinates
 // Returns vec4 with RGB color and alpha
 vec4 computeVisualization(vec2 uv, float iTime, float bass, float mid, float highMid, float treble) {
@@ -67,7 +232,7 @@ vec4 computeVisualization(vec2 uv, float iTime, float bass, float mid, float hig
     vec4 color = vec4(0.0);
 
     // RING SYSTEM
-    if (ubuf.showRings > 0.5) {
+    if (hasRings()) {
         // Center Waves
         if (d < baseRadius * 0.6) {
             float wave = mid * 0.8;
@@ -137,7 +302,7 @@ vec4 computeVisualization(vec2 uv, float iTime, float bass, float mid, float hig
     }
 
     // CIRCULAR AUDIO BARS (64 bars, mirrored from 32 audio samples)
-    if (ubuf.showBars > 0.5 && d > baseRadius) {
+    if (hasBars() && d > baseRadius) {
         // Double the visual bars by using NBARS * 2
         float section = TWOPI / float(NBARS * 2);
         float center = section / 2.0;
@@ -194,8 +359,9 @@ vec4 computeVisualization(vec2 uv, float iTime, float bass, float mid, float hig
 void main() {
     vec2 uv = qt_TexCoord0;
 
-    // Animated time
-    float iTime = ubuf.time * 0.1;
+    // Convert linear time (0-3600) to smooth oscillation for seamless looping
+    // sin() ensures perfect continuity when QML wraps from 3600 back to 0
+    float iTime = sin(ubuf.time * TWOPI / 3600.0) * 1800.0 + 1800.0;
 
     // Frequency analysis
     float bass = getBass();
@@ -203,8 +369,25 @@ void main() {
     float highMid = getHighMid();
     float treble = getTreble();
 
-    // Get base visualization color
-    vec4 color = computeVisualization(uv, iTime, bass, mid, highMid, treble);
+    // Get base visualization color based on mode
+    // Mode 0: bars only, Mode 1: wave only, Mode 2: rings only
+    // Mode 3: bars+rings, Mode 4: wave+rings, Mode 5: all
+    vec4 color;
+    if (hasWave() && !hasBars()) {
+        // Wave only or wave+rings (modes 1, 4)
+        color = computePolarWave(uv, iTime, bass, mid, highMid, treble);
+    } else if (hasBars() && !hasWave()) {
+        // Bars only or bars+rings (modes 0, 3)
+        color = computeVisualization(uv, iTime, bass, mid, highMid, treble);
+    } else if (hasWave() && hasBars()) {
+        // All mode (5) - combine both
+        vec4 barsColor = computeVisualization(uv, iTime, bass, mid, highMid, treble);
+        vec4 waveColor = computePolarWave(uv, iTime, bass, mid, highMid, treble);
+        color = max(barsColor, waveColor);
+    } else {
+        // Rings only (mode 2) - still need to call one of them for ring rendering
+        color = computeVisualization(uv, iTime, bass, mid, highMid, treble);
+    }
 
     // ============================================
     // BLOOM EFFECT - Glow based on distance to geometry
@@ -225,7 +408,7 @@ void main() {
         vec3 glowColor = vec3(0.0);
 
         // Glow from rings (if enabled)
-        if (ubuf.showRings > 0.5) {
+        if (hasRings()) {
             // Outer ring glow
             float outerRad = baseRadius + bass * 0.05;
             float ringDist = abs(d - outerRad);
@@ -241,41 +424,74 @@ void main() {
             glowAmount = max(glowAmount, accentGlow);
         }
 
-        // Glow from bars (if enabled and outside base radius) - 64 mirrored bars
-        if (ubuf.showBars > 0.5 && d > baseRadius * 0.8) {
-            float section = TWOPI / float(NBARS * 2);
+        // Glow from visualization (bars or polar wave)
+        if ((hasBars() || hasWave()) && d > baseRadius * 0.8) {
             float adjustedTheta = theta + PI + iTime * ubuf.rotationSpeed * 0.2;
-            float m = mod(adjustedTheta, section);
-            float center = section / 2.0;
-
-            // Distance to nearest bar edge
-            float barAngleDist = min(abs(m - center), section - abs(m - center));
-            float barW = ubuf.barWidth * 0.015;
-
-            // Get bar height at this angle (mirrored)
             float circlePos = mod(adjustedTheta, TWOPI) / TWOPI;
             float mirroredPos = circlePos < 0.5 ? circlePos * 2.0 : (1.0 - circlePos) * 2.0;
             float v = smoothAudio(mirroredPos);
-            float barEnd = baseRadius + v * 0.5;
 
-            // Radial distance to bar
-            float radialDist = 0.0;
-            if (d < baseRadius) {
-                radialDist = baseRadius - d;
-            } else if (d > barEnd) {
-                radialDist = d - barEnd;
+            if (hasWave()) {
+                // Polar wave bloom - Catmull-Rom spline with mirroring matching main render
+                float mirroredPos = circlePos < 0.5 ? circlePos * 2.0 : (1.0 - circlePos) * 2.0;
+                float bandPos = mirroredPos * float(NBARS - 1);
+                int band1 = int(floor(bandPos));
+                int band0 = max(band1 - 1, 0);
+                int band2 = min(band1 + 1, NBARS - 1);
+                int band3 = min(band1 + 2, NBARS - 1);
+
+                float t = fract(bandPos);
+                float p0 = getAudio(float(band0) / float(NBARS - 1)) * ubuf.sensitivity;
+                float p1 = getAudio(float(band1) / float(NBARS - 1)) * ubuf.sensitivity;
+                float p2 = getAudio(float(band2) / float(NBARS - 1)) * ubuf.sensitivity;
+                float p3 = getAudio(float(band3) / float(NBARS - 1)) * ubuf.sensitivity;
+
+                float t2 = t * t;
+                float t3 = t2 * t;
+                float smoothedAudio = 0.5 * (
+                    (2.0 * p1) +
+                    (-p0 + p2) * t +
+                    (2.0 * p0 - 5.0 * p1 + 4.0 * p2 - p3) * t2 +
+                    (-p0 + 3.0 * p1 - 3.0 * p2 + p3) * t3
+                );
+                smoothedAudio = max(smoothedAudio, 0.0);
+
+                float waveRadius = baseRadius + smoothedAudio * 0.5;
+
+                // Glow from the filled area and edge
+                float distToWave = abs(d - waveRadius);
+                float waveGlow = exp(-distToWave * 8.0 / ubuf.bloomIntensity) * smoothedAudio * 2.5;
+
+                vec3 waveGlowColor = mix(ubuf.primaryColor.rgb, ubuf.accentColor.rgb, smoothedAudio);
+                glowColor += waveGlowColor * waveGlow;
+                glowAmount = max(glowAmount, waveGlow);
             }
 
-            // Combined distance (angular + radial)
-            float totalDist = length(vec2(barAngleDist * d, radialDist));
-            float barGlow = exp(-totalDist * 15.0 / ubuf.bloomIntensity) * v * 2.0;
+            if (hasBars()) {
+                // Bars bloom
+                float section = TWOPI / float(NBARS * 2);
+                float m = mod(adjustedTheta, section);
+                float center = section / 2.0;
 
-            // Color gradient for bar glow
-            float heightFactor = clamp((d - baseRadius) / max(barEnd - baseRadius, 0.001), 0.0, 1.0);
-            vec3 barGlowColor = mix(ubuf.primaryColor.rgb, ubuf.accentColor.rgb, heightFactor);
+                float barAngleDist = min(abs(m - center), section - abs(m - center));
+                float barEnd = baseRadius + v * 0.5;
 
-            glowColor += barGlowColor * barGlow;
-            glowAmount = max(glowAmount, barGlow);
+                float radialDist = 0.0;
+                if (d < baseRadius) {
+                    radialDist = baseRadius - d;
+                } else if (d > barEnd) {
+                    radialDist = d - barEnd;
+                }
+
+                float totalDist = length(vec2(barAngleDist * d, radialDist));
+                float barGlow = exp(-totalDist * 15.0 / ubuf.bloomIntensity) * v * 2.0;
+
+                float heightFactor = clamp((d - baseRadius) / max(barEnd - baseRadius, 0.001), 0.0, 1.0);
+                vec3 barGlowColor = mix(ubuf.primaryColor.rgb, ubuf.accentColor.rgb, heightFactor);
+
+                glowColor += barGlowColor * barGlow;
+                glowAmount = max(glowAmount, barGlow);
+            }
         }
 
         // Apply bloom

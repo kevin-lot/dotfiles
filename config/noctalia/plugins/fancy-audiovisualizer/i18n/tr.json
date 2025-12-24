@@ -3,11 +3,20 @@
     "barWidth": "Çubuk Genişliği",
     "bloomIntensity": "Çiçeklenme Yoğunluğu",
     "description": "Ses görselleştirici görünümünü yapılandır",
+    "mode": {
+      "all": "Tüm",
+      "bars": "Barlar",
+      "barsRings": "Barfiks Demiri + Halkalar",
+      "rings": "Yüzükler",
+      "wave": "Dalga",
+      "waveRings": "Dalga + Halkalar"
+    },
     "ringOpacity": "Halka Opaklığı",
     "rotationSpeed": "Dönme Hızı",
     "sensitivity": "Hassasiyet",
-    "showBars": "Çubukları Göster",
-    "showRings": "Gösteri Halkaları",
-    "title": "Görselleştirici Ayarları"
+    "title": "Görselleştirici Ayarları",
+    "visualizationMode": "Görselleştirme Modu",
+    "visualizationMode-description": "Görselleştirme stilini seçin",
+    "waveThickness": "Dalga Kalınlığı"
   }
 }

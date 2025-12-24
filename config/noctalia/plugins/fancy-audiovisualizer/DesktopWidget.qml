@@ -9,27 +9,30 @@ DraggableDesktopWidget {
 
   property var pluginApi: null
 
-  implicitWidth: 300
-  implicitHeight: 300
+  implicitWidth: Math.round(300 * widgetScale)
+  implicitHeight: Math.round(300 * widgetScale)
 
   showBackground: false
 
-  // Settings from plugin
-  readonly property real sensitivity: pluginApi?.pluginSettings?.sensitivity ?? 1.5
-  readonly property bool showRings: pluginApi?.pluginSettings?.showRings ?? true
-  readonly property bool showBars: pluginApi?.pluginSettings?.showBars ?? true
-  readonly property real rotationSpeed: pluginApi?.pluginSettings?.rotationSpeed ?? 0.5
-  readonly property real barWidth: pluginApi?.pluginSettings?.barWidth ?? 0.6
-  readonly property real ringOpacity: pluginApi?.pluginSettings?.ringOpacity ?? 0.8
-  readonly property real bloomIntensity: pluginApi?.pluginSettings?.bloomIntensity ?? 0.5
+  // Scaled dimensions
+  readonly property int scaledRadiusL: Math.round(Style.radiusL * widgetScale)
 
-  // Animation time for shader
+  // Settings from plugin
+  readonly property real sensitivity: pluginApi?.pluginSettings?.sensitivity ?? pluginApi?.manifest?.metadata?.defaultSettings?.sensitivity
+  readonly property real rotationSpeed: pluginApi?.pluginSettings?.rotationSpeed ?? pluginApi?.manifest?.metadata?.defaultSettings?.rotationSpeed
+  readonly property real barWidth: pluginApi?.pluginSettings?.barWidth ?? pluginApi?.manifest?.metadata?.defaultSettings?.barWidth
+  readonly property real ringOpacity: pluginApi?.pluginSettings?.ringOpacity ?? pluginApi?.manifest?.metadata?.defaultSettings?.ringOpacity
+  readonly property real bloomIntensity: pluginApi.pluginSettings?.bloomIntensity ?? pluginApi?.manifest?.metadata?.defaultSettings?.bloomIntensity
+  readonly property int visualizationMode: pluginApi?.pluginSettings?.visualizationMode ?? pluginApi?.manifest?.metadata?.defaultSettings?.visualizationMode ?? 3
+  readonly property real waveThickness: pluginApi?.pluginSettings?.waveThickness ?? pluginApi?.manifest?.metadata?.defaultSettings?.waveThickness ?? 1.0
+
+  // Animation time for shader (0 to 3600, 1 hour cycle)
   property real shaderTime: 0
   NumberAnimation on shaderTime {
     loops: Animation.Infinite
     from: 0
-    to: 1000
-    duration: 100000
+    to: 3600
+    duration: 3600000
     running: !CavaService.isIdle
   }
 
@@ -109,12 +112,12 @@ DraggableDesktopWidget {
     property color accentColor: Color.mSecondary
     property real sensitivity: root.sensitivity
     property real rotationSpeed: root.rotationSpeed
-    property real showRings: root.showRings ? 1.0 : 0.0
-    property real showBars: root.showBars ? 1.0 : 0.0
     property real barWidth: root.barWidth
     property real ringOpacity: root.ringOpacity
-    property real cornerRadius: Style.radiusL
+    property real cornerRadius: scaledRadiusL
     property real bloomIntensity: root.bloomIntensity
+    property real visualizationMode: root.visualizationMode
+    property real waveThickness: root.waveThickness
 
     fragmentShader: pluginApi ? Qt.resolvedUrl(pluginApi.pluginDir + "/shaders/visualizer.frag.qsb") : ""
   }
@@ -123,13 +126,14 @@ DraggableDesktopWidget {
   Rectangle {
     anchors.fill: parent
     color: Color.mSurface
-    radius: Style.radiusL
+    radius: scaledRadiusL
     visible: !visualizer.visible || visualizer.fragmentShader === ""
 
     Text {
       anchors.centerIn: parent
       text: "Loading..."
       color: Color.mOnSurface
+      font.pointSize: Math.round(Style.fontSizeM * widgetScale)
     }
   }
 }
