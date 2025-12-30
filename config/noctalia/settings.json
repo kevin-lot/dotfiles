@@ -4,6 +4,7 @@
         "customLaunchPrefixEnabled": false,
         "enableClipPreview": true,
         "enableClipboardHistory": true,
+        "iconMode": "tabler",
         "pinnedExecs": [
         ],
         "position": "top_left",
@@ -19,7 +20,6 @@
         "mprisBlacklist": [
         ],
         "preferredPlayer": "spotube",
-        "visualizerQuality": "high",
         "visualizerType": "mirrored",
         "volumeOverdrive": true,
         "volumeStep": 5
@@ -140,6 +140,7 @@
                 {
                     "deviceNativePath": "",
                     "displayMode": "onhover",
+                    "hideIfNotDetected": true,
                     "id": "Battery",
                     "showNoctaliaPerformance": true,
                     "showPowerProfiles": true,
@@ -243,7 +244,6 @@
         }
     },
     "desktopWidgets": {
-        "editMode": false,
         "enabled": true,
         "gridSnap": true,
         "monitorWidgets": [
@@ -329,6 +329,8 @@
     "hooks": {
         "darkModeChange": "",
         "enabled": false,
+        "performanceModeDisabled": "",
+        "performanceModeEnabled": "",
         "screenLock": "",
         "screenUnlock": "",
         "wallpaperChange": ""
@@ -450,7 +452,7 @@
         ],
         "showHeader": true
     },
-    "settingsVersion": 31,
+    "settingsVersion": 32,
     "systemMonitor": {
         "cpuCriticalThreshold": 90,
         "cpuPollingInterval": 3000,
@@ -459,7 +461,7 @@
         "diskCriticalThreshold": 90,
         "diskPollingInterval": 3000,
         "diskWarningThreshold": 80,
-        "enableNvidiaGpu": false,
+        "enableDgpuMonitoring": false,
         "gpuCriticalThreshold": 90,
         "gpuPollingInterval": 3000,
         "gpuWarningThreshold": 80,
@@ -484,6 +486,8 @@
         "fuzzel": false,
         "ghostty": false,
         "gtk": true,
+        "helix": false,
+        "hyprland": false,
         "kcolorscheme": false,
         "kitty": false,
         "mango": false,
@@ -499,6 +503,8 @@
         "zed": false
     },
     "ui": {
+        "bluetoothDetailsViewMode": "grid",
+        "bluetoothHideUnnamedDevices": false,
         "fontDefault": "Roboto",
         "fontDefaultScale": 1,
         "fontFixed": "FiraCode Nerd Font",
@@ -506,7 +512,8 @@
         "panelBackgroundOpacity": 1,
         "panelsAttachedToBar": true,
         "settingsPanelMode": "window",
-        "tooltipsEnabled": true
+        "tooltipsEnabled": true,
+        "wifiDetailsViewMode": "grid"
     },
     "wallpaper": {
         "directory": "/home/kevin/Pictures/Wallpapers",
@@ -531,6 +538,7 @@
         "wallhavenOrder": "desc",
         "wallhavenPurity": "100",
         "wallhavenQuery": "aliens",
+        "wallhavenRatios": "",
         "wallhavenResolutionHeight": "1080",
         "wallhavenResolutionMode": "atleast",
         "wallhavenResolutionWidth": "1920",
