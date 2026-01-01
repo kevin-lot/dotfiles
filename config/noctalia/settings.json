@@ -59,7 +59,7 @@
             "left": [
                 {
                     "hideMode": "alwaysExpanded",
-                    "icon": "apps",
+                    "icon": "rocket",
                     "id": "CustomButton",
                     "leftClickExec": "qs -c noctalia-shell ipc call launcher toggle",
                     "leftClickUpdateText": false,
@@ -155,6 +155,15 @@
                     "tooltipFormat": "HH:mm ddd, MMM dd",
                     "useCustomFont": false,
                     "usePrimaryColor": true
+                },
+                {
+                    "defaultSettings": {
+                        "currentIconName": "world-download",
+                        "hideOnZero": false,
+                        "updateIntervalMinutes": 30,
+                        "updateTerminalCommand": "foot -e"
+                    },
+                    "id": "plugin:update-count"
                 },
                 {
                     "defaultSettings": {
@@ -266,22 +275,6 @@
                         "y": 300
                     },
                     {
-                        "defaultSettings": {
-                            "barWidth": 0.6,
-                            "bloomIntensity": 0.5,
-                            "ringOpacity": 0.8,
-                            "rotationSpeed": 0.5,
-                            "sensitivity": 1.5,
-                            "showBars": true,
-                            "showRings": true
-                        },
-                        "id": "plugin:fancy-audiovisualizer",
-                        "scale": 3,
-                        "showBackground": true,
-                        "x": 510,
-                        "y": 0
-                    },
-                    {
                         "hideMode": "hidden",
                         "id": "MediaPlayer",
                         "roundedCorners": false,
@@ -299,6 +292,22 @@
                         "showBackground": false,
                         "x": 1640,
                         "y": 120
+                    },
+                    {
+                        "defaultSettings": {
+                            "barWidth": 0.6,
+                            "bloomIntensity": 0.5,
+                            "ringOpacity": 0.8,
+                            "rotationSpeed": 0.5,
+                            "sensitivity": 1.5,
+                            "showBars": true,
+                            "showRings": true
+                        },
+                        "id": "plugin:fancy-audiovisualizer",
+                        "scale": 3,
+                        "showBackground": true,
+                        "x": 510,
+                        "y": 0
                     }
                 ]
             }
@@ -329,7 +338,7 @@
         "allowPanelsOnScreenWithoutBar": true,
         "animationDisabled": false,
         "animationSpeed": 1,
-        "avatarImage": "/home/kevin/.face",
+        "avatarImage": "/home/kevin/Pictures/de2mhos-5617f7d9-9f35-4a3e-a0a0-4098bcfd97f5.jpg",
         "boxRadiusRatio": 1,
         "compactLockScreen": true,
         "dimmerOpacity": 0.25,

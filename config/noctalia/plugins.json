@@ -12,6 +12,12 @@
         },
         "fancy-audiovisualizer": {
             "enabled": true
+        },
+        "launcher-button": {
+            "enabled": true
+        },
+        "update-count": {
+            "enabled": true
         }
     },
     "version": 1
