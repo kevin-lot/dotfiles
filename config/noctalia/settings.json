@@ -51,12 +51,6 @@
                     "useDistroLogo": false
                 },
                 {
-                    "colorName": "tertiary",
-                    "hideWhenIdle": false,
-                    "id": "AudioVisualizer",
-                    "width": 200
-                },
-                {
                     "hideWhenZero": true,
                     "id": "NotificationHistory",
                     "showUnreadBadge": true
@@ -285,6 +279,19 @@
                         "showBackground": true,
                         "x": 1200,
                         "y": 200
+                    },
+                    {
+                        "hideMode": "visible",
+                        "id": "MediaPlayer",
+                        "roundedCorners": false,
+                        "scale": 4.608936804373471,
+                        "showAlbumArt": false,
+                        "showBackground": false,
+                        "showButtons": false,
+                        "showVisualizer": true,
+                        "visualizerType": "linear",
+                        "x": 40,
+                        "y": 680
                     }
                 ]
             }
