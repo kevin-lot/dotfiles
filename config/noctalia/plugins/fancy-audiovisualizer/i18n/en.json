@@ -3,13 +3,20 @@
     "barWidth": "Bar Width",
     "bloomIntensity": "Bloom Intensity",
     "description": "Configure the audio visualizer appearance",
+    "mode": {
+      "all": "All",
+      "bars": "Bars",
+      "barsRings": "Bars + Rings",
+      "rings": "Rings",
+      "wave": "Wave",
+      "waveRings": "Wave + Rings"
+    },
     "ringOpacity": "Ring Opacity",
     "rotationSpeed": "Rotation Speed",
     "sensitivity": "Sensitivity",
-    "showBars": "Show Bars",
-    "showBars-description": "Display circular audio bars",
-    "showRings": "Show Rings",
-    "showRings-description": "Display reactive rings in the center",
-    "title": "Visualizer Settings"
+    "title": "Visualizer Settings",
+    "visualizationMode": "Visualization Mode",
+    "visualizationMode-description": "Choose visualization style",
+    "waveThickness": "Wave Thickness"
   }
 }

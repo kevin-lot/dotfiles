@@ -25,19 +25,20 @@
         "volumeStep": 5
     },
     "bar": {
+        "backgroundOpacity": 0,
         "capsuleOpacity": 0.6,
         "density": "comfortable",
         "exclusive": true,
         "floating": false,
-        "marginHorizontal": 0.18,
-        "marginVertical": 0.1,
+        "marginHorizontal": 1,
+        "marginVertical": 0.09,
         "monitors": [
         ],
         "outerCorners": false,
         "position": "top",
         "showCapsule": true,
         "showOutline": true,
-        "transparent": true,
+        "useSeparateOpacity": true,
         "widgets": {
             "center": [
                 {
@@ -95,11 +96,13 @@
                     "colorizeIcons": true,
                     "enableScrollWheel": true,
                     "followFocusedScreen": true,
+                    "groupedBorderOpacity": 1,
                     "hideUnoccupied": false,
                     "id": "Workspace",
                     "labelMode": "index+name",
                     "showApplications": true,
-                    "showLabelsOnlyWhenOccupied": true
+                    "showLabelsOnlyWhenOccupied": true,
+                    "unfocusedIconsOpacity": 1
                 }
             ],
             "right": [
@@ -155,10 +158,15 @@
                     "formatHorizontal": "HH:mm ddd, MMM dd",
                     "formatVertical": "HH mm - dd MM",
                     "id": "Clock",
+                    "tooltipFormat": "HH:mm ddd, MMM dd",
                     "useCustomFont": false,
                     "usePrimaryColor": true
                 },
                 {
+                    "defaultSettings": {
+                        "hideBackground": false,
+                        "minimumThreshold": 10
+                    },
                     "id": "plugin:catwalk"
                 }
             ]
@@ -273,10 +281,10 @@
                             "showRings": true
                         },
                         "id": "plugin:fancy-audiovisualizer",
-                        "scale": 1.3930839786171358,
+                        "scale": 2.1760390106293963,
                         "showBackground": true,
-                        "x": 1240,
-                        "y": 240
+                        "x": 1200,
+                        "y": 200
                     }
                 ]
             }
@@ -371,6 +379,11 @@
         "normalUrgencyDuration": 8,
         "overlayLayer": true,
         "respectExpireTimeout": false,
+        "saveToHistory": {
+            "critical": true,
+            "low": true,
+            "normal": true
+        },
         "sounds": {
             "criticalSoundFile": "/usr/share/sounds/piano-3.wav",
             "enabled": true,
@@ -400,6 +413,7 @@
         "audioCodec": "opus",
         "audioSource": "default_output",
         "colorRange": "limited",
+        "copyToClipboard": false,
         "directory": "/home/kevin/Videos",
         "frameRate": 60,
         "quality": "very_high",
@@ -450,15 +464,17 @@
                 "enabled": true
             }
         ],
-        "showHeader": true
+        "showHeader": true,
+        "showNumberLabels": true
     },
-    "settingsVersion": 32,
+    "settingsVersion": 35,
     "systemMonitor": {
         "cpuCriticalThreshold": 90,
         "cpuPollingInterval": 3000,
         "cpuWarningThreshold": 80,
         "criticalColor": "",
         "diskCriticalThreshold": 90,
+        "diskPath": "/",
         "diskPollingInterval": 3000,
         "diskWarningThreshold": 80,
         "enableDgpuMonitoring": false,
@@ -534,6 +550,7 @@
         "transitionEdgeSmoothness": 0.05,
         "transitionType": "random",
         "useWallhaven": true,
+        "wallhavenApiKey": "",
         "wallhavenCategories": "111",
         "wallhavenOrder": "desc",
         "wallhavenPurity": "100",
@@ -542,6 +559,7 @@
         "wallhavenResolutionHeight": "1080",
         "wallhavenResolutionMode": "atleast",
         "wallhavenResolutionWidth": "1920",
-        "wallhavenSorting": "relevance"
+        "wallhavenSorting": "relevance",
+        "wallpaperChangeMode": "random"
     }
 }

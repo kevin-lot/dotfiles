@@ -3,13 +3,20 @@
     "barWidth": "Largura da Barra",
     "bloomIntensity": "Intensidade do Bloom",
     "description": "Configurar a aparência do visualizador de áudio",
+    "mode": {
+      "all": "Tudo",
+      "bars": "Barras",
+      "barsRings": "Barras + Argolas",
+      "rings": "Anéis",
+      "wave": "Onda",
+      "waveRings": "Onda + Anéis"
+    },
     "ringOpacity": "Opacidade do Anel",
     "rotationSpeed": "Velocidade de rotação",
     "sensitivity": "Sensibilidade",
-    "showBars": "Mostrar Barras",
-    "showBars-description": "Exibir barras de áudio circulares",
-    "showRings": "Anéis de Exibição",
-    "showRings-description": "Exibir anéis reativos no centro",
-    "title": "Configurações do Visualizador"
+    "title": "Configurações do Visualizador",
+    "visualizationMode": "Modo de Visualização",
+    "visualizationMode-description": "Escolha o estilo de visualização",
+    "waveThickness": "Espessura da onda"
   }
 }

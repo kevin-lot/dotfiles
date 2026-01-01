@@ -19,12 +19,12 @@ DraggableDesktopWidget {
 
   // Settings from plugin
   readonly property real sensitivity: pluginApi?.pluginSettings?.sensitivity ?? pluginApi?.manifest?.metadata?.defaultSettings?.sensitivity
-  readonly property bool showRings: pluginApi?.pluginSettings?.showRings ?? pluginApi?.manifest?.metadata?.defaultSettings?.showRings
-  readonly property bool showBars: pluginApi?.pluginSettings?.showBars ?? pluginApi?.manifest?.metadata?.defaultSettings?.showBars
   readonly property real rotationSpeed: pluginApi?.pluginSettings?.rotationSpeed ?? pluginApi?.manifest?.metadata?.defaultSettings?.rotationSpeed
   readonly property real barWidth: pluginApi?.pluginSettings?.barWidth ?? pluginApi?.manifest?.metadata?.defaultSettings?.barWidth
   readonly property real ringOpacity: pluginApi?.pluginSettings?.ringOpacity ?? pluginApi?.manifest?.metadata?.defaultSettings?.ringOpacity
   readonly property real bloomIntensity: pluginApi.pluginSettings?.bloomIntensity ?? pluginApi?.manifest?.metadata?.defaultSettings?.bloomIntensity
+  readonly property int visualizationMode: pluginApi?.pluginSettings?.visualizationMode ?? pluginApi?.manifest?.metadata?.defaultSettings?.visualizationMode ?? 3
+  readonly property real waveThickness: pluginApi?.pluginSettings?.waveThickness ?? pluginApi?.manifest?.metadata?.defaultSettings?.waveThickness ?? 1.0
 
   // Animation time for shader (0 to 3600, 1 hour cycle)
   property real shaderTime: 0
@@ -112,12 +112,12 @@ DraggableDesktopWidget {
     property color accentColor: Color.mSecondary
     property real sensitivity: root.sensitivity
     property real rotationSpeed: root.rotationSpeed
-    property real showRings: root.showRings ? 1.0 : 0.0
-    property real showBars: root.showBars ? 1.0 : 0.0
     property real barWidth: root.barWidth
     property real ringOpacity: root.ringOpacity
     property real cornerRadius: scaledRadiusL
     property real bloomIntensity: root.bloomIntensity
+    property real visualizationMode: root.visualizationMode
+    property real waveThickness: root.waveThickness
 
     fragmentShader: pluginApi ? Qt.resolvedUrl(pluginApi.pluginDir + "/shaders/visualizer.frag.qsb") : ""
   }
