@@ -51,12 +51,6 @@
                     "useDistroLogo": false
                 },
                 {
-                    "colorName": "tertiary",
-                    "hideWhenIdle": false,
-                    "id": "AudioVisualizer",
-                    "width": 200
-                },
-                {
                     "hideWhenZero": true,
                     "id": "NotificationHistory",
                     "showUnreadBadge": true
@@ -259,16 +253,17 @@
                 "name": "eDP-1",
                 "widgets": [
                     {
-                        "clockStyle": "analog",
+                        "clockStyle": "digital",
                         "customFont": "",
                         "format": "HH:mm\\nd MMMM yyyy",
                         "id": "Clock",
-                        "scale": 1.2,
+                        "roundedCorners": true,
+                        "scale": 2,
                         "showBackground": false,
                         "useCustomFont": false,
                         "usePrimaryColor": true,
-                        "x": 1440,
-                        "y": 440
+                        "x": 810,
+                        "y": 300
                     },
                     {
                         "defaultSettings": {
@@ -281,10 +276,29 @@
                             "showRings": true
                         },
                         "id": "plugin:fancy-audiovisualizer",
-                        "scale": 2.1760390106293963,
+                        "scale": 3,
                         "showBackground": true,
-                        "x": 1200,
-                        "y": 200
+                        "x": 510,
+                        "y": 0
+                    },
+                    {
+                        "hideMode": "hidden",
+                        "id": "MediaPlayer",
+                        "roundedCorners": false,
+                        "scale": 2.25,
+                        "showAlbumArt": false,
+                        "showBackground": false,
+                        "showButtons": false,
+                        "showVisualizer": true,
+                        "visualizerType": "linear",
+                        "x": 510,
+                        "y": 880
+                    },
+                    {
+                        "id": "Weather",
+                        "showBackground": false,
+                        "x": 1640,
+                        "y": 120
                     }
                 ]
             }
