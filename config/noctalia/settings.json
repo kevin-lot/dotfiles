@@ -29,9 +29,9 @@
         "capsuleOpacity": 0.6,
         "density": "comfortable",
         "exclusive": true,
-        "floating": false,
+        "floating": true,
         "marginHorizontal": 1,
-        "marginVertical": 0.09,
+        "marginVertical": 0,
         "monitors": [
         ],
         "outerCorners": false,
@@ -234,7 +234,7 @@
                 "id": "media-sysmon-card"
             }
         ],
-        "position": "close_to_bar_button",
+        "position": "top_center",
         "shortcuts": {
             "left": [
                 {
@@ -526,7 +526,7 @@
         "fontFixed": "FiraCode Nerd Font",
         "fontFixedScale": 1,
         "panelBackgroundOpacity": 1,
-        "panelsAttachedToBar": true,
+        "panelsAttachedToBar": false,
         "settingsPanelMode": "window",
         "tooltipsEnabled": true,
         "wifiDetailsViewMode": "grid"
