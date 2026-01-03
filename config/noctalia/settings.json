@@ -111,7 +111,8 @@
                         "nm-applet",
                         "Discord",
                         "spotify-client",
-                        "Cursor"
+                        "Cursor",
+                        "Heroic"
                     ]
                 },
                 {
@@ -271,7 +272,7 @@
                         "showBackground": false,
                         "useCustomFont": false,
                         "usePrimaryColor": true,
-                        "x": 810,
+                        "x": 1260,
                         "y": 300
                     },
                     {
@@ -284,14 +285,14 @@
                         "showButtons": false,
                         "showVisualizer": true,
                         "visualizerType": "linear",
-                        "x": 510,
+                        "x": 960,
                         "y": 880
                     },
                     {
                         "id": "Weather",
                         "showBackground": false,
-                        "x": 1640,
-                        "y": 120
+                        "x": 20,
+                        "y": 60
                     },
                     {
                         "defaultSettings": {
@@ -306,7 +307,7 @@
                         "id": "plugin:fancy-audiovisualizer",
                         "scale": 3,
                         "showBackground": true,
-                        "x": 510,
+                        "x": 960,
                         "y": 0
                     }
                 ]
@@ -463,12 +464,6 @@
                 "enabled": true
             },
             {
-                "action": "hibernate",
-                "command": "",
-                "countdownEnabled": false,
-                "enabled": true
-            },
-            {
                 "action": "reboot",
                 "command": "",
                 "countdownEnabled": true,
@@ -485,6 +480,12 @@
                 "command": "",
                 "countdownEnabled": true,
                 "enabled": true
+            },
+            {
+                "action": "hibernate",
+                "command": "",
+                "countdownEnabled": false,
+                "enabled": false
             }
         ],
         "showHeader": true,
