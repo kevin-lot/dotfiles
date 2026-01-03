@@ -7,6 +7,7 @@ ColumnLayout {
   id: root
 
   property var pluginApi: null
+  property var screen: null
 
   spacing: Style.marginM
 
@@ -18,6 +19,11 @@ ColumnLayout {
   property real valueBloomIntensity: pluginApi?.pluginSettings?.bloomIntensity ?? 0.5
   property int valueVisualizationMode: pluginApi?.pluginSettings?.visualizationMode ?? 3
   property real valueWaveThickness: pluginApi?.pluginSettings?.waveThickness ?? 1.0
+  property real valueInnerDiameter: pluginApi?.pluginSettings?.innerDiameter ?? 0.7
+  property bool valueFadeWhenIdle: pluginApi?.pluginSettings?.fadeWhenIdle ?? true
+  property bool valueUseCustomColors: pluginApi?.pluginSettings?.useCustomColors ?? false
+  property color valueCustomPrimaryColor: pluginApi?.pluginSettings?.customPrimaryColor ?? "#6750A4"
+  property color valueCustomSecondaryColor: pluginApi?.pluginSettings?.customSecondaryColor ?? "#625B71"
 
   // Mode helpers
   readonly property bool modeHasBars: valueVisualizationMode === 0 || valueVisualizationMode === 3 || valueVisualizationMode === 5
@@ -104,6 +110,17 @@ ColumnLayout {
     onMoved: value => root.valueRingOpacity = value
   }
 
+  // Base diameter slider
+  NValueSlider {
+    Layout.fillWidth: true
+    label: pluginApi?.tr("settings.innerDiameter") ?? "Inner Diameter"
+    value: root.valueInnerDiameter
+    from: 0
+    to: 1
+    stepSize: 0.05
+    onMoved: value => root.valueInnerDiameter = value
+  }
+
   // Bloom intensity slider
   NValueSlider {
     Layout.fillWidth: true
@@ -113,6 +130,58 @@ ColumnLayout {
     to: 1.0
     stepSize: 0.05
     onMoved: value => root.valueBloomIntensity = value
+  }
+
+  // Fade when idle toggle
+  NToggle {
+    label: pluginApi?.tr("settings.fadeWhenIdle") ?? "Fade When Idle"
+    description: pluginApi?.tr("settings.fadeWhenIdle-description") ?? "Fade out visualizer when no audio is playing"
+    checked: root.valueFadeWhenIdle
+    onToggled: checked => root.valueFadeWhenIdle = checked
+  }
+
+  // Use custom colors toggle
+  NToggle {
+    label: pluginApi?.tr("settings.useCustomColors") ?? "Use Custom Colors"
+    description: pluginApi?.tr("settings.useCustomColors-description") ?? "Override theme colors with custom colors"
+    checked: root.valueUseCustomColors
+    onToggled: checked => root.valueUseCustomColors = checked
+  }
+
+  // Custom primary color picker
+  RowLayout {
+    Layout.fillWidth: true
+    visible: root.valueUseCustomColors
+    spacing: Style.marginM
+
+    NText {
+      text: pluginApi?.tr("settings.customPrimaryColor") ?? "Primary Color"
+      Layout.fillWidth: true
+    }
+
+    NColorPicker {
+      screen: Screen
+      selectedColor: root.valueCustomPrimaryColor
+      onColorSelected: color => root.valueCustomPrimaryColor = color
+    }
+  }
+
+  // Custom secondary color picker
+  RowLayout {
+    Layout.fillWidth: true
+    visible: root.valueUseCustomColors
+    spacing: Style.marginM
+
+    NText {
+      text: pluginApi?.tr("settings.customSecondaryColor") ?? "Secondary Color"
+      Layout.fillWidth: true
+    }
+
+    NColorPicker {
+      screen: Screen
+      selectedColor: root.valueCustomSecondaryColor
+      onColorSelected: color => root.valueCustomSecondaryColor = color
+    }
   }
 
   // Called when user clicks Apply/Save
@@ -127,6 +196,11 @@ ColumnLayout {
     pluginApi.pluginSettings.bloomIntensity = root.valueBloomIntensity;
     pluginApi.pluginSettings.visualizationMode = root.valueVisualizationMode;
     pluginApi.pluginSettings.waveThickness = root.valueWaveThickness;
+    pluginApi.pluginSettings.innerDiameter = root.valueInnerDiameter;
+    pluginApi.pluginSettings.fadeWhenIdle = root.valueFadeWhenIdle;
+    pluginApi.pluginSettings.useCustomColors = root.valueUseCustomColors;
+    pluginApi.pluginSettings.customPrimaryColor = root.valueCustomPrimaryColor.toString();
+    pluginApi.pluginSettings.customSecondaryColor = root.valueCustomSecondaryColor.toString();
 
     pluginApi.saveSettings();
   }

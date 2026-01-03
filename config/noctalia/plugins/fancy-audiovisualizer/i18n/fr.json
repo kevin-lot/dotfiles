@@ -2,7 +2,12 @@
   "settings": {
     "barWidth": "Largeur de la barre",
     "bloomIntensity": "Intensité de l'éclat",
+    "customPrimaryColor": "Couleur primaire",
+    "customSecondaryColor": "Couleur secondaire",
     "description": "Configurer l'apparence du visualiseur audio",
+    "fadeWhenIdle": "Estomper en cas d'inactivité",
+    "fadeWhenIdle-description": "Estomper le visualiseur en l'absence de son.",
+    "innerDiameter": "Diamètre intérieur",
     "mode": {
       "all": "Tout",
       "bars": "Barres",
@@ -15,6 +20,8 @@
     "rotationSpeed": "Vitesse de rotation",
     "sensitivity": "Sensibilité",
     "title": "Paramètres du visualiseur",
+    "useCustomColors": "Utiliser des couleurs personnalisées",
+    "useCustomColors-description": "Remplacer les couleurs du thème par des couleurs personnalisées",
     "visualizationMode": "Mode de visualisation",
     "visualizationMode-description": "Choisir le style de visualisation",
     "waveThickness": "Épaisseur de la vague"
