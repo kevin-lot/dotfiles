@@ -20,7 +20,6 @@ layout {
     }
 }
 
-
 recent-windows {
     highlight {
         active-color "#999999ff"
@@ -40,6 +39,10 @@ recent-windows {
         Alt+grave       { next-window     filter="app-id"; }
         Alt+Shift+grave { previous-window filter="app-id"; }
     }
+}
+
+switch-events {
+    lid-close { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "sessionMenu" "lockAndSuspend"; }
 }
 
 window-rule {
