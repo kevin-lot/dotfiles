@@ -112,7 +112,8 @@
                         "Discord",
                         "spotify-client",
                         "Cursor",
-                        "Heroic"
+                        "Heroic",
+                        "Vesktop"
                     ]
                 },
                 {
@@ -267,7 +268,7 @@
                         "customFont": "",
                         "format": "HH:mm\\nd MMMM yyyy",
                         "id": "Clock",
-                        "roundedCorners": true,
+                        "roundedCorners": false,
                         "scale": 2,
                         "showBackground": false,
                         "useCustomFont": false,
