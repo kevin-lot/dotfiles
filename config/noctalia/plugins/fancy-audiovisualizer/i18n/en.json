@@ -2,7 +2,12 @@
   "settings": {
     "barWidth": "Bar Width",
     "bloomIntensity": "Bloom Intensity",
+    "customPrimaryColor": "Primary Color",
+    "customSecondaryColor": "Secondary Color",
     "description": "Configure the audio visualizer appearance",
+    "fadeWhenIdle": "Fade When Idle",
+    "fadeWhenIdle-description": "Fade out visualizer when no audio is playing",
+    "innerDiameter": "Inner Diameter",
     "mode": {
       "all": "All",
       "bars": "Bars",
@@ -15,6 +20,8 @@
     "rotationSpeed": "Rotation Speed",
     "sensitivity": "Sensitivity",
     "title": "Visualizer Settings",
+    "useCustomColors": "Use Custom Colors",
+    "useCustomColors-description": "Override theme colors with custom colors",
     "visualizationMode": "Visualization Mode",
     "visualizationMode-description": "Choose visualization style",
     "waveThickness": "Wave Thickness"
