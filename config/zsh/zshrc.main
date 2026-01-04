@@ -14,7 +14,7 @@ bindkey -e
 HISTSIZE=1000
 SAVEHIST=1000
 HISTFILE=~/.config/zsh/histfile
-setopt histignorealldups 
+setopt histignorealldups
 setopt sharehistory # share across all zsh sessions
 
 ##############################
@@ -62,6 +62,7 @@ if [[ "${OS}" == "darwin" ]]; then
     [[ -f "/opt/homebrew/bin/brew" ]] && eval "$(/opt/homebrew/bin/brew shellenv)" && rehash && LOADED+=("brew")
 fi
 
+export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
 SOURCES=(
     "${HOME}/.config/zsh/zshrc.paths" \
     "${HOME}/.config/zsh/zshrc.alias" \
@@ -72,7 +73,6 @@ SOURCES=(
 )
 # shellcheck disable=SC1090
 for SOURCE in "${SOURCES[@]}"; do [[ -f "${SOURCE}" ]] && source "${SOURCE}" && LOADED+=("${SOURCE}"); done
-export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
 
 if [[ "${OS}" == "darwin" ]]; then
     # zsh-history-substring-search
@@ -88,9 +88,8 @@ if [[ "${OS}" == "linux" ]]; then
     [[ -n "${terminfo[kcud1]}" ]] && bindkey "${terminfo[kcud1]}" history-substring-search-down
 
     # ctrl to move cursor
-    bindkey "^[[1;5C" forward-word      
+    bindkey "^[[1;5C" forward-word
     bindkey "^[[1;5D" backward-word
-    bindkey "^H" backward-kill-word
 fi
 
 ############################

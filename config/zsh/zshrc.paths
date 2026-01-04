@@ -1,19 +1,14 @@
 OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 
 BEGIN_PATHS=()
+END_PATHS=()
+
 BEGIN_PATHS+=(
     "${HOME}/.local/bin" \
-    "${HOME}/bin"
+    "${HOME}/bin" \
+    "${HOME}/.pub-cache/bin" \
+    "${HOME}/Softwares/sdk/android/platform-tools"
 )
-#BEGIN_PATHS+=("${HOME}/.pub-cache/bin" "${HOME}/Softwares/sdk/flutter/bin")
-
-END_PATHS=()
-if [[ "${OS}" == "darwin" ]]; then
-    END_PATHS+=("${HOME}/Library/Application Support/JetBrains/Toolbox/scripts") # added by Toolbox App
-fi
-if [[ "${OS}" == "linux" ]]; then
-    END_PATHS+=("${HOME}/.local/share/JetBrains/Toolbox/scripts") # added by Toolbox App
-fi
 
 for EL in "${BEGIN_PATHS[@]}"; do [[ -d "${EL}" ]] && export PATH="${EL}:${PATH}"; done
 for EL in "${END_PATHS[@]}"; do [[ -d "${EL}" ]] && export PATH="${PATH}:${EL}"; done
