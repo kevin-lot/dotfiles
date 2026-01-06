@@ -1,0 +1,8 @@
+{
+  "updateIntervalMinutes": 30,
+  "updateTerminalCommand": "foot -e",
+  "currentIconName": "arrow-big-up-lines",
+  "hideOnZero": false,
+  "customCmdGetNumUpdates": "",
+  "customCmdDoSystemUpdate": ""
+}
