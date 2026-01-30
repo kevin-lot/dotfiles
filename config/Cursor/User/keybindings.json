@@ -67,9 +67,19 @@
         "linux": true
     },
     {
+        "key": "cmd+right",
+        "command": "cursorWordPartRight",
+        "macos": true
+    },
+    {
         "key": "ctrl+shift+right",
         "command": "cursorWordPartRightSelect",
         "linux": true
+    },
+    {
+        "key": "cmd+shift+right",
+        "command": "cursorWordPartRightSelect",
+        "macos": true
     },
     {
         "key": "ctrl+left",
@@ -77,9 +87,19 @@
         "linux": true
     },
     {
+        "key": "cmd+left",
+        "command": "cursorWordPartLeft",
+        "macos": true
+    },
+    {
         "key": "ctrl+shift+left",
         "command": "cursorWordPartLeftSelect",
         "linux": true
+    },
+    {
+        "key": "cmd+shift+left",
+        "command": "cursorWordPartLeftSelect",
+        "macos": true
     },
     {
         "key": "ctrl+shift+left",
@@ -118,6 +138,12 @@
         "linux": true
     },
     {
+        "key": "cmd+d",
+        "command": "editor.action.deleteLines",
+        "when": "textInputFocus && !editorReadonly",
+        "macos": true
+    },
+    {
         "key": "ctrl+shift+k",
         "command": "-editor.action.deleteLines",
         "when": "textInputFocus && !editorReadonly"
@@ -129,9 +155,10 @@
         "linux": true
     },
     {
-        "key": "ctrl+6",
-        "command": "-editor.action.jumpToBracket",
-        "when": "editorTextFocus"
+        "key": "cmd+[Quote]",
+        "command": "editor.action.jumpToBracket",
+        "when": "editorTextFocus",
+        "macos": true
     },
     {
         "key": "ctrl+shift+[Quote]",
@@ -153,9 +180,10 @@
         "linux": true
     },
     {
-        "key": "ctrl+u",
-        "command": "-cursorUndo",
-        "when": "textInputFocus"
+        "key": "cmd+z",
+        "command": "cursorUndo",
+        "when": "textInputFocus",
+        "macos": true
     },
     {
         "key": "ctrl+z",
@@ -163,10 +191,26 @@
         "linux": true
     },
     {
+        "key": "cmd+z",
+        "command": "default:undo",
+        "macos": true
+    },
+    {
+        "key": "ctrl+u",
+        "command": "-cursorUndo",
+        "when": "textInputFocus"
+    },
+    {
         "key": "ctrl+u",
         "command": "togglePreserveCase",
         "when": "editorFocus",
         "linux": true
+    },
+    {
+        "key": "cmd+u",
+        "command": "togglePreserveCase",
+        "when": "editorFocus",
+        "macos": true
     },
     {
         "key": "alt+p",
@@ -510,6 +554,11 @@
         "key": "ctrl+delete",
         "command": "deleteWordPartRight",
         "linux": true
+    },
+    {
+        "key": "cmd+delete",
+        "command": "deleteWordPartRight",
+        "macos": true
     },
     {
         "key": "ctrl+delete",
