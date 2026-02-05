@@ -7,5 +7,10 @@
   "ringOpacity": 0.1,
   "bloomIntensity": 0.4,
   "visualizationMode": 4,
-  "waveThickness": 0.4
+  "waveThickness": 0.4,
+  "innerDiameter": 0.7,
+  "fadeWhenIdle": true,
+  "useCustomColors": false,
+  "customPrimaryColor": "#6750a4",
+  "customSecondaryColor": "#625b71"
 }
