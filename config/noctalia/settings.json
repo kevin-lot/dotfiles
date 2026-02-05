@@ -8,7 +8,8 @@
         "customLaunchPrefixEnabled": false,
         "enableClipPreview": true,
         "enableClipboardHistory": true,
-        "enableSettingsSearch": true,
+        "enableSettingsSearch": false,
+        "enableWindowsSearch": true,
         "iconMode": "native",
         "ignoreMouseInput": false,
         "pinnedApps": [
@@ -33,26 +34,28 @@
         "volumeStep": 5
     },
     "bar": {
-        "backgroundOpacity": 0,
+        "autoHideDelay": 500,
+        "autoShowDelay": 150,
+        "backgroundOpacity": 1,
         "barType": "floating",
-        "capsuleOpacity": 0.6,
+        "capsuleOpacity": 1,
         "density": "comfortable",
-        "exclusive": true,
+        "displayMode": "always_visible",
         "floating": true,
-        "frameRadius": 12,
-        "frameThickness": 8,
-        "hideOnOverview": false,
-        "marginHorizontal": 18,
-        "marginVertical": 0,
+        "frameRadius": 20,
+        "frameThickness": 4,
+        "hideOnOverview": true,
+        "marginHorizontal": 5,
+        "marginVertical": 3,
         "monitors": [
         ],
-        "outerCorners": false,
+        "outerCorners": true,
         "position": "top",
         "screenOverrides": [
         ],
         "showCapsule": true,
-        "showOutline": true,
-        "useSeparateOpacity": true,
+        "showOutline": false,
+        "useSeparateOpacity": false,
         "widgets": {
             "center": [
                 {
@@ -65,13 +68,13 @@
                     "useDistroLogo": false
                 },
                 {
+                    "clockColor": "none",
                     "customFont": "",
                     "formatHorizontal": "ddd dd - HH:mm",
                     "formatVertical": "dd - HH mm",
                     "id": "Clock",
                     "tooltipFormat": "MMM ddd dd - HH:mm",
-                    "useCustomFont": false,
-                    "usePrimaryColor": true
+                    "useCustomFont": false
                 },
                 {
                     "hideWhenZero": true,
@@ -126,6 +129,7 @@
                     "id": "Workspace",
                     "labelMode": "index+name",
                     "occupiedColor": "secondary",
+                    "pillSize": 0.6,
                     "reverseScroll": false,
                     "showApplications": true,
                     "showBadge": true,
@@ -173,14 +177,13 @@
                     "id": "Brightness"
                 },
                 {
-                    "deviceNativePath": "",
-                    "displayMode": "onhover",
+                    "deviceNativePath": "__default__",
+                    "displayMode": "graphic",
                     "hideIfIdle": false,
                     "hideIfNotDetected": true,
                     "id": "Battery",
                     "showNoctaliaPerformance": true,
-                    "showPowerProfiles": true,
-                    "warningThreshold": 30
+                    "showPowerProfiles": true
                 },
                 {
                     "id": "Spacer",
@@ -290,7 +293,7 @@
                 "name": "eDP-1",
                 "widgets": [
                     {
-                        "clockStyle": "digital",
+                        "clockStyle": "analog",
                         "customFont": "",
                         "format": "HH:mm\\nd MMMM yyyy",
                         "id": "Clock",
@@ -372,7 +375,7 @@
         "avatarImage": "/home/kevin/Pictures/de2mhos-5617f7d9-9f35-4a3e-a0a0-4098bcfd97f5.jpg",
         "boxRadiusRatio": 1,
         "compactLockScreen": true,
-        "dimmerOpacity": 0.25,
+        "dimmerOpacity": 0,
         "enableLockScreenCountdown": true,
         "enableShadows": true,
         "forceBlackScreenCorners": false,
@@ -436,6 +439,8 @@
     },
     "notifications": {
         "backgroundOpacity": 1,
+        "batteryCriticalThreshold": 5,
+        "batteryWarningThreshold": 20,
         "criticalUrgencyDuration": 15,
         "enableKeyboardLayoutToast": true,
         "enableMediaToast": false,
@@ -524,12 +529,14 @@
         "showHeader": true,
         "showNumberLabels": false
     },
-    "settingsVersion": 46,
+    "settingsVersion": 47,
     "systemMonitor": {
         "cpuCriticalThreshold": 90,
-        "cpuPollingInterval": 3000,
+        "cpuPollingInterval": 1000,
         "cpuWarningThreshold": 80,
         "criticalColor": "",
+        "diskAvailCriticalThreshold": 10,
+        "diskAvailWarningThreshold": 20,
         "diskCriticalThreshold": 90,
         "diskPollingInterval": 3000,
         "diskWarningThreshold": 80,
@@ -540,13 +547,12 @@
         "gpuWarningThreshold": 80,
         "loadAvgPollingInterval": 3000,
         "memCriticalThreshold": 90,
-        "memPollingInterval": 3000,
+        "memPollingInterval": 1000,
         "memWarningThreshold": 80,
-        "networkPollingInterval": 3000,
+        "networkPollingInterval": 1000,
         "swapCriticalThreshold": 90,
         "swapWarningThreshold": 80,
         "tempCriticalThreshold": 90,
-        "tempPollingInterval": 3000,
         "tempWarningThreshold": 80,
         "useCustomColors": false,
         "warningColor": ""
@@ -574,8 +580,8 @@
         "fontFixedScale": 1,
         "networkPanelView": "wifi",
         "panelBackgroundOpacity": 1,
-        "panelsAttachedToBar": false,
-        "settingsPanelMode": "window",
+        "panelsAttachedToBar": true,
+        "settingsPanelMode": "attached",
         "tooltipsEnabled": true,
         "wifiDetailsViewMode": "grid"
     },
@@ -595,6 +601,7 @@
         "setWallpaperOnAllMonitors": true,
         "showHiddenFiles": false,
         "solidColor": "#1a1a2e",
+        "sortOrder": "name",
         "transitionDuration": 1500,
         "transitionEdgeSmoothness": 0.05,
         "transitionType": "random",
