@@ -39,9 +39,13 @@ zstyle ':completion:*' select-prompt ''
 zstyle ':completion:*' menu yes
 zstyle ':completion:*' menu select=2
 zstyle ':completion:*' auto-select true
-# with colors
-eval "$(dircolors -b)"
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+if [[ "${OS}" == "linux" ]]; then
+  # with colors
+  # http://linuxshellaccount.blogspot.com/2008/12/color-completion-using-zsh-modules-on.html
+  # echo ${(s.:.)PATH}: Splits the $PATH variable into a Zsh array based on colon delimiters.
+  eval "$(dircolors -b)"
+  zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+fi
 
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' use-compctl false
