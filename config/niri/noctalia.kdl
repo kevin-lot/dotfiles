@@ -1,14 +1,16 @@
 // https://docs.noctalia.dev/getting-started/compositor-settings/#option-2-stationary-wallpaper
 // Enable stationnay wallpaper
 //
-// need `background-color "transparent` in `layout` entry
 // need to disable "Enable overview wallpaper” to be turned OFF in Noctalia's settings
+// need `background-color "transparent` in `layout` entry
 layer-rule {
   match namespace="^noctalia-wallpaper*"
   place-within-backdrop true
 }
 
 layout {
+    background-color "transparent"
+
     focus-ring {
         active-color   "#6ad3ff"
         inactive-color "#11131c"

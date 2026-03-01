@@ -112,8 +112,6 @@ output "eDP-1" {
 // Find more information on the wiki:
 // https://yalter.github.io/niri/Configuration:-Layout
 layout {
-    background-color "transparent"
-
     // Set gaps around windows in logical pixels.
     gaps 9
 
