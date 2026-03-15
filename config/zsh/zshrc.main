@@ -110,7 +110,10 @@ type -p starship &>/dev/null && {
 
 # mise
 type -p mise &>/dev/null && {
+    # keep this activation order
+    eval "$(mise activate zsh --shims)"
     eval "$(mise activate zsh)"
+
     eval "$(mise hook-env -s zsh)"
     rehash
     LOADED+=("mise")
