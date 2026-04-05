@@ -102,8 +102,8 @@ fi
 
 # starship
 type -p starship &>/dev/null && {
-	prompt off
-	export STARSHIP_CONFIG="${HOME}/.config/starship.toml"
+    prompt off
+    export STARSHIP_CONFIG="${HOME}/.config/starship.toml"
     eval "$(starship init zsh)"
     LOADED+=("starship")
 }
@@ -126,12 +126,21 @@ type -p mise &>/dev/null && {
 ZSH_FPATH="${HOME}/.zsh_fpath"
 [[ -d "${ZSH_FPATH}" ]] || install -d -m 700 "${ZSH_FPATH}"
 [[ -d "${ZSH_FPATH}" ]] && fpath+="${ZSH_FPATH}"
-type -p poetry &>/dev/null && poetry completions zsh > "${ZSH_FPATH}/_poetry" || echo "poetry is missing"
 
+if type -p mise &>/dev/null && { [[ ! -f "${ZSH_FPATH}/_mise" ]] || [[ $(( $(date +%s) - $(date +%s -r "${ZSH_FPATH}/_mise") )) -gt 604800 ]]; }; then
+  mise completion zsh > "${ZSH_FPATH}/_mise"
+fi
+if type -p poetry &>/dev/null && { [[ ! -f "${ZSH_FPATH}/_poetry" ]] || [[ $(( $(date +%s) - $(date +%s -r "${ZSH_FPATH}/_poetry") )) -gt 604800 ]]; }; then
+  poetry completions zsh > "${ZSH_FPATH}/_poetry"
+fi
+if type -p dagger &>/dev/null && { [[ ! -f "${ZSH_FPATH}/_dagger" ]] || [[ $(( $(date +%s) - $(date +%s -r "${ZSH_FPATH}/_dagger") )) -gt 604800 ]]; }; then
+  dagger completions zsh > "${ZSH_FPATH}/_dagger"
+fi
+if type -p terraform-docs &>/dev/null && { [[ ! -f "${ZSH_FPATH}/_terraform-docs" ]] || [[ $(( $(date +%s) - $(date +%s -r "${ZSH_FPATH}/_terraform-docs") )) -gt 604800 ]]; }; then
+  terraform-docs completions zsh > "${ZSH_FPATH}/_terraform-docs"
+fi
 type -p aws_completer &>/dev/null && complete -C aws_completer aws || echo "aws_completer is missing"
-type -p dagger &>/dev/null && eval "$(dagger completion zsh)" || echo "dagger is missing"
 type -p terraform &>/dev/null && complete -o nospace -C terraform terraform || echo "terraform is missing"
-type -p terraform-docs &>/dev/null && eval "$(terraform-docs completion zsh)" || echo "terraform-docs is missing"
 type -p terragrunt &>/dev/null && complete -o nospace -C terragrunt terragrunt || echo "terragrunt is missing"
 
 ##################
