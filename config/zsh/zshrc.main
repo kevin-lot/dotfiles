@@ -143,6 +143,10 @@ type -p aws_completer &>/dev/null && complete -C aws_completer aws || echo "aws_
 type -p terraform &>/dev/null && complete -o nospace -C terraform terraform || echo "terraform is missing"
 type -p terragrunt &>/dev/null && complete -o nospace -C terragrunt terragrunt || echo "terragrunt is missing"
 
+if [[ "${OS}" == "darwin" ]]; then
+    export MISE_GITHUB_TOKEN="$(gh auth token)"
+fi
+
 ##################
 ## returns info ##
 ##################
