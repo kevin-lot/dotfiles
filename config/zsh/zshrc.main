@@ -61,14 +61,10 @@ if [[ "${OS}" == "darwin" ]]; then
     [[ -f "/opt/homebrew/bin/brew" ]] && eval "$(/opt/homebrew/bin/brew shellenv)" && rehash && LOADED+=("brew")
 fi
 
-export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
 SOURCES=(
     "${HOME}/.config/zsh/zshrc.paths" \
     "${HOME}/.config/zsh/zshrc.alias" \
-    "${HOME}/.config/zsh/zshrc.hook" \
-    "${HOME}/.zsh_plugins/zsh-autosuggestions/zsh-autosuggestions.zsh" \
-    "${HOME}/.zsh_plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" \
-    "${HOME}/.zsh_plugins/zsh-history-substring-search/zsh-history-substring-search.zsh"
+    "${HOME}/.config/zsh/zshrc.hook"
 )
 # shellcheck disable=SC1090
 for SOURCE in "${SOURCES[@]}"; do [[ -f "${SOURCE}" ]] && source "${SOURCE}" && LOADED+=("${SOURCE}"); done
@@ -148,6 +144,22 @@ type -p terragrunt &>/dev/null && complete -o nospace -C terragrunt terragrunt |
 if [[ "${OS}" == "darwin" ]]; then
     export MISE_GITHUB_TOKEN="$(gh auth token)"
 fi
+
+#############
+## plugins ##
+#############
+
+# sourced last: zsh-syntax-highlighting must come after every other widget
+# (compinit, starship...) and before zsh-history-substring-search
+export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
+PLUGINS=(
+    "${HOME}/.zsh_plugins/zsh-autosuggestions/zsh-autosuggestions.zsh" \
+    "${HOME}/.zsh_plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" \
+    "${HOME}/.zsh_plugins/zsh-history-substring-search/zsh-history-substring-search.zsh"
+)
+# shellcheck disable=SC1090
+for PLUGIN in "${PLUGINS[@]}"; do [[ -f "${PLUGIN}" ]] && source "${PLUGIN}" && LOADED+=("${PLUGIN}"); done
+
 
 ##################
 ## returns info ##
