@@ -8,6 +8,7 @@ binds {
     Mod+N hotkey-overlay-title="Notification Center"  { spawn "noctalia" "msg" "panel-toggle" "control-center" "notifications"; }
     Mod+P hotkey-overlay-title="Random Wallpaper"     { spawn "noctalia" "msg" "wallpaper-random"; }
     Mod+V hotkey-overlay-title="Clipboard Manager"    { spawn "noctalia" "msg" "panel-toggle" "clipboard"; }
+    Alt+Tab hotkey-overlay-title="Window Switcher"    { spawn "noctalia" "msg" "window-switcher"; }
 }
 
 // Fond d'écran fixe — https://docs.noctalia.dev/noctalia/compositor-settings/niri/
@@ -31,7 +32,7 @@ layout {
 }
 
 recent-windows {
-    // off
+    off
     open-delay-ms 150
 
     highlight {
