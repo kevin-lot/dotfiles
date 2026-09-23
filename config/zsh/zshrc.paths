@@ -1,17 +1,14 @@
-OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+# -g: this file is sourced from zshrc.main, keep path global; -U: no duplicates
+typeset -gU path PATH
 
-BEGIN_PATHS=()
-END_PATHS=()
-
-BEGIN_PATHS+=(
-    "${HOME}/.local/bin" \
-    "${HOME}/bin" \
-    "${HOME}/.pub-cache/bin" \
-    "${HOME}/Softwares/sdk/android/platform-tools"
+# prepended in this order, (N/) skips missing directories
+path=(
+    ${HOME}/.local/bin(N/)
+    ${HOME}/bin(N/)
+    ${HOME}/.pub-cache/bin(N/)
+    ${HOME}/Softwares/sdk/android/platform-tools(N/)
+    $path
 )
 
-for EL in "${BEGIN_PATHS[@]}"; do [[ -d "${EL}" ]] && export PATH="${EL}:${PATH}"; done
-for EL in "${END_PATHS[@]}"; do [[ -d "${EL}" ]] && export PATH="${PATH}:${EL}"; done
-
-[[ -d "${HOME}/Softwares/sdk/android" ]] && export ANDROID_HOME="${HOME}/Softwares/sdk/android"
+[[ -d ${HOME}/Softwares/sdk/android ]] && export ANDROID_HOME=${HOME}/Softwares/sdk/android
 rehash # re-apply paths to directly use them

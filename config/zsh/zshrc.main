@@ -1,9 +1,4 @@
 LOADED=()
-OS=$(uname -s | tr '[:upper:]' '[:lower:]')
-
-autoload -Uz promptinit
-promptinit
-prompt adam2
 
 bindkey -e
 
@@ -11,11 +6,15 @@ bindkey -e
 ## history configuration ##
 ###########################
 
-HISTSIZE=1000
-SAVEHIST=1000
-HISTFILE=~/.config/zsh/histfile
+HISTSIZE=50000
+SAVEHIST=50000
+HISTFILE="${HOME}/.config/zsh/histfile"
 setopt histignorealldups
 setopt sharehistory # share across all zsh sessions
+setopt extended_history # record timestamp and duration
+setopt hist_ignore_space # don't record commands starting with a space
+setopt hist_reduce_blanks
+setopt hist_verify # expand !! into the buffer instead of running it
 
 ##############################
 ## completion configuration ##
@@ -31,10 +30,9 @@ zstyle ':completion:*' completer _list _expand _complete _correct _approximate
 zstyle ':completion:*' list-prompt ''
 zstyle ':completion:*' select-prompt ''
 # and show menu
-zstyle ':completion:*' menu yes
 zstyle ':completion:*' menu select=2
 zstyle ':completion:*' auto-select true
-if [[ "${OS}" == "linux" ]]; then
+if [[ $OSTYPE == linux* ]]; then
   # with colors
   # http://linuxshellaccount.blogspot.com/2008/12/color-completion-using-zsh-modules-on.html
   # echo ${(s.:.)PATH}: Splits the $PATH variable into a Zsh array based on colon delimiters.
@@ -49,14 +47,18 @@ zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:
 
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
-zstyle ':zle:*' word-style subword
+
+# word widgets stop on subwords (camelCase, snake_case...)
+autoload -Uz select-word-style
+select-word-style normal
+zstyle ':zle:*' word-style normal-subword
 
 
 #########################
 ## paths configuration ##
 #########################
 
-if [[ "${OS}" == "darwin" ]]; then
+if [[ $OSTYPE == darwin* ]]; then
     # brew
     [[ -f "/opt/homebrew/bin/brew" ]] && eval "$(/opt/homebrew/bin/brew shellenv)" && rehash && LOADED+=("brew")
 fi
@@ -68,8 +70,9 @@ SOURCES=(
 )
 # shellcheck disable=SC1090
 for SOURCE in "${SOURCES[@]}"; do [[ -f "${SOURCE}" ]] && source "${SOURCE}" && LOADED+=("${SOURCE}"); done
+unset SOURCE SOURCES
 
-if [[ "${OS}" == "linux" ]]; then
+if [[ $OSTYPE == linux* ]]; then
     # ctrl to move cursor
     bindkey "^[[1;5C" forward-word
     bindkey "^[[1;5D" backward-word
@@ -79,38 +82,56 @@ fi
 ## activation of programs ##
 ############################
 
-# starship
-type -p starship &>/dev/null && {
-    prompt off
+# prompt: starship, or the builtin adam2 theme as fallback
+if (( $+commands[starship] )); then
     export STARSHIP_CONFIG="${HOME}/.config/starship.toml"
     eval "$(starship init zsh)"
     LOADED+=("starship")
-}
+else
+    autoload -Uz promptinit
+    promptinit
+    prompt adam2
+fi
 
 # mise
-type -p mise &>/dev/null && {
-    # keep this activation order
-    eval "$(mise activate zsh --shims)"
+if (( $+commands[mise] )); then
     eval "$(mise activate zsh)"
-
+    # apply now instead of at first prompt: tools are needed below
     eval "$(mise hook-env -s zsh)"
     rehash
     LOADED+=("mise")
-}
+
+    if [[ $OSTYPE == darwin* ]] && (( $+commands[gh] && $+functions[mise] )); then
+        # creates a new function named "_real_mise", using the definition of the "mise" function
+        functions -c mise _real_mise # -c = copy
+        mise() {
+            # creates a variable that lives only for the current function call
+            local -x MISE_GITHUB_TOKEN="${MISE_GITHUB_TOKEN:-$(gh auth token 2>/dev/null)}" # -x = export
+            _real_mise "$@"
+        }
+    fi
+fi
 
 ######################################
 ## program completion configuration ##
 ######################################
 
-ZSH_FPATH="${HOME}/.zsh_fpath"
+ZSH_FPATH="${XDG_CACHE_HOME:-${HOME}/.cache}/zsh/completions"
 [[ -d "${ZSH_FPATH}" ]] || install -d -m 700 "${ZSH_FPATH}"
-[[ -d "${ZSH_FPATH}" ]] && fpath+="${ZSH_FPATH}"
+fpath+=("${ZSH_FPATH}")
 
 _refresh_completion() {
-  local name=$1 target="${ZSH_FPATH}/_$1"
-  shift
+  local name=$1
+  local target="${ZSH_FPATH}/_$1"
   (( $+commands[$name] )) || return 0
-  [[ -n ${target}(#qN.md-7) ]] && return 0
+
+  # skip: completion file exists and is less than 7 days old
+  # (N = no error if no match, . = regular file, md-7 = modified < 7 days)
+  local -a fresh=( ${target}(N.md-7) ) # -a = array (indexed list)
+  (( $#fresh )) && return 0
+
+  shift # drop the name: $@ is now the command generating the completion
+  # write to a .tmp file first: > empties the target before the command runs, so a failure would leave an empty "fresh" file
   "$@" > "${target}.tmp" && mv -f "${target}.tmp" "$target" || rm -f "${target}.tmp"
 }
 _refresh_completion mise           mise completion zsh
@@ -120,18 +141,22 @@ _refresh_completion terraform-docs terraform-docs completion zsh
 unfunction _refresh_completion
 
 # fpath is now complete: init completion systems
+# full security check only when the dump is older than 24h
 autoload -Uz compinit
-compinit
+ZCOMPDUMP_FRESH=( ${ZDOTDIR:-$HOME}/.zcompdump(N.mh-24) )
+if (( $#ZCOMPDUMP_FRESH )); then
+    compinit -C
+else
+    # compinit only rewrites the dump on changes: touch it to reset the 24h window
+    compinit && touch "${ZDOTDIR:-$HOME}/.zcompdump"
+fi
+unset ZCOMPDUMP_FRESH
 autoload -Uz bashcompinit
 bashcompinit
 
-type -p aws_completer &>/dev/null && complete -C aws_completer aws || echo "aws_completer is missing"
-type -p terraform &>/dev/null && complete -o nospace -C terraform terraform || echo "terraform is missing"
-type -p terragrunt &>/dev/null && complete -o nospace -C terragrunt terragrunt || echo "terragrunt is missing"
-
-if [[ "${OS}" == "darwin" ]]; then
-    export MISE_GITHUB_TOKEN="$(gh auth token)"
-fi
+(( $+commands[aws_completer] )) && complete -C aws_completer aws
+(( $+commands[terraform] )) && complete -o nospace -C terraform terraform
+(( $+commands[terragrunt] )) && complete -o nospace -C terragrunt terragrunt
 
 #############
 ## plugins ##
@@ -147,11 +172,12 @@ PLUGINS=(
 )
 # shellcheck disable=SC1090
 for PLUGIN in "${PLUGINS[@]}"; do [[ -f "${PLUGIN}" ]] && source "${PLUGIN}" && LOADED+=("${PLUGIN}"); done
+unset PLUGIN PLUGINS
 
 # zsh-history-substring-search
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
-if [[ "${OS}" == "linux" ]]; then
+if [[ $OSTYPE == linux* ]]; then
     # shellcheck disable=SC2154
     [[ -n "${terminfo[kcuu1]}" ]] && bindkey "${terminfo[kcuu1]}" history-substring-search-up
     [[ -n "${terminfo[kcud1]}" ]] && bindkey "${terminfo[kcud1]}" history-substring-search-down
@@ -161,16 +187,16 @@ fi
 ## returns info ##
 ##################
 
-BLUE='\033[0;34m'
-NC='\033[0m'
-echo -e "${BLUE}loads:${NC}"
-# shellcheck disable=SC2086 disable=SC2128
-print -C3 ${LOADED}
-echo
-echo -e "${BLUE}paths:${NC}"
-# shellcheck disable=SC2296 disable=SC2086
-print -C3 ${(s/:/)PATH}
-echo
-echo -e "${BLUE}fpaths:${NC}"
-# shellcheck disable=SC2086
-print -C3 ${fpath}
+# show what was loaded: at startup, and on demand
+zinfo() {
+    local blue=$'\e[0;34m' nc=$'\e[0m'
+    print "${blue}loads:${nc}"
+    print -C3 ${LOADED}
+    print
+    print "${blue}paths:${nc}"
+    print -C3 ${path}
+    print
+    print "${blue}fpaths:${nc}"
+    print -C3 ${fpath}
+}
+zinfo
