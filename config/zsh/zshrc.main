@@ -127,18 +127,19 @@ ZSH_FPATH="${HOME}/.zsh_fpath"
 [[ -d "${ZSH_FPATH}" ]] || install -d -m 700 "${ZSH_FPATH}"
 [[ -d "${ZSH_FPATH}" ]] && fpath+="${ZSH_FPATH}"
 
-if type -p mise &>/dev/null && { [[ ! -f "${ZSH_FPATH}/_mise" ]] || [[ $(( $(date +%s) - $(stat -f %m  "${ZSH_FPATH}/_mise") )) -gt 604800 ]]; }; then
-  mise completion zsh > "${ZSH_FPATH}/_mise"
-fi
-if type -p poetry &>/dev/null && { [[ ! -f "${ZSH_FPATH}/_poetry" ]] || [[ $(( $(date +%s) - $(stat -f %m  "${ZSH_FPATH}/_poetry") )) -gt 604800 ]]; }; then
-  poetry completions zsh > "${ZSH_FPATH}/_poetry"
-fi
-if type -p dagger &>/dev/null && { [[ ! -f "${ZSH_FPATH}/_dagger" ]] || [[ $(( $(date +%s) - $(stat -f %m  "${ZSH_FPATH}/_dagger") )) -gt 604800 ]]; }; then
-  dagger completion zsh > "${ZSH_FPATH}/_dagger"
-fi
-if type -p terraform-docs &>/dev/null && { [[ ! -f "${ZSH_FPATH}/_terraform-docs" ]] || [[ $(( $(date +%s) - $(stat -f %m  "${ZSH_FPATH}/_terraform-docs") )) -gt 604800 ]]; }; then
-  terraform-docs completion zsh > "${ZSH_FPATH}/_terraform-docs"
-fi
+_refresh_completion() {
+  local name=$1 target="${ZSH_FPATH}/_$1"
+  shift
+  (( $+commands[$name] )) || return 0
+  [[ -n ${target}(#qN.md-7) ]] && return 0
+  "$@" > "${target}.tmp" && mv -f "${target}.tmp" "$target" || rm -f "${target}.tmp"
+}
+_refresh_completion mise           mise completion zsh
+_refresh_completion poetry         poetry completions zsh
+_refresh_completion dagger         dagger completion zsh
+_refresh_completion terraform-docs terraform-docs completion zsh
+unfunction _refresh_completion
+
 type -p aws_completer &>/dev/null && complete -C aws_completer aws || echo "aws_completer is missing"
 type -p terraform &>/dev/null && complete -o nospace -C terraform terraform || echo "terraform is missing"
 type -p terragrunt &>/dev/null && complete -o nospace -C terragrunt terragrunt || echo "terragrunt is missing"
