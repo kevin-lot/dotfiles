@@ -153,16 +153,16 @@ fi
 ## returns info ##
 ##################
 
-YELLOW='\033[0;34m'
+BLUE='\033[0;34m'
 NC='\033[0m'
-echo -e "${YELLOW}loads:${NC}"
+echo -e "${BLUE}loads:${NC}"
 # shellcheck disable=SC2086 disable=SC2128
 print -C3 ${LOADED}
 echo
-echo -e "${YELLOW}paths:${NC}"
+echo -e "${BLUE}paths:${NC}"
 # shellcheck disable=SC2296 disable=SC2086
 print -C3 ${(s/:/)PATH}
 echo
-echo -e "${YELLOW}fpaths:${NC}"
+echo -e "${BLUE}fpaths:${NC}"
 # shellcheck disable=SC2086
 print -C3 ${fpath}
