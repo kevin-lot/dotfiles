@@ -69,19 +69,7 @@ SOURCES=(
 # shellcheck disable=SC1090
 for SOURCE in "${SOURCES[@]}"; do [[ -f "${SOURCE}" ]] && source "${SOURCE}" && LOADED+=("${SOURCE}"); done
 
-if [[ "${OS}" == "darwin" ]]; then
-    # zsh-history-substring-search
-    bindkey '^[[A' history-substring-search-up
-    bindkey '^[[B' history-substring-search-down
-fi
 if [[ "${OS}" == "linux" ]]; then
-    # zsh-history-substring-search
-    bindkey '^[[A' history-substring-search-up
-    bindkey '^[[B' history-substring-search-down
-    # shellcheck disable=SC2154
-    [[ -n "${terminfo[kcuu1]}" ]] && bindkey "${terminfo[kcuu1]}" history-substring-search-up
-    [[ -n "${terminfo[kcud1]}" ]] && bindkey "${terminfo[kcud1]}" history-substring-search-down
-
     # ctrl to move cursor
     bindkey "^[[1;5C" forward-word
     bindkey "^[[1;5D" backward-word
@@ -160,6 +148,14 @@ PLUGINS=(
 # shellcheck disable=SC1090
 for PLUGIN in "${PLUGINS[@]}"; do [[ -f "${PLUGIN}" ]] && source "${PLUGIN}" && LOADED+=("${PLUGIN}"); done
 
+# zsh-history-substring-search
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+if [[ "${OS}" == "linux" ]]; then
+    # shellcheck disable=SC2154
+    [[ -n "${terminfo[kcuu1]}" ]] && bindkey "${terminfo[kcuu1]}" history-substring-search-up
+    [[ -n "${terminfo[kcud1]}" ]] && bindkey "${terminfo[kcud1]}" history-substring-search-down
+fi
 
 ##################
 ## returns info ##
