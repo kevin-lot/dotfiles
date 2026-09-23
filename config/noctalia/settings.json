@@ -81,6 +81,7 @@
                 {
                     "colorizeDistroLogo": false,
                     "colorizeSystemIcon": "none",
+                    "colorizeSystemText": "none",
                     "customIconPath": "",
                     "enableColorization": false,
                     "icon": "noctalia",
@@ -108,10 +109,11 @@
             "left": [
                 {
                     "colorizeSystemIcon": "none",
-                    "enableColorization": false,
+                    "colorizeSystemText": "none",
                     "generalTooltipText": "",
                     "hideMode": "alwaysExpanded",
                     "icon": "rocket",
+                    "iconPosition": "left",
                     "id": "CustomButton",
                     "ipcIdentifier": "",
                     "leftClickExec": "qs -c noctalia-shell ipc call launcher toggle",
@@ -425,8 +427,8 @@
     "general": {
         "allowPanelsOnScreenWithoutBar": true,
         "allowPasswordWithFprintd": false,
-        "animationDisabled": false,
-        "animationSpeed": 1.5,
+        "animationDisabled": true,
+        "animationSpeed": 0.09,
         "autoStartAuth": false,
         "avatarImage": "/home/kevin/Pictures/de2mhos-5617f7d9-9f35-4a3e-a0a0-4098bcfd97f5.jpg",
         "boxRadiusRatio": 1,
@@ -434,10 +436,10 @@
         "clockStyle": "analog",
         "compactLockScreen": true,
         "dimmerOpacity": 0.5,
-        "enableBlurBehind": true,
+        "enableBlurBehind": false,
         "enableLockScreenCountdown": true,
         "enableLockScreenMediaControls": false,
-        "enableShadows": true,
+        "enableShadows": false,
         "forceBlackScreenCorners": false,
         "iRadiusRatio": 0.5,
         "keybinds": {
@@ -476,7 +478,7 @@
         "passwordChars": false,
         "radiusRatio": 1,
         "reverseScroll": false,
-        "scaleRatio": 1,
+        "scaleRatio": 0.9,
         "screenRadiusRatio": 0.81,
         "shadowDirection": "bottom_right",
         "shadowOffsetX": 2,
@@ -703,7 +705,7 @@
         "panelBackgroundOpacity": 1,
         "panelsAttachedToBar": false,
         "scrollbarAlwaysVisible": true,
-        "settingsPanelMode": "window",
+        "settingsPanelMode": "centered",
         "settingsPanelSideBarCardStyle": true,
         "tooltipsEnabled": true,
         "translucentWidgets": false

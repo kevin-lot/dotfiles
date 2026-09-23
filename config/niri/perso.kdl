@@ -3,23 +3,21 @@ environment {
 }
 
 binds {
-    Mod+E hotkey-overlay-title="Application Launcher" { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "launcher"      "toggle"; }
-    Mod+L hotkey-overlay-title="Lock Screen"          { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "lockScreen"    "lock"; }
-    Mod+N hotkey-overlay-title="Notification Center"  { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "notifications" "toggleHistory"; }
-    Mod+P hotkey-overlay-title="Application Launcher" { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "wallpaper"     "random"; }
-    Mod+V hotkey-overlay-title="Clipboard Manager"    { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "launcher"      "clipboard"; }
+    Mod+E hotkey-overlay-title="Application Launcher" { spawn "noctalia" "msg" "panel-toggle" "launcher"; }
+    Mod+L hotkey-overlay-title="Lock Screen"          { spawn "noctalia" "msg" "session" "lock"; }
+    Mod+N hotkey-overlay-title="Notification Center"  { spawn "noctalia" "msg" "panel-toggle" "control-center" "notifications"; }
+    Mod+P hotkey-overlay-title="Random Wallpaper"     { spawn "noctalia" "msg" "wallpaper-random"; }
+    Mod+V hotkey-overlay-title="Clipboard Manager"    { spawn "noctalia" "msg" "panel-toggle" "clipboard"; }
+}
+
+// Fond d'écran fixe — https://docs.noctalia.dev/noctalia/compositor-settings/niri/
+layer-rule {
+    match namespace="^noctalia-wallpaper"
+    place-within-backdrop true
 }
 
 layout {
-    border {
-        active-color   "#7fc8ff"
-        inactive-color "#7fc8ff50"
-        urgent-color   "#9b0000"
-        width          1
-
-        active-gradient   from="#80c8ff"   to="#c7ff7f"   angle=45
-        inactive-gradient from="#7fc8ff50" to="#50505050" angle=45 relative-to="workspace-view"
-    }
+    background-color "transparent"
 
     focus-ring {
         active-color   "#7fc8ff"
@@ -34,7 +32,6 @@ layout {
 
 recent-windows {
     // off
-    debounce-ms 750
     open-delay-ms 150
 
     highlight {
