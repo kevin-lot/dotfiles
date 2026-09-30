@@ -63,19 +63,22 @@ if [[ $OSTYPE == darwin* ]]; then
     [[ -f "/opt/homebrew/bin/brew" ]] && eval "$(/opt/homebrew/bin/brew shellenv)" && rehash && LOADED+=("brew")
 fi
 
-SOURCES=(
-    "${HOME}/.config/zsh/zshrc.paths" \
-    "${HOME}/.config/zsh/zshrc.alias" \
-    "${HOME}/.config/zsh/zshrc.hook"
-)
-# shellcheck disable=SC1090
-for SOURCE in "${SOURCES[@]}"; do [[ -f "${SOURCE}" ]] && source "${SOURCE}" && LOADED+=("${SOURCE}"); done
-unset SOURCE SOURCES
-
 if [[ $OSTYPE == linux* ]]; then
     # ctrl to move cursor
     bindkey "^[[1;5C" forward-word
     bindkey "^[[1;5D" backward-word
+fi
+
+if [[ $OSTYPE == darwin* ]]; then
+    # cmd + arrows (if the terminal forwards them)
+    bindkey "^[[1;9C"  forward-word
+    bindkey "^[[1;9D"  backward-word
+    # home / end
+    bindkey "^[[H"     beginning-of-line
+    bindkey "^[[F"     end-of-line
+    # word deletion
+    bindkey "^[^?"     backward-kill-word   # option + backspace
+    bindkey "^[[3;3~"  kill-word            # option + fn + delete
 fi
 
 ############################
@@ -95,6 +98,8 @@ fi
 
 # mise
 if (( $+commands[mise] )); then
+    # keep this activation order
+    eval "$(mise activate zsh --shims)"
     eval "$(mise activate zsh)"
     # apply now instead of at first prompt: tools are needed below
     eval "$(mise hook-env -s zsh)"
@@ -111,6 +116,16 @@ if (( $+commands[mise] )); then
         }
     fi
 fi
+
+# after mise: aliases are guarded on tools mise installs
+SOURCES=(
+    "${HOME}/.config/zsh/zshrc.paths" \
+    "${HOME}/.config/zsh/zshrc.alias" \
+    "${HOME}/.config/zsh/zshrc.hook"
+)
+# shellcheck disable=SC1090
+for SOURCE in "${SOURCES[@]}"; do [[ -f "${SOURCE}" ]] && source "${SOURCE}" && LOADED+=("${SOURCE}"); done
+unset SOURCE SOURCES
 
 ######################################
 ## program completion configuration ##
