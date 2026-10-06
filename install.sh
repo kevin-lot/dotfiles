@@ -8,12 +8,12 @@ if [[ "${OS}" == "linux" ]]; then
     OS=$(uname -n | tr '[:upper:]' '[:lower:]')
 fi
 
+ln -sf ~/.dotfiles/config/btop ~/.config/.
 ln -sf ~/.dotfiles/config/fontconfig ~/.config/.
 ln -sf ~/.dotfiles/config/lazygit ~/.config/.
 ln -sf ~/.dotfiles/config/lsd ~/.config/.
 ln -sf ~/.dotfiles/config/micro ~/.config/.
 ln -sf ~/.dotfiles/config/niri ~/.config/.
-ln -sf ~/.dotfiles/config/niriswitcher ~/.config/.
 ln -sf ~/.dotfiles/config/noctalia ~/.config/.
 ln -sf ~/.dotfiles/config/terminator ~/.config/.
 ln -sf ~/.dotfiles/config/zsh ~/.config/.
