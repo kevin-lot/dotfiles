@@ -106,14 +106,9 @@ if (( $+commands[mise] )); then
     rehash
     LOADED+=("mise")
 
-    if [[ $OSTYPE == darwin* ]] && (( $+commands[gh] && $+functions[mise] )); then
-        # creates a new function named "_real_mise", using the definition of the "mise" function
-        functions -c mise _real_mise # -c = copy
-        mise() {
-            # creates a variable that lives only for the current function call
-            local -x MISE_GITHUB_TOKEN="${MISE_GITHUB_TOKEN:-$(gh auth token 2>/dev/null)}" # -x = export
-            _real_mise "$@"
-        }
+    # export once so mise, its shims and child processes (e.g. Claude Code) all inherit it
+    if [[ $OSTYPE == darwin* && -z $MISE_GITHUB_TOKEN ]] && (( $+commands[gh] )); then
+        MISE_GITHUB_TOKEN="$(gh auth token 2>/dev/null)" && export MISE_GITHUB_TOKEN || unset MISE_GITHUB_TOKEN
     fi
 fi
 
