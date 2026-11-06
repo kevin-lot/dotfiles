@@ -73,6 +73,11 @@ if [[ $OSTYPE == darwin* ]]; then
     # cmd + arrows (if the terminal forwards them)
     bindkey "^[[1;9C"  forward-word
     bindkey "^[[1;9D"  backward-word
+    # JediTerm sends cmd + arrows as ^A / ^E, shadowing ctrl + a / e
+    if [[ $TERMINAL_EMULATOR == JetBrains* ]]; then
+        bindkey "^A"   backward-word
+        bindkey "^E"   forward-word
+    fi
     # home / end
     bindkey "^[[H"     beginning-of-line
     bindkey "^[[F"     end-of-line
