@@ -112,6 +112,9 @@ if (( $+commands[mise] )); then
     fi
 fi
 
+# Claude Code fullscreen turns wheel events into prompt-history arrows in JediTerm
+[[ $TERMINAL_EMULATOR == JetBrains* ]] && export CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1
+
 # after mise: aliases are guarded on tools mise installs
 SOURCES=(
     "${HOME}/.config/zsh/zshrc.paths" \
