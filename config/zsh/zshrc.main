@@ -102,22 +102,6 @@ if (( ! $+commands[starship] )); then
     prompt adam2
 fi
 
-# mise
-if (( $+commands[mise] )); then
-    # keep this activation order
-    eval "$(mise activate zsh --shims)"
-    eval "$(mise activate zsh)"
-    # apply now instead of at first prompt: tools are needed below
-    eval "$(mise hook-env -s zsh)"
-    rehash
-    LOADED+=("mise")
-
-    # export once so mise, its shims and child processes (e.g. Claude Code) all inherit it
-    if [[ $OSTYPE == darwin* && -z $MISE_GITHUB_TOKEN ]] && (( $+commands[gh] )); then
-        MISE_GITHUB_TOKEN="$(gh auth token 2>/dev/null)" && export MISE_GITHUB_TOKEN || unset MISE_GITHUB_TOKEN
-    fi
-fi
-
 # Claude Code fullscreen turns wheel events into prompt-history arrows in JediTerm (macos only, fine on linux)
 [[ $OSTYPE == darwin* && $TERMINAL_EMULATOR == JetBrains* ]] && export CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1
 
@@ -129,8 +113,9 @@ if [[ $OSTYPE == darwin* ]] && (( $+commands[colima] )); then
     LOADED+=("colima")
 fi
 
-# after mise: aliases are guarded on tools mise installs
+# mise first: paths, aliases and completions below are guarded on tools mise installs
 SOURCES=(
+    "${HOME}/.config/zsh/zshrc.mise" \
     "${HOME}/.config/zsh/zshrc.paths" \
     "${HOME}/.config/zsh/zshrc.alias" \
     "${HOME}/.config/zsh/zshrc.hook"
