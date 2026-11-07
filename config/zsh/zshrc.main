@@ -120,6 +120,14 @@ fi
 # Claude Code fullscreen turns wheel events into prompt-history arrows in JediTerm
 [[ $TERMINAL_EMULATOR == JetBrains* ]] && export CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1
 
+# docker via colima (macos): tools not reading docker contexts (testcontainers) need the socket path,
+# and ryuk/localstack mount the socket path inside the VM, not the macos one
+if [[ $OSTYPE == darwin* ]] && (( $+commands[colima] )); then
+    export DOCKER_HOST="unix://${HOME}/.colima/default/docker.sock"
+    export TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE="/var/run/docker.sock"
+    LOADED+=("colima")
+fi
+
 # after mise: aliases are guarded on tools mise installs
 SOURCES=(
     "${HOME}/.config/zsh/zshrc.paths" \
@@ -216,5 +224,16 @@ zinfo() {
     print
     print "${blue}fpaths:${nc}"
     print -C3 ${fpath}
+
+    if [[ $OSTYPE == darwin* ]]; then
+        # launchctl instead of `brew services list`: no ruby startup, instant
+        # "-" as PID means loaded but not running
+        local services=( ${(f)"$(launchctl list | awk '$3 ~ /^homebrew\.mxcl\./ { sub(/^homebrew\.mxcl\./, "", $3); print $3 ($1 == "-" ? " (stopped)" : "") }')"} )
+        if (( $#services )); then
+            print
+            print "${blue}brew services:${nc}"
+            print -C3 ${services}
+        fi
+    fi
 }
 zinfo
