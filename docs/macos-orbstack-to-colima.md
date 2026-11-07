@@ -41,18 +41,12 @@ rm -rf ~/.orbstack
 bin_install_update
 ```
 
-It installs `colima docker docker-buildx docker-compose docker-credential-helper`, creates the VM on first run (4 CPU, 8 GB RAM, 100 GB disk, Rosetta for amd64 images) and starts it at login with `brew services`.
+It installs `colima docker docker-buildx docker-compose docker-credential-helper`, sets `cliPluginsExtraDirs` in `~/.docker/config.json` so `docker compose` / `docker buildx` are found, creates the VM on first run (max 4 CPU, 4 GB RAM, 100 GB disk, Rosetta for amd64 images) and starts it at login with `brew services`.
 
 Then, once:
 
 ```bash
 docker context rm orbstack
-```
-
-and add to `~/.docker/config.json` so `docker compose` / `docker buildx` are found:
-
-```json
-"cliPluginsExtraDirs": ["/opt/homebrew/lib/docker/cli-plugins"]
 ```
 
 ## 6. Check
@@ -70,4 +64,4 @@ Then run a project's Testcontainers/LocalStack tests.
 ## Notes
 
 - zsh config (`config/zsh/zshrc.main`) sets `DOCKER_HOST` and `TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE` when `colima` is installed: Testcontainers ignores docker contexts, and Ryuk/LocalStack mount the socket path inside the VM.
-- Resize the VM: `colima stop && colima start --cpu 6 --memory 12` (settings are kept), then `brew services restart colima`.
+- Resize the VM: `colima stop && colima start --memory 6` (settings are kept), then `brew services restart colima`.
