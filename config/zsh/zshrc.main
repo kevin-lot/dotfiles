@@ -95,7 +95,8 @@ if (( $+commands[starship] )); then
     export STARSHIP_CONFIG="${HOME}/.config/starship.toml"
     eval "$(starship init zsh)"
     LOADED+=("starship")
-else
+fi
+if (( ! $+commands[starship] )); then
     autoload -Uz promptinit
     promptinit
     prompt adam2
@@ -170,12 +171,11 @@ unfunction _refresh_completion
 # full security check only when the dump is older than 24h
 autoload -Uz compinit
 ZCOMPDUMP_FRESH=( ${ZDOTDIR:-$HOME}/.zcompdump(N.mh-24) )
-if (( $#ZCOMPDUMP_FRESH )); then
-    compinit -C
-else
-    # compinit only rewrites the dump on changes: touch it to reset the 24h window
-    compinit && touch "${ZDOTDIR:-$HOME}/.zcompdump"
-fi
+# fresh dump: skip the check
+(( $#ZCOMPDUMP_FRESH )) && compinit -C
+# stale or missing dump: full check
+# compinit only rewrites the dump on changes: touch it to reset the 24h window
+(( ! $#ZCOMPDUMP_FRESH )) && compinit && touch "${ZDOTDIR:-$HOME}/.zcompdump"
 unset ZCOMPDUMP_FRESH
 autoload -Uz bashcompinit
 bashcompinit
