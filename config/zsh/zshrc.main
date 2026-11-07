@@ -117,8 +117,8 @@ if (( $+commands[mise] )); then
     fi
 fi
 
-# Claude Code fullscreen turns wheel events into prompt-history arrows in JediTerm
-[[ $TERMINAL_EMULATOR == JetBrains* ]] && export CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1
+# Claude Code fullscreen turns wheel events into prompt-history arrows in JediTerm (macos only, fine on linux)
+[[ $OSTYPE == darwin* && $TERMINAL_EMULATOR == JetBrains* ]] && export CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1
 
 # docker via colima (macos): tools not reading docker contexts (testcontainers) need the socket path,
 # and ryuk/localstack mount the socket path inside the VM, not the macos one
