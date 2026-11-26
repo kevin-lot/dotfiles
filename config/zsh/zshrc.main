@@ -113,7 +113,8 @@ SOURCES=(
     "${HOME}/.config/zsh/zshrc.mise" \
     "${HOME}/.config/zsh/zshrc.paths" \
     "${HOME}/.config/zsh/zshrc.alias" \
-    "${HOME}/.config/zsh/zshrc.hook"
+    "${HOME}/.config/zsh/zshrc.hook" \
+    "${HOME}/.zshrc.betclic"
 )
 # shellcheck disable=SC1090
 for SOURCE in "${SOURCES[@]}"; do [[ -f "${SOURCE}" ]] && source "${SOURCE}" && LOADED+=("${SOURCE}"); done
