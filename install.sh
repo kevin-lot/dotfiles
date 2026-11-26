@@ -9,6 +9,7 @@ if [[ "${OS}" == "linux" ]]; then
 fi
 
 ln -sf ~/.dotfiles/config/btop ~/.config/.
+ln -sf ~/.dotfiles/config/claude/statusline.sh ~/.claude/statusline.sh
 ln -sf ~/.dotfiles/config/fontconfig ~/.config/.
 ln -sf ~/.dotfiles/config/lazygit ~/.config/.
 ln -sf ~/.dotfiles/config/lsd ~/.config/.
